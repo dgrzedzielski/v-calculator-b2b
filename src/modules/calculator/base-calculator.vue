@@ -59,7 +59,7 @@
         getReductions,
         getInsuranceCost,
         getRevenueTax,
-        getGrossFromNet
+        getGrossFromNet, getRevenue
     } from '@/modules/calculator/logic/calculate-functions';
     import Expense from '@/modules/calculator/types/expense';
     import { VAT } from '@/modules/calculator/logic/tax-rates';
@@ -83,16 +83,14 @@
         }
 
         get selectedInsuranceOption() {
-            return this.insuranceOptions.find(option => option.id === this.insuranceVariant);
+            return this.insuranceOptions.find(option => option.id === this.insuranceVariant)!;
         }
 
         get selectedTaxForm() {
-            return this.taxFormOptions.find(option => option.id === this.taxForm);
+            return this.taxFormOptions.find(option => option.id === this.taxForm)!;
         }
 
         get insuranceCost() {
-            if (!this.selectedInsuranceOption) return 0;
-
             return getInsuranceCost(this.selectedInsuranceOption, this.optionalSicknessInsurance);
         }
 
@@ -101,12 +99,15 @@
         }
 
         get revenue() {
-            return this.netIncome - this.insuranceCost - this.reductions.costReduction;
+            return getRevenue(
+                this.netIncome,
+                this.reductions.costReduction,
+                this.selectedInsuranceOption,
+                this.optionalSicknessInsurance
+            );
         }
 
         get revenueTax() {
-            if (!this.selectedTaxForm) return 0;
-
             return getRevenueTax(this.revenue, this.selectedTaxForm);
         }
 

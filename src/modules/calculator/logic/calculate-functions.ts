@@ -2,7 +2,7 @@ import { InsuranceOption } from '@/modules/calculator/types/insurance-options';
 import {
     CAR_EXPENSE_COST_RATE,
     CAR_EXPENSE_VAT_RATE,
-    GROSS_BASE,
+    GROSS_BASE, HEALTH_INSURANCE_TAX_DEDUCTION,
     PROGRESSIVE_TAX_THRESHOLD
 } from '@/modules/calculator/logic/tax-rates';
 import Expense from '@/modules/calculator/types/expense';
@@ -57,6 +57,20 @@ const getOverThresholdTax = (revenue: number, taxForm: ProgressiveTaxFormOption)
     return Math.max(0, revenue - taxForm.threshold) * taxForm.rateOverThreshold;
 };
 
+export const getRevenue = (netIncome: number, costs: number, healthInsurance: InsuranceOption, optionalSicknessInsurance: boolean) => {
+    let result = netIncome - costs - healthInsurance.value.socialContribution;
+
+    if (healthInsurance.value.additional) {
+        result -= healthInsurance.value.additional;
+    }
+
+    if (optionalSicknessInsurance) {
+        result -= healthInsurance.value.optionalSicknessInsurance;
+    }
+
+    return result;
+};
+
 export const getRevenueTax = (revenue: number, taxForm: TaxFormOption) => {
     let baseValue = revenue * taxForm.baseRate;
 
@@ -64,5 +78,5 @@ export const getRevenueTax = (revenue: number, taxForm: TaxFormOption) => {
         baseValue += getOverThresholdTax(revenue, taxForm as ProgressiveTaxFormOption);
     }
 
-    return baseValue;
+    return baseValue - HEALTH_INSURANCE_TAX_DEDUCTION;
 };
