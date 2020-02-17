@@ -17,3 +17,5 @@
     @Component
     export default class BaseFormGroup extends Mixins(BaseFormGroupMixin) {}
 </script>
+
+<style lang="scss" src="./base-form-group.scss" />

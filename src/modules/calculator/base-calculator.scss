@@ -1,0 +1,20 @@
+.base-calculator {
+    margin: 16px;
+    background: var(--panel-bg);
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(#000, 0.2);
+    width: 100%;
+    min-width: 330px;
+
+    @include mq(md) {
+        width: auto;
+    }
+
+    &__form, &__summary {
+        padding: 20px;
+    }
+
+    &__form {
+        border-bottom: 1px solid var(--border-color);
+    }
+}

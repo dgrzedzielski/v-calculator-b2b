@@ -1,0 +1,62 @@
+.form-switch {
+    --indicator-handle-transform: translateY(-50%);
+    --indicator-highlight-opacity: 0;
+
+    margin-bottom: var(--form-field-mb);
+
+    &--checked {
+        --indicator-handle-transform: translate(36px, -50%);
+        --indicator-highlight-opacity: 1;
+    }
+
+    &__label {
+        display: flex;
+        align-items: center;
+    }
+
+    &__input {
+        @include vh;
+    }
+
+    &__input:focus + .form-switch__label .form-switch__indicator {
+        box-shadow:
+            0 0 0 2px var(--panel-bg),
+            0 0 0 4px var(--blue);
+    }
+
+    &__indicator {
+        display: inline-block;
+        width: 60px;
+        height: 24px;
+        margin-right: 12px;
+        background: var(--form-field-bg);
+        border-radius: 24px;
+        position: relative;
+
+        &::before, &::after {
+            content: '';
+            position: absolute;
+        }
+
+        &::before {
+            top: 2px;
+            bottom: 2px;
+            left: 2px;
+            right: 2px;
+            background: var(--primary-gradient);
+            border-radius: inherit;
+            opacity: var(--indicator-highlight-opacity);
+            transition: 0.35s ease-in-out;
+        }
+
+        &::after {
+            @include square(16px);
+            top: 50%;
+            left: 4px;
+            background: var(--text-color);
+            border-radius: 50%;
+            transform: var(--indicator-handle-transform);
+            transition: 0.25s;
+        }
+    }
+}

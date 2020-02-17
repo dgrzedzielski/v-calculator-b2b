@@ -12,9 +12,10 @@ html {
 
 body {
     background: var(--body-bg);
-    color: var(--body-color);
+    color: var(--text-color);
     font-family: var(--font-family);
-    font-size: 1.6rem;
+    font-weight: var(--font-weight);
+    font-size: 1.4rem;
 }
 
 h1, h2, h3, h4, h5, h6 {

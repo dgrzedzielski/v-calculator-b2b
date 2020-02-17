@@ -23,7 +23,7 @@
             </dt>
             <dd class="cash-result__value-container">
                 <span class="cash-result__value">{{ value | currency }}</span>
-                <span class="cash-result__unit">{{ unit }}</span>
+                <span class="cash-result__unit">&nbsp;{{ unit }}</span>
             </dd>
         </dl>
     </div>
@@ -41,3 +41,5 @@
         @Prop({ default: '', type: String }) icon!: string;
     };
 </script>
+
+<style lang="scss" src="./cash-result.scss" />

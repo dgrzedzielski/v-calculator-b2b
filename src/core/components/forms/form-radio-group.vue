@@ -18,14 +18,16 @@
                         :checked="item[optionValueKey] === value"
                         type="radio"
                         class="form-radio-group__input"
-                        @change="$emit('input', $event)"
+                        @change="$emit('input', item[optionValueKey])"
                     >
                     <label
                         :for="`${name}-${index}`"
                         class="form-radio-group__label"
                     >
-                        {{ item[optionLabelKey] }}
-                        <span class="form-radio-group__indicator" />
+                        <span
+                            class="form-radio-group__label-text"
+                            v-html="item[optionLabelKey]"
+                        />
                     </label>
                 </div>
             </div>
@@ -39,8 +41,11 @@
 
     @Component
     export default class FormRadioGroup extends Mixins(BaseFormGroupMixin) {
+        @Prop({ required: true, type: [String, Number] }) value!: string | number;
         @Prop({ required: true, type: Array }) options!: Array<any>;
         @Prop({ default: 'id', type: String }) optionValueKey!: string;
         @Prop({ default: 'label', type: String }) optionLabelKey!: string;
     };
 </script>
+
+<style lang="scss" src="./form-radio-group.scss" />

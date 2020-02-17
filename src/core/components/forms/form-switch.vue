@@ -17,11 +17,9 @@
                 class="form-switch__label"
             >
                 <span
-                    class="form-switch__indicator-container"
+                    class="form-switch__indicator"
                     aria-hidden="true"
-                >
-                    <span class="form-switch__indicator" />
-                </span>
+                />
                 <span class="form-switch__label-text">
                     {{ label }}
                 </span>
@@ -39,3 +37,5 @@
         @Prop({ required: true }) value!: boolean;
     };
 </script>
+
+<style lang="scss" src="./form-switch.scss" />

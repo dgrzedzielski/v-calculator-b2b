@@ -1,0 +1,19 @@
+body[data-theme="dark"] {
+    --body-bg: hsl(261, 5%, 18%);
+    --panel-bg: hsl(255, 5%, 21%);
+    --border-color: hsl(253, 5%, 26%);
+
+    --text-color: hsl(250, 5%, 90%);
+    --header-color: hsl(250, 5%, 100%);
+    --subtext-color: hsl(250, 5%, 82%);
+
+    --blue: hsl(195, 100%, 60%);
+    --magenta: hsl(290, 100%, 55%);
+    --green: hsl(80, 70%, 50%);
+    --green-2: hsl(160, 90%, 40%);
+
+    --primary-gradient: linear-gradient(128deg, var(--blue), var(--magenta));
+    --green-gradient: linear-gradient(128deg, var(--green), var(--green-2));
+
+    --form-field-bg: hsl(253, 5%, 16%);
+}

@@ -8,6 +8,7 @@
             :name="name"
             :value="value"
             v-bind="$attrs"
+            class="form-group__control"
             @input="$emit('input', $event.target.value)"
         >
     </base-form-group>

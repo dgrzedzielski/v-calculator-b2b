@@ -1,0 +1,19 @@
+.form-group {
+    margin-bottom: var(--form-field-mb);
+
+    &__label {
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    &__control {
+        display: block;
+        width: 100%;
+        background: var(--form-field-bg);
+        color: var(--text-color);
+        border: none;
+        border-radius: 6px;
+        padding: 8px 16px;
+        min-height: 40px;
+    }
+}
