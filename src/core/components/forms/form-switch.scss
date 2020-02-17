@@ -21,7 +21,7 @@
     &__input:focus + .form-switch__label .form-switch__indicator {
         box-shadow:
             0 0 0 2px var(--panel-bg),
-            0 0 0 4px var(--blue);
+            0 0 0 4px var(--primary);
     }
 
     &__indicator {

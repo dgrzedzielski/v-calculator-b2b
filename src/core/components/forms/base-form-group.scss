@@ -9,11 +9,17 @@
     &__control {
         display: block;
         width: 100%;
-        background: var(--form-field-bg);
-        color: var(--text-color);
-        border: none;
-        border-radius: 6px;
         padding: 8px 16px;
         min-height: 40px;
+        background: var(--form-field-bg);
+        color: var(--text-color);
+        border: 1px solid transparent;
+        border-radius: 6px;
+        transition: 0.25s border-color;
+
+        &:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
     }
 }
