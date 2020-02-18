@@ -52,20 +52,26 @@
     import InputFormGroup from '@/core/components/forms/input-form-group.vue';
     import FormRadioGroup from '@/core/components/forms/form-radio-group.vue';
     import FormSwitch from '@/core/components/forms/form-switch.vue';
-    import { TAX_FORM_OPTIONS, TaxForm } from '@/modules/calculator/types/tax-form-options';
-    import { INSURANCE_OPTIONS, InsuranceVariant } from '@/modules/calculator/types/insurance-options';
     import CashResult from '@/core/components/ui/cash-result.vue';
+    import { TAX_FORM_OPTIONS, TaxForm } from './types/tax-form-options';
+    import { INSURANCE_OPTIONS, InsuranceVariant } from './types/insurance-options';
     import {
         getReductions,
-        getInsuranceCost,
+        getInsuranceTotalCost,
         getRevenueTax,
-        getGrossFromNet, getRevenue
-    } from '@/modules/calculator/logic/calculate-functions';
-    import Expense from '@/modules/calculator/types/expense';
-    import { VAT } from '@/modules/calculator/logic/tax-rates';
+        getGrossFromNet,
+        getRevenue,
+        getSocialContributionCost
+    } from './logic/calculate-functions';
+    import Expense from './types/expense';
 
     @Component({
-        components: { CashResult, FormSwitch, FormRadioGroup, InputFormGroup }
+        components: {
+            CashResult,
+            FormSwitch,
+            FormRadioGroup,
+            InputFormGroup
+        }
     })
     export default class BaseCalculator extends Vue {
         netIncome = 9000;
@@ -90,8 +96,14 @@
             return this.taxFormOptions.find(option => option.id === this.taxForm)!;
         }
 
-        get insuranceCost() {
-            return getInsuranceCost(this.selectedInsuranceOption, this.optionalSicknessInsurance);
+        get insuranceTotalCost() {
+            return getInsuranceTotalCost(this.selectedInsuranceOption, this.optionalSicknessInsurance);
+        }
+
+        get socialContributionCost() {
+            return getSocialContributionCost(
+                this.selectedInsuranceOption, this.optionalSicknessInsurance
+            );
         }
 
         get reductions() {
@@ -102,8 +114,7 @@
             return getRevenue(
                 this.netIncome,
                 this.reductions.costReduction,
-                this.selectedInsuranceOption,
-                this.optionalSicknessInsurance
+                this.socialContributionCost
             );
         }
 
@@ -116,14 +127,14 @@
         }
 
         get vatCost() {
-            return VAT * this.netIncome - this.reductions.vatReduction;
+            return this.grossIncome - this.netIncome - this.reductions.vatReduction;
         }
 
         get result() {
             return (
                 this.grossIncome -
                 this.vatCost -
-                this.insuranceCost -
+                this.insuranceTotalCost -
                 this.revenueTax
             );
         }

@@ -14,16 +14,6 @@
         align-items: center;
     }
 
-    &__input {
-        @include vh;
-    }
-
-    &__input:focus + .form-switch__label .form-switch__indicator {
-        box-shadow:
-            0 0 0 2px var(--panel-bg),
-            0 0 0 4px var(--primary);
-    }
-
     &__indicator {
         display: inline-block;
         width: 60px;
@@ -58,5 +48,15 @@
             transform: var(--indicator-handle-transform);
             transition: 0.25s;
         }
+    }
+
+    &__input {
+        @include vh;
+    }
+
+    &__input:focus + .form-switch__label .form-switch__indicator {
+        box-shadow:
+            0 0 0 2px var(--panel-bg),
+            0 0 0 4px var(--primary);
     }
 }
