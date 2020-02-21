@@ -17,6 +17,7 @@
     &__indicator {
         display: inline-block;
         width: 60px;
+        min-width: 60px;
         height: 24px;
         margin-right: 12px;
         background: var(--form-field-bg);
