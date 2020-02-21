@@ -20,7 +20,7 @@ module.exports = {
             'functions': 'never'
         }],
         'space-before-function-paren': 0,
-        'vue/no-v-html': 'warning',
+        'vue/no-v-html': 'off',
         'indent': ['error', 4],
         'vue/script-indent': [
             'error', 4, { 'baseIndent': 1 }
