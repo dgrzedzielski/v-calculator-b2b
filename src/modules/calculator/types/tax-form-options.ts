@@ -15,12 +15,6 @@ export interface TaxFormOption {
     label: string;
 }
 
-export interface ProgressiveTaxFormOption extends TaxFormOption {
-    id: TaxForm.PROGRESSIVE;
-    rateOverThreshold: number;
-    threshold: number;
-}
-
 export const TAX_FORM_OPTIONS: TaxFormOption[] = [
     {
         id: TaxForm.LINEAR,
@@ -30,8 +24,6 @@ export const TAX_FORM_OPTIONS: TaxFormOption[] = [
     {
         id: TaxForm.PROGRESSIVE,
         baseRate: PROGRESSIVE_TAX_RATE_BASE,
-        rateOverThreshold: PROGRESSIVE_TAX_RATE_OVER_THRESHOLD,
-        threshold: PROGRESSIVE_TAX_THRESHOLD,
         label: 'Progresywna<br>17% / 32%'
-    } as ProgressiveTaxFormOption
+    }
 ];
