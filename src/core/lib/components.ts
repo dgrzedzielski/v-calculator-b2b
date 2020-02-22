@@ -1,4 +1,4 @@
 import Vue from 'vue';
-import Button from '@/core/components/ui/button.vue';
+import BaseButton from '@/core/components/ui/base-button.vue';
 
-Vue.component('Button', Button);
+Vue.component('base-button', BaseButton);
