@@ -11,7 +11,7 @@
     &__content {
         padding: var(--padding-y) var(--padding-x);
         font-size: var(--font-size);
-        background: var(--bg);
+        background: var(--cash-result-bg);
         color: var(--text-color);
         border-radius: 24px;
         display: flex;
@@ -70,13 +70,13 @@
     }
 
     &--primary {
-        --bg: var(--primary-gradient);
+        --cash-result-bg: var(--primary-gradient);
         --btn-color: var(--primary);
         --text-color: white;
     }
 
     &--success {
-        --bg: var(--success);
+        --cash-result-bg: var(--success);
         --btn-color: var(--success);
         --text-color: white;
     }
@@ -88,7 +88,7 @@
     }
 
     &--outline {
-        --bg: transparent;
+        --cash-result-bg: transparent;
         --text-color: var(--btn-color);
 
         .btn__content {

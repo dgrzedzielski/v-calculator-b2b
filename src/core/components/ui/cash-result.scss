@@ -1,18 +1,26 @@
 .cash-result {
-    --icon-container-bg: var(--primary-gradient);
+    --value-font-size: 1.8rem;
     display: flex;
     align-items: center;
 
     &:not(:last-of-type) {
-        margin-bottom: 15px;
+        margin-bottom: 18px;
+    }
+
+    &--primary {
+        --cash-result-bg: var(--primary);
+    }
+
+    &--primary-gradient {
+        --cash-result-bg: var(--primary-gradient);
     }
 
     &--success {
-        --icon-container-bg: var(--success-gradient);
+        --cash-result-bg: var(--success-gradient);
     }
 
     &--danger {
-        --icon-container-bg: var(--danger-gradient);
+        --cash-result-bg: var(--danger-gradient);
     }
 
     &__icon-container {
@@ -37,7 +45,7 @@
         }
 
         &::before {
-            background: var(--icon-container-bg);
+            background: var(--cash-result-bg);
         }
 
         &::after {
@@ -53,8 +61,20 @@
         height: auto;
     }
 
+    &__indicator {
+        background: var(--cash-result-bg);
+        @include square(12px);
+        min-width: 12px;
+        display: block;
+        border-radius: 50%;
+    }
+
     &__text-container {
         margin: 0 0 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex: 1;
     }
 
     &__label {
@@ -70,7 +90,12 @@
 
     &__value {
         font-weight: 600;
-        font-size: 2.4rem;
+        font-size: var(--value-font-size);
         color: var(--header-color);
+    }
+
+    &__icon-container + &__text-container {
+        --value-font-size: 2.4rem;
+        display: block;
     }
 }

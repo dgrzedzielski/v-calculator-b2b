@@ -1,0 +1,36 @@
+.calculator-expenses-list {
+    list-style: square;
+    margin-top: 16px;
+    position: relative;
+
+    &::before {
+        content: '';
+        left: 4px;
+        top: 0;
+        position: absolute;
+        height: 100%;
+        width: 3px;
+        background: var(--border-color);
+    }
+
+    &__item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        position: relative;
+    }
+
+    &__icon {
+        position: absolute;
+        left: -35px;
+    }
+
+    &__name {
+        color: var(--subtext-color);
+    }
+
+    &__value {
+        font-weight: 700;
+    }
+}

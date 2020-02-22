@@ -6,10 +6,11 @@
         >
             <input-form-group
                 v-model="netIncome"
-                type="number"
+                type="text"
                 name="netIncome"
                 inputmode="numeric"
                 min="0"
+                maxlength="12"
                 label="Przychód netto"
                 placholder="Wpisz wartość"
             />
@@ -30,20 +31,71 @@
                 name="optionalSicknessInsurance"
                 label="Opcjonalne ubezpieczenie chorobowe"
             />
+            <base-button
+                success
+                outline
+                type="button"
+                @click="isAddExpenseModalVisible = true"
+            >
+                <v-icon
+                    name="plus-circle"
+                    class="btn__icon"
+                />
+                <span class="btn__text">Dodaj wydatek</span>
+            </base-button>
         </form>
         <div class="base-calculator__summary">
             <cash-result
-                label="Na rękę"
-                icon="hand-holding-usd"
                 :value="result"
+                label="Wypłata"
+                icon="hand-holding-usd"
+                type="primary-gradient"
             />
-            <!--<cash-result
+            <cash-result
+                v-if="expenses.length > 0"
+                :value="profit"
+                :type="profit > 0 ? 'success' : 'danger'"
                 label="Zysk"
                 icon="chart-line"
-                :value="result"
+            />
+            <cash-result
+                :value="grossIncome"
+                class="mt-30"
                 type="success"
-            />-->
+                label="Kwota brutto"
+            />
+            <cash-result
+                :value="vatCost"
+                type="danger"
+                label="VAT"
+            />
+            <cash-result
+                :value="insuranceTotalCost"
+                type="danger"
+                label="ZUS"
+            />
+            <cash-result
+                :value="revenueTax"
+                type="danger"
+                label="Podatek dochodowy"
+            />
+            <cash-result
+                :value="taxSavings"
+                type="success"
+                label="Zaoszczędzono"
+            />
+            <cash-result
+                :value="expensesTotal"
+                type="danger"
+                label="Wydatki"
+            />
+            <calculator-expenses-list :expenses="expenses" />
         </div>
+        <calculator-add-expense
+            v-if="isAddExpenseModalVisible"
+            @add-expense="addExpense"
+            @close="isAddExpenseModalVisible = false"
+        />
     </div>
 </template>
 
@@ -53,6 +105,9 @@
     import FormRadioGroup from '@/core/components/forms/form-radio-group.vue';
     import FormSwitch from '@/core/components/forms/form-switch.vue';
     import CashResult from '@/core/components/ui/cash-result.vue';
+    import CalculatorAddExpense from '@/modules/calculator/components/calculator-add-expense.vue';
+    import CalculatorExpensesList from '@/modules/calculator/components/calculator-expenses-list.vue';
+    import Expense from './types/expense';
     import { TAX_FORM_OPTIONS, TaxForm } from './types/tax-form-options';
     import { INSURANCE_OPTIONS, InsuranceVariant } from './types/insurance-options';
     import {
@@ -61,12 +116,14 @@
         getRevenueTax,
         getGrossFromNet,
         getRevenue,
-        getSocialContributionCost
+        getSocialContributionCost,
+        getRevenueTaxSavings
     } from './logic/calculate-functions';
-    import Expense from './types/expense';
 
     @Component({
         components: {
+            CalculatorExpensesList,
+            CalculatorAddExpense,
             CashResult,
             FormSwitch,
             FormRadioGroup,
@@ -74,10 +131,11 @@
         }
     })
     export default class BaseCalculator extends Vue {
-        netIncome = 9000;
+        netIncome = 10000;
         taxForm = TaxForm.LINEAR;
         insuranceVariant = InsuranceVariant.START;
         optionalSicknessInsurance = false;
+        isAddExpenseModalVisible = false;
         expenses: Expense[] = [];
 
         get insuranceOptions() {
@@ -127,7 +185,7 @@
         }
 
         get vatCost() {
-            return this.grossIncome - this.netIncome - this.reductions.vatReduction;
+            return Math.max(0, this.grossIncome - this.netIncome - this.reductions.vatReduction);
         }
 
         get result() {
@@ -137,6 +195,28 @@
                 this.insuranceTotalCost -
                 this.revenueTax
             );
+        }
+
+        get expensesTotal() {
+            return this.reductions.vatReduction + this.reductions.costReduction;
+        }
+
+        get taxSavings() {
+            return getRevenueTaxSavings(
+                this.netIncome,
+                this.reductions.costReduction,
+                this.socialContributionCost,
+                this.selectedTaxForm
+            ) + this.reductions.vatReduction;
+        }
+
+        get profit() {
+            return this.result - this.expensesTotal;
+        }
+
+        addExpense(expense: Expense) {
+            this.expenses.push(expense);
+            this.isAddExpenseModalVisible = false;
         }
     };
 </script>

@@ -32,12 +32,14 @@
 <script lang="ts">
     import { Vue, Component, Prop } from 'vue-property-decorator';
 
+    type ThemeType = 'primary' | 'primary-gradient' | 'success' | 'danger'
+
     @Component
     export default class CashResult extends Vue {
         @Prop({ required: true, type: String }) label!: string;
         @Prop({ required: true, type: Number }) value!: number;
         @Prop({ default: 'PLN', type: String }) unit!: string;
-        @Prop({ default: 'primary', type: String }) type!: string;
+        @Prop({ default: 'primary', type: String }) type!: ThemeType;
         @Prop({ default: '', type: String }) icon!: string;
     };
 </script>

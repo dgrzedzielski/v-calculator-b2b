@@ -79,3 +79,10 @@ export const getRevenueTax = (revenue: number, taxForm: TaxFormOption) => {
 
     return baseValue - HEALTH_INSURANCE_TAX_DEDUCTION;
 };
+
+export const getRevenueTaxSavings = (netIncome: number, costReductions: number, socialContributionCost: number, taxForm: TaxFormOption) => {
+    const baseRevenue = getRevenue(netIncome, 0, socialContributionCost);
+    const realRevenue = getRevenue(netIncome, costReductions, socialContributionCost);
+
+    return getRevenueTax(baseRevenue, taxForm) - getRevenueTax(realRevenue, taxForm);
+};
