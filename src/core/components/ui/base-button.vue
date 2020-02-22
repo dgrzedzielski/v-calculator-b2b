@@ -55,3 +55,5 @@
         }
     };
 </script>
+
+<style lang="scss" src="./base-button.scss" />

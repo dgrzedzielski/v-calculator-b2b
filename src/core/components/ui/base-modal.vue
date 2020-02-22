@@ -41,3 +41,5 @@
     @Component
     export default class Modal extends Vue {};
 </script>
+
+<style lang="scss" src="./base-modal.scss" />

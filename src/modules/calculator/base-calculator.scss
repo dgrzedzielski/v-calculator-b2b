@@ -16,5 +16,10 @@
 
     &__form {
         border-bottom: 1px solid var(--border-color);
+        padding-bottom: 30px;
+    }
+
+    &__summary {
+        padding: 30px 20px;
     }
 }

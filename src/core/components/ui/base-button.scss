@@ -1,0 +1,114 @@
+.btn {
+    --padding-x: 24px;
+    --padding-y: 12px;
+    --font-size: 1.4rem;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+
+    &__content {
+        padding: var(--padding-y) var(--padding-x);
+        font-size: var(--font-size);
+        background: var(--bg);
+        color: var(--text-color);
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: 2px solid transparent;
+        box-shadow: 1px 1px 5px rgba(#000, 0.19);
+        position: relative;
+        z-index: 1;
+
+        &::before, &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: inherit;
+            transform: scale(0.85);
+            opacity: 0;
+            z-index: -1;
+        }
+
+        &::before {
+            transition: 0.35s ease-in;
+            box-shadow: 0 0 0 8px var(--btn-color);
+        }
+
+        &::after {
+            transition: 0.35s ease-out;
+            box-shadow: 0 0 0 16px var(--btn-color);
+        }
+
+        &:hover {
+            &::before {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+
+            &::after {
+                opacity: 0.2;
+                transform: scale(1);
+            }
+        }
+
+        &:active {
+            &::before, &::after {
+                @media (hover: hover) and (pointer: fine) {
+                    transition-duration: 0.2s;
+                    opacity: 0;
+                    transform: scale(1.5);
+                }
+            }
+        }
+    }
+
+    &--primary {
+        --bg: var(--primary-gradient);
+        --btn-color: var(--primary);
+        --text-color: white;
+    }
+
+    &--success {
+        --bg: var(--success);
+        --btn-color: var(--success);
+        --text-color: white;
+    }
+
+    &--small {
+        --padding-x: 20px;
+        --padding-y: 8px;
+        --font-size: 1.2rem;
+    }
+
+    &--outline {
+        --bg: transparent;
+        --text-color: var(--btn-color);
+
+        .btn__content {
+            border-color: var(--btn-color);
+        }
+    }
+
+    &__icon + &__text {
+        padding-left: 12px;
+    }
+
+    &:focus, &__content:focus {
+        outline: none;
+    }
+
+    &:focus > &__content {
+        box-shadow: 0 0 0 4px var(--panel-bg), 0 0 0 8px var(--btn-color);
+    }
+
+    &:not(:-moz-focusring):focus > &__content {
+        box-shadow: none;
+    }
+}

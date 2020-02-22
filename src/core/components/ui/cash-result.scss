@@ -1,12 +1,18 @@
 .cash-result {
     --icon-container-bg: var(--primary-gradient);
-
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+
+    &:not(:last-of-type) {
+        margin-bottom: 15px;
+    }
 
     &--success {
-        --icon-container-bg: var(--green-gradient);
+        --icon-container-bg: var(--success-gradient);
+    }
+
+    &--danger {
+        --icon-container-bg: var(--danger-gradient);
     }
 
     &__icon-container {
@@ -14,6 +20,7 @@
         justify-content: center;
         align-items: center;
         @include square(60px);
+        min-width: 60px;
         position: relative;
         border-radius: 50%;
         z-index: 1;
@@ -47,7 +54,7 @@
     }
 
     &__text-container {
-        margin-left: 20px;
+        margin: 0 0 0 20px;
     }
 
     &__label {

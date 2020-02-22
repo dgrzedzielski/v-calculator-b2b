@@ -7,13 +7,19 @@ body[data-theme="dark"] {
     --header-color: hsl(250, 5%, 100%);
     --subtext-color: hsl(250, 5%, 82%);
 
+    --green: hsl(100, 70%, 50%);
+    --green-2: hsl(160, 90%, 40%);
+    --red: hsl(0, 100%, 55%);
+    --red-2: hsl(335, 90%, 38%);
+
     --primary: hsl(195, 100%, 60%);
     --accent: hsl(290, 100%, 55%);
-    --green: hsl(80, 70%, 50%);
-    --green-2: hsl(160, 90%, 40%);
+    --success: var(--green);
+    --danger: var(--red);
 
     --primary-gradient: linear-gradient(128deg, var(--primary), var(--accent));
-    --green-gradient: linear-gradient(128deg, var(--green), var(--green-2));
+    --success-gradient: linear-gradient(128deg, var(--green), var(--green-2));
+    --danger-gradient: linear-gradient(128deg, var(--red), var(--red-2));
 
     --form-field-bg: hsl(253, 5%, 16%);
 }
