@@ -16,11 +16,11 @@
     }
 
     &--success {
-        --cash-result-bg: var(--success-gradient);
+        --cash-result-bg: var(--success);
     }
 
     &--danger {
-        --cash-result-bg: var(--danger-gradient);
+        --cash-result-bg: var(--danger);
     }
 
     &__icon-container {
@@ -34,7 +34,8 @@
         z-index: 1;
         box-shadow: 0 0 4px rgba(#000, 0.2);
 
-        &::before, &::after {
+        &::before,
+        &::after {
             content: '';
             position: absolute;
             top: 0;

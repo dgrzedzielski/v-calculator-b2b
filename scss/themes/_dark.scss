@@ -1,25 +1,21 @@
 body[data-theme="dark"] {
-    --body-bg: hsl(261, 5%, 18%);
-    --panel-bg: hsl(255, 5%, 21%);
-    --border-color: hsl(253, 5%, 30%);
+  --body-bg: hsl(261, 5%, 18%);
+  --panel-bg: hsl(255, 5%, 21%);
+  --border-color: hsl(253, 5%, 30%);
 
-    --text-color: hsl(250, 5%, 90%);
-    --header-color: hsl(250, 5%, 100%);
-    --subtext-color: hsl(250, 5%, 82%);
+  --text-color: hsl(250, 5%, 90%);
+  --header-color: hsl(250, 5%, 100%);
+  --subtext-color: hsl(250, 5%, 82%);
 
-    --green: hsl(100, 70%, 50%);
-    --green-2: hsl(160, 90%, 40%);
-    --red: hsl(0, 100%, 55%);
-    --red-2: hsl(335, 90%, 38%);
+  --green: hsl(100, 70%, 64%);
+  --red: hsl(0, 100%, 68%);
 
-    --primary: hsl(195, 100%, 60%);
-    --accent: hsl(290, 100%, 55%);
-    --success: var(--green);
-    --danger: var(--red);
+  --primary: hsl(195, 100%, 60%);
+  --accent: hsl(290, 100%, 55%);
+  --success: var(--green);
+  --danger: var(--red);
 
-    --primary-gradient: linear-gradient(128deg, var(--primary), var(--accent));
-    --success-gradient: linear-gradient(128deg, var(--green), var(--green-2));
-    --danger-gradient: linear-gradient(128deg, var(--red), var(--red-2));
+  --primary-gradient: linear-gradient(128deg, var(--primary), var(--accent));
 
-    --form-field-bg: hsl(253, 5%, 16%);
+  --form-field-bg: hsl(253, 5%, 16%);
 }
