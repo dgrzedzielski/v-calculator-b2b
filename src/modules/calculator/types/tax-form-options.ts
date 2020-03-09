@@ -1,8 +1,7 @@
 import {
     LINEAR_TAX_RATE,
-    PROGRESSIVE_TAX_RATE_BASE,
-    PROGRESSIVE_TAX_RATE_OVER_THRESHOLD, PROGRESSIVE_TAX_THRESHOLD
-} from '@/modules/calculator/logic/tax-rates';
+    PROGRESSIVE_TAX_RATE_BASE
+} from '@/modules/calculator/tax-rates';
 
 export enum TaxForm {
     LINEAR,
