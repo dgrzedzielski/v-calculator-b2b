@@ -5,7 +5,7 @@ import {
     OPTIONAL_SICKNESS_INSURANCE_LOWERED,
     SOCIAL_CONTRIBUTION,
     SOCIAL_CONTRIBUTION_LOWERED
-} from '@/modules/calculator/logic/tax-rates';
+} from '@/modules/calculator/tax-rates';
 
 export enum InsuranceVariant {
     START,

@@ -108,17 +108,9 @@
     import CalculatorAddExpense from '@/modules/calculator/components/calculator-add-expense.vue';
     import CalculatorExpensesList from '@/modules/calculator/components/calculator-expenses-list.vue';
     import Expense from './types/expense';
+    import CalculatorService from '@/modules/calculator/calculator-service';
     import { TAX_FORM_OPTIONS, TaxForm } from './types/tax-form-options';
     import { INSURANCE_OPTIONS, InsuranceVariant } from './types/insurance-options';
-    import {
-        getReductions,
-        getInsuranceTotalCost,
-        getRevenueTax,
-        getGrossFromNet,
-        getRevenue,
-        getSocialContributionCost,
-        getRevenueTaxSavings
-    } from './logic/calculate-functions';
 
     @Component({
         components: {
@@ -147,45 +139,66 @@
         }
 
         get selectedInsuranceOption() {
-            return this.insuranceOptions.find(option => option.id === this.insuranceVariant)!;
+            return this.insuranceOptions
+                .find(option => option.id === this.insuranceVariant)!;
         }
 
         get selectedTaxForm() {
-            return this.taxFormOptions.find(option => option.id === this.taxForm)!;
-        }
-
-        get insuranceTotalCost() {
-            return getInsuranceTotalCost(this.selectedInsuranceOption, this.optionalSicknessInsurance);
+            return this.taxFormOptions
+                .find(option => option.id === this.taxForm)!;
         }
 
         get socialContributionCost() {
-            return getSocialContributionCost(
-                this.selectedInsuranceOption, this.optionalSicknessInsurance
-            );
+            let result = this.selectedInsuranceOption.value.socialContribution;
+
+            if (this.selectedInsuranceOption.value.additional) {
+                result += this.selectedInsuranceOption.value.additional;
+            }
+
+            if (this.optionalSicknessInsurance) {
+                result += this.selectedInsuranceOption.value.optionalSicknessInsurance;
+            }
+
+            return result;
+        }
+
+        get insuranceTotalCost() {
+            return this.socialContributionCost +
+                this.selectedInsuranceOption.value.healthInsurance;
         }
 
         get reductions() {
-            return getReductions(this.expenses);
+            const result = { vatReduction: 0, costReduction: 0 };
+
+            this.expenses.forEach(({ grossValue, isCarExpense }) => {
+                const { costReduction, vatReduction } =
+                    CalculatorService.getReduction(grossValue, isCarExpense);
+                result.vatReduction += vatReduction;
+                result.costReduction += costReduction;
+            });
+
+            return result;
         }
 
         get revenue() {
-            return getRevenue(
-                this.netIncome,
-                this.reductions.costReduction,
-                this.socialContributionCost
-            );
+            return this.netIncome -
+                this.reductions.costReduction -
+                this.socialContributionCost;
         }
 
         get revenueTax() {
-            return getRevenueTax(this.revenue, this.selectedTaxForm);
+            return CalculatorService.getRevenueTax(this.revenue, this.selectedTaxForm);
         }
 
         get grossIncome() {
-            return getGrossFromNet(this.netIncome);
+            return CalculatorService.getGrossFromNet(this.netIncome);
         }
 
         get vatCost() {
-            return Math.max(0, this.grossIncome - this.netIncome - this.reductions.vatReduction);
+            return Math.max(
+                0,
+                this.grossIncome - this.netIncome - this.reductions.vatReduction
+            );
         }
 
         get result() {
@@ -202,12 +215,11 @@
         }
 
         get taxSavings() {
-            return getRevenueTaxSavings(
-                this.netIncome,
-                this.reductions.costReduction,
-                this.socialContributionCost,
-                this.selectedTaxForm
-            ) + this.reductions.vatReduction;
+            const baseRevenue = this.netIncome - this.socialContributionCost;
+
+            return (CalculatorService.getRevenueTax(baseRevenue, this.selectedTaxForm) -
+                this.revenueTax) +
+                this.reductions.vatReduction;
         }
 
         get profit() {
