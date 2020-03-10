@@ -1,5 +1,9 @@
 class NumberUtils {
-    static asStandardFormat = (val: number) => parseFloat(val.toFixed(2));
+    static asStandardFormat = (val: number): number => parseFloat(
+        val.toFixed(2)
+    );
+
+    static as2Digits = (val: number): string => ('0' + val).slice(-2);
 }
 
 export default NumberUtils;

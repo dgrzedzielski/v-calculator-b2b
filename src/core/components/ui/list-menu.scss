@@ -1,0 +1,35 @@
+.list-menu {
+    list-style: none;
+    margin: 0 0 10px;
+    padding: 0;
+
+    &__item:not(:last-of-type) {
+        margin-bottom: 8px
+    }
+
+    &__button {
+        padding: 8px 16px;
+        display: block;
+        position: relative;
+        width: 100%;
+        color: var(--text-color);
+        border: 1px solid transparent;
+        background: var(--body-bg);
+        font-weight: 600;
+        border-radius: 24px;
+        box-shadow: 0 0 8px rgba(#000, 0.25);
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            margin: -3px;
+            z-index: -1;
+            border-radius: inherit;
+            background: var(--primary-gradient);
+        }
+    }
+}
