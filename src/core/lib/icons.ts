@@ -8,5 +8,7 @@ import 'vue-awesome/icons/hand-holding-usd';
 import 'vue-awesome/icons/plus-circle';
 import 'vue-awesome/icons/chart-line';
 import 'vue-awesome/icons/ellipsis-v';
+import 'vue-awesome/icons/edit';
+import 'vue-awesome/icons/trash-alt';
 
 Vue.component('v-icon', Icon);

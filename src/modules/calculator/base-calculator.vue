@@ -89,12 +89,18 @@
                 type="danger"
                 label="Wydatki"
             />
-            <calculator-expenses-list :expenses="form.expenses" />
+            <calculator-expenses-list
+                :expenses="form.expenses"
+                @open-expense-edit="openExpenseEdit"
+            />
         </div>
-        <calculator-add-expense
+        <calculator-expense-form
             v-if="isAddExpenseModalVisible"
+            :expense-to-edit="expenseToEdit"
             @add-expense="addExpense"
-            @close="isAddExpenseModalVisible = false"
+            @edit-expense="editExpense"
+            @remove-expense="removeExpense"
+            @close="closeExpenseForm"
         />
         <calculator-menu :form-data="form" />
     </div>
@@ -106,20 +112,20 @@
     import FormRadioGroup from '@/core/components/forms/form-radio-group.vue';
     import FormSwitch from '@/core/components/forms/form-switch.vue';
     import CashResult from '@/core/components/ui/cash-result.vue';
-    import CalculatorAddExpense from '@/modules/calculator/components/calculator-add-expense.vue';
+    import CalculatorExpenseForm from '@/modules/calculator/components/calculator-expense-form.vue';
     import CalculatorExpensesList from '@/modules/calculator/components/calculator-expenses-list.vue';
-    import Expense from './types/expense';
     import CalculatorService from '@/modules/calculator/calculator-service';
     import CalculatorMenu from '@/modules/calculator/components/calculator-menu.vue';
+    import CalculatorFormModel from '@/modules/calculator/types/calculator-form-model';
+    import Expense from './types/expense';
     import { TAX_FORM_OPTIONS, TaxForm } from './types/tax-form-options';
     import { INSURANCE_OPTIONS, InsuranceVariant } from './types/insurance-options';
-    import CalculatorFormModel from '@/modules/calculator/types/calculator-form-model';
 
     @Component({
         components: {
             CalculatorMenu,
             CalculatorExpensesList,
-            CalculatorAddExpense,
+            CalculatorExpenseForm,
             CashResult,
             FormSwitch,
             FormRadioGroup,
@@ -135,6 +141,7 @@
             expenses: []
         };
         isAddExpenseModalVisible = false;
+        expenseToEdit: Expense | null = null;
 
         mounted() {
             const loadedResult = CalculatorService.load();
@@ -240,9 +247,30 @@
             return this.result - this.expensesTotal;
         }
 
+        openExpenseEdit(expense: Expense) {
+            this.isAddExpenseModalVisible = true;
+            this.expenseToEdit = expense;
+        }
+
+        closeExpenseForm() {
+            this.isAddExpenseModalVisible = false;
+            this.expenseToEdit = null;
+        }
+
         addExpense(expense: Expense) {
             this.form.expenses.push(expense);
-            this.isAddExpenseModalVisible = false;
+            this.closeExpenseForm();
+        }
+
+        editExpense(expense: Expense) {
+            const index = this.form.expenses.findIndex(({ id }) => id === expense.id);
+            this.$set(this.form.expenses, index, expense);
+            this.closeExpenseForm();
+        }
+
+        removeExpense(expenseId: string) {
+            this.form.expenses = this.form.expenses.filter(({ id }) => id !== expenseId);
+            this.closeExpenseForm();
         }
     };
 </script>

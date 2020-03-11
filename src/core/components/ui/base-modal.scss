@@ -22,18 +22,22 @@
         background: rgba(#000, 0.9);
         z-index: -1;
         transition: 0.35s ease;
-        opacity: var(--modal-overlay-opacity)
+        opacity: var(--modal-overlay-opacity);
     }
 
     &__content {
         margin: 20px;
         border-radius: 16px;
-        min-width: 300px;
+        min-width: 320px;
         max-width: 100%;
         background: var(--panel-bg);
         opacity: var(--modal-content-opacity);
         transform: var(--modal-content-transform);
         transition: 0.3s ease-in-out;
+
+        @include mq(xs, max) {
+            width: 100%;
+        }
     }
 
     &__body, &__header, &__footer {

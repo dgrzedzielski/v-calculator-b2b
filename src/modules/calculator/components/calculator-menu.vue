@@ -17,8 +17,7 @@
     import { Vue, Component, Prop } from 'vue-property-decorator';
     import ListMenu from '@/core/components/ui/list-menu.vue';
     import CalculatorService from '@/modules/calculator/calculator-service';
-    import CalculatorFormModel
-        from '@/modules/calculator/types/calculator-form-model';
+    import CalculatorFormModel from '@/modules/calculator/types/calculator-form-model';
 
     @Component({
         components: { ListMenu }
