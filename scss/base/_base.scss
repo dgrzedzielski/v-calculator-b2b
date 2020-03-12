@@ -28,4 +28,8 @@ button {
     padding: 0;
     display: inline-block;
     color: var(--header-color);
+
+    &:not([disabled]) {
+        cursor: pointer;
+    }
 }

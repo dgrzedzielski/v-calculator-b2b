@@ -15,6 +15,9 @@ body[data-theme="dark"] {
     --accent: hsl(290, 100%, 55%);
     --success: var(--green);
     --danger: var(--red);
+    --primary-contrasting: hsl(195, 100%, 16%);
+    --success-contrasting: hsl(100, 100%, 14%);
+    --danger-contrasting: hsl(0, 100%, 12%);
 
     --primary-gradient: linear-gradient(128deg, var(--primary), var(--accent));
 

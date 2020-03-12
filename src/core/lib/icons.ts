@@ -10,5 +10,6 @@ import 'vue-awesome/icons/chart-line';
 import 'vue-awesome/icons/ellipsis-v';
 import 'vue-awesome/icons/edit';
 import 'vue-awesome/icons/trash-alt';
+import 'vue-awesome/icons/save';
 
 Vue.component('v-icon', Icon);

@@ -102,7 +102,11 @@
             @remove-expense="removeExpense"
             @close="closeExpenseForm"
         />
-        <calculator-menu :form-data="form" />
+        <floating-button
+            icon="save"
+            title="Zapisz"
+            @click="saveData"
+        />
     </div>
 </template>
 
@@ -115,15 +119,15 @@
     import CalculatorExpenseForm from '@/modules/calculator/components/calculator-expense-form.vue';
     import CalculatorExpensesList from '@/modules/calculator/components/calculator-expenses-list.vue';
     import CalculatorService from '@/modules/calculator/calculator-service';
-    import CalculatorMenu from '@/modules/calculator/components/calculator-menu.vue';
     import CalculatorFormModel from '@/modules/calculator/types/calculator-form-model';
     import Expense from './types/expense';
     import { TAX_FORM_OPTIONS, TaxForm } from './types/tax-form-options';
     import { INSURANCE_OPTIONS, InsuranceVariant } from './types/insurance-options';
+    import FloatingButton from '@/core/components/ui/floating-button.vue';
 
     @Component({
         components: {
-            CalculatorMenu,
+            FloatingButton,
             CalculatorExpensesList,
             CalculatorExpenseForm,
             CashResult,
@@ -271,6 +275,11 @@
         removeExpense(expenseId: string) {
             this.form.expenses = this.form.expenses.filter(({ id }) => id !== expenseId);
             this.closeExpenseForm();
+        }
+
+        saveData() {
+            CalculatorService.save(this.form);
+            this.$toast.success('Zapisano pomyślnie');
         }
     };
 </script>

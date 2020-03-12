@@ -1,0 +1,41 @@
+@import '~vue-toastification/src/scss/variables';
+@import '~vue-toastification/src/scss/toastContainer';
+@import '~vue-toastification/src/scss/toast';
+@import '~vue-toastification/src/scss/closeButton';
+@import '~vue-toastification/src/scss/progressBar';
+@import '~vue-toastification/src/scss/icon';
+
+@import '~vue-toastification/src/scss/animations/bounce';
+
+.#{$vt-namespace}__toast {
+    font-family: inherit;
+    font-weight: 600;
+    background-color: var(--toast-bg);
+    color: var(--toast-text-color);
+    box-shadow: 0 5px 24px -10px var(--toast-bg);
+
+    &--info {
+        --toast-bg: var(--primary);
+        --toast-text-color: var(--primary-contrasting);
+    }
+
+    &--success {
+        --toast-bg: var(--success);
+        --toast-text-color: var(--success-contrasting);
+    }
+
+    &--error {
+        --toast-bg: var(--danger);
+        --toast-text-color: var(--danger-contrasting);
+    }
+}
+
+.#{$vt-namespace}__progress-bar {
+    background: var(--toast-text-color);
+    opacity: 0.5!important;
+}
+
+.#{$vt-namespace}__close-button {
+    opacity: 1;
+    color: inherit;
+}
