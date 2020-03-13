@@ -21,3 +21,15 @@ body {
 h1, h2, h3, h4, h5, h6 {
     color: var(--header-color);
 }
+
+button {
+    background: none;
+    border: none;
+    padding: 0;
+    display: inline-block;
+    color: var(--header-color);
+
+    &:not([disabled]) {
+        cursor: pointer;
+    }
+}

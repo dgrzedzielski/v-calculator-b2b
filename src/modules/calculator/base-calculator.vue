@@ -5,7 +5,7 @@
             @submit.prevent="() => {}"
         >
             <input-form-group
-                v-model="netIncome"
+                v-model="form.netIncome"
                 type="text"
                 name="netIncome"
                 inputmode="numeric"
@@ -15,19 +15,19 @@
                 placholder="Wpisz wartość"
             />
             <form-radio-group
-                v-model="taxForm"
+                v-model="form.taxForm"
                 :options="taxFormOptions"
                 name="taxForm"
                 label="Forma opodatkowania"
             />
             <form-radio-group
-                v-model="insuranceVariant"
+                v-model="form.insuranceVariant"
                 :options="insuranceOptions"
                 name="insuranceVariant"
                 label="Składka ZUS"
             />
             <form-switch
-                v-model="optionalSicknessInsurance"
+                v-model="form.optionalSicknessInsurance"
                 name="optionalSicknessInsurance"
                 label="Opcjonalne ubezpieczenie chorobowe"
             />
@@ -52,7 +52,7 @@
                 type="primary-gradient"
             />
             <cash-result
-                v-if="expenses.length > 0"
+                v-if="form.expenses.length > 0"
                 :value="profit"
                 :type="profit > 0 ? 'success' : 'danger'"
                 label="Zysk"
@@ -89,12 +89,23 @@
                 type="danger"
                 label="Wydatki"
             />
-            <calculator-expenses-list :expenses="expenses" />
+            <calculator-expenses-list
+                :expenses="form.expenses"
+                @open-expense-edit="openExpenseEdit"
+            />
         </div>
-        <calculator-add-expense
+        <calculator-expense-form
             v-if="isAddExpenseModalVisible"
+            :expense-to-edit="expenseToEdit"
             @add-expense="addExpense"
-            @close="isAddExpenseModalVisible = false"
+            @edit-expense="editExpense"
+            @remove-expense="removeExpense"
+            @close="closeExpenseForm"
+        />
+        <floating-button
+            icon="save"
+            title="Zapisz"
+            @click="saveData"
         />
     </div>
 </template>
@@ -105,17 +116,20 @@
     import FormRadioGroup from '@/core/components/forms/form-radio-group.vue';
     import FormSwitch from '@/core/components/forms/form-switch.vue';
     import CashResult from '@/core/components/ui/cash-result.vue';
-    import CalculatorAddExpense from '@/modules/calculator/components/calculator-add-expense.vue';
+    import CalculatorExpenseForm from '@/modules/calculator/components/calculator-expense-form.vue';
     import CalculatorExpensesList from '@/modules/calculator/components/calculator-expenses-list.vue';
-    import Expense from './types/expense';
     import CalculatorService from '@/modules/calculator/calculator-service';
+    import CalculatorFormModel from '@/modules/calculator/types/calculator-form-model';
+    import Expense from './types/expense';
     import { TAX_FORM_OPTIONS, TaxForm } from './types/tax-form-options';
     import { INSURANCE_OPTIONS, InsuranceVariant } from './types/insurance-options';
+    import FloatingButton from '@/core/components/ui/floating-button.vue';
 
     @Component({
         components: {
+            FloatingButton,
             CalculatorExpensesList,
-            CalculatorAddExpense,
+            CalculatorExpenseForm,
             CashResult,
             FormSwitch,
             FormRadioGroup,
@@ -123,12 +137,23 @@
         }
     })
     export default class BaseCalculator extends Vue {
-        netIncome = 10000;
-        taxForm = TaxForm.LINEAR;
-        insuranceVariant = InsuranceVariant.START;
-        optionalSicknessInsurance = false;
+        form: CalculatorFormModel = {
+            netIncome: 10000,
+            taxForm: TaxForm.LINEAR,
+            insuranceVariant: InsuranceVariant.START,
+            optionalSicknessInsurance: false,
+            expenses: []
+        };
         isAddExpenseModalVisible = false;
-        expenses: Expense[] = [];
+        expenseToEdit: Expense | null = null;
+
+        mounted() {
+            const loadedResult = CalculatorService.load();
+
+            if (loadedResult) {
+                this.form = loadedResult;
+            }
+        }
 
         get insuranceOptions() {
             return INSURANCE_OPTIONS;
@@ -140,12 +165,12 @@
 
         get selectedInsuranceOption() {
             return this.insuranceOptions
-                .find(option => option.id === this.insuranceVariant)!;
+                .find(option => option.id === this.form.insuranceVariant)!;
         }
 
         get selectedTaxForm() {
             return this.taxFormOptions
-                .find(option => option.id === this.taxForm)!;
+                .find(option => option.id === this.form.taxForm)!;
         }
 
         get socialContributionCost() {
@@ -155,7 +180,7 @@
                 result += this.selectedInsuranceOption.value.additional;
             }
 
-            if (this.optionalSicknessInsurance) {
+            if (this.form.optionalSicknessInsurance) {
                 result += this.selectedInsuranceOption.value.optionalSicknessInsurance;
             }
 
@@ -170,7 +195,7 @@
         get reductions() {
             const result = { vatReduction: 0, costReduction: 0 };
 
-            this.expenses.forEach(({ grossValue, isCarExpense }) => {
+            this.form.expenses.forEach(({ grossValue, isCarExpense }) => {
                 const { costReduction, vatReduction } =
                     CalculatorService.getReduction(grossValue, isCarExpense);
                 result.vatReduction += vatReduction;
@@ -181,7 +206,7 @@
         }
 
         get revenue() {
-            return this.netIncome -
+            return this.form.netIncome -
                 this.reductions.costReduction -
                 this.socialContributionCost;
         }
@@ -191,13 +216,13 @@
         }
 
         get grossIncome() {
-            return CalculatorService.getGrossFromNet(this.netIncome);
+            return CalculatorService.getGrossFromNet(this.form.netIncome);
         }
 
         get vatCost() {
             return Math.max(
                 0,
-                this.grossIncome - this.netIncome - this.reductions.vatReduction
+                this.grossIncome - this.form.netIncome - this.reductions.vatReduction
             );
         }
 
@@ -215,7 +240,7 @@
         }
 
         get taxSavings() {
-            const baseRevenue = this.netIncome - this.socialContributionCost;
+            const baseRevenue = this.form.netIncome - this.socialContributionCost;
 
             return (CalculatorService.getRevenueTax(baseRevenue, this.selectedTaxForm) -
                 this.revenueTax) +
@@ -226,9 +251,35 @@
             return this.result - this.expensesTotal;
         }
 
-        addExpense(expense: Expense) {
-            this.expenses.push(expense);
+        openExpenseEdit(expense: Expense) {
+            this.isAddExpenseModalVisible = true;
+            this.expenseToEdit = expense;
+        }
+
+        closeExpenseForm() {
             this.isAddExpenseModalVisible = false;
+            this.expenseToEdit = null;
+        }
+
+        addExpense(expense: Expense) {
+            this.form.expenses.push(expense);
+            this.closeExpenseForm();
+        }
+
+        editExpense(expense: Expense) {
+            const index = this.form.expenses.findIndex(({ id }) => id === expense.id);
+            this.$set(this.form.expenses, index, expense);
+            this.closeExpenseForm();
+        }
+
+        removeExpense(expenseId: string) {
+            this.form.expenses = this.form.expenses.filter(({ id }) => id !== expenseId);
+            this.closeExpenseForm();
+        }
+
+        saveData() {
+            CalculatorService.save(this.form);
+            this.$toast.success('Zapisano pomyślnie');
         }
     };
 </script>

@@ -1,5 +1,5 @@
 .calculator-expenses-list {
-    list-style: square;
+    list-style: none;
     margin-top: 16px;
     position: relative;
 
@@ -14,10 +14,14 @@
     }
 
     &__item {
+        margin-bottom: 12px;
+    }
+
+    &__clickable {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 12px;
+        width: 100%;
         position: relative;
     }
 
@@ -32,5 +36,7 @@
 
     &__value {
         font-weight: 700;
+        white-space: nowrap;
+        padding-left: 20px;
     }
 }

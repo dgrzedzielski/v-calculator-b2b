@@ -11,6 +11,7 @@ import {
     TaxForm,
     TaxFormOption
 } from '@/modules/calculator/types/tax-form-options';
+import CalculatorFormModel from '@/modules/calculator/types/calculator-form-model';
 
 class CalculatorService {
     static getGrossFromNet = (netValue: number, grossBase = GROSS_BASE) =>
@@ -49,6 +50,36 @@ class CalculatorService {
         }
 
         return baseValue - HEALTH_INSURANCE_TAX_DEDUCTION;
+    };
+
+    static getSaveKey(month: string, year: number) {
+        return `${month}.${year}`;
+    }
+
+    static getCurrentMonthKey() {
+        const date = new Date();
+
+        return CalculatorService.getSaveKey(
+            NumberUtils.as2Digits(date.getMonth() + 1),
+            date.getFullYear()
+        );
+    }
+
+    static save = (data: CalculatorFormModel) => {
+        localStorage.setItem(
+            CalculatorService.getCurrentMonthKey(),
+            JSON.stringify(data)
+        );
+    };
+
+    static load = (): CalculatorFormModel | null => {
+        const result = localStorage.getItem(CalculatorService.getCurrentMonthKey());
+
+        if (result) {
+            return JSON.parse(result);
+        }
+
+        return null;
     }
 }
 

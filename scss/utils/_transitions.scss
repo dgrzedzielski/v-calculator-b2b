@@ -1,0 +1,9 @@
+.scale-slide-down {
+    &-enter-active, &-leave-active {
+        transition: 0.35s;
+    }
+
+    &-enter, &-leave-to {
+        transform: translate(30px, 50px) scale3d(0, 0, 0);
+    }
+}

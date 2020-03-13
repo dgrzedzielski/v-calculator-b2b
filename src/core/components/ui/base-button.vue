@@ -15,13 +15,14 @@
 <script lang="ts">
     import { Vue, Component, Prop } from 'vue-property-decorator';
 
-    const BUTTON_TYPES = ['primary', 'secondary', 'success'];
+    const BUTTON_TYPES = ['primary', 'secondary', 'success', 'danger'];
 
     @Component
     export default class Button extends Vue {
         @Prop({ default: false, type: Boolean }) primary!: boolean;
         @Prop({ default: false, type: Boolean }) secondary!: boolean;
         @Prop({ default: false, type: Boolean }) success!: boolean;
+        @Prop({ default: false, type: Boolean }) danger!: boolean;
         @Prop({ default: false, type: Boolean }) outline!: boolean;
         @Prop({ default: false, type: Boolean }) small!: boolean;
         @Prop({ default: false, type: Boolean }) large!: boolean;
