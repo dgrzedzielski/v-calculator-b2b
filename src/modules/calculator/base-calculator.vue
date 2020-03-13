@@ -90,6 +90,7 @@
                 label="Wydatki"
             />
             <calculator-expenses-list
+                v-if="form.expenses.length > 0"
                 :expenses="form.expenses"
                 @open-expense-edit="openExpenseEdit"
             />
