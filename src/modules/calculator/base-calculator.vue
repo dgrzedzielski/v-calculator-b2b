@@ -154,6 +154,12 @@
             if (loadedResult) {
                 this.form = loadedResult;
             }
+
+            document.addEventListener('keydown', this.saveOnKeyboardShortcut);
+        }
+
+        beforeDestroy() {
+            document.removeEventListener('keydown', this.saveOnKeyboardShortcut);
         }
 
         get insuranceOptions() {
@@ -281,6 +287,13 @@
         saveData() {
             CalculatorService.save(this.form);
             this.$toast.success('Zapisano pomyślnie');
+        }
+
+        saveOnKeyboardShortcut(event: KeyboardEvent) {
+            if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+                event.preventDefault();
+                this.saveData();
+            }
         }
     };
 </script>
