@@ -6,15 +6,27 @@
     &::before {
         content: '';
         left: 4px;
-        top: 0;
+        top: -20px;
         position: absolute;
-        height: 100%;
+        height: calc(100% + 20px);
         width: 3px;
         background: var(--border-color);
     }
 
     &__item {
-        margin-bottom: 12px;
+        margin-bottom: 16px;
+        position: relative;
+
+        &::before {
+            content: '';
+            @include square(8px);
+            position: absolute;
+            left: -38px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--border-color);
+            border-radius: 50%;
+        }
     }
 
     &__clickable {
@@ -23,15 +35,31 @@
         align-items: center;
         width: 100%;
         position: relative;
-    }
 
-    &__icon {
-        position: absolute;
-        left: -35px;
+        &::after {
+            content: '';
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            height: 2px;
+            width: 100%;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            opacity: 0.25;
+            transition: 0.35s ease;
+        }
+
+        &:hover {
+            &::after {
+                transform: scaleX(1);
+                opacity: 1;
+            }
+        }
     }
 
     &__name {
-        color: var(--subtext-color);
+        color: var(--primary)
     }
 
     &__value {

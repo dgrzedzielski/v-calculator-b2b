@@ -1,7 +1,12 @@
 <template>
     <base-modal @close="$emit('close')">
         <template slot="heading">
-            Dodaj koszt
+            <template v-if="expenseToEdit">
+                Edytuj koszt
+            </template>
+            <template v-else>
+                Dodaj koszt
+            </template>
         </template>
         <form
             @submit.prevent="onSubmit"

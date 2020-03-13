@@ -8,18 +8,25 @@
 
     @include mq(md) {
         width: auto;
-    }
-
-    &__form, &__summary {
-        padding: 20px;
+        display: flex;
     }
 
     &__form {
         border-bottom: 1px solid var(--border-color);
-        padding-bottom: 30px;
+        padding: 20px 20px 30px;
+
+        @include mq(md) {
+            border-bottom: none;
+            border-right: 1px solid var(--border-color);
+            padding: 30px;
+        }
     }
 
     &__summary {
         padding: 30px 20px;
+
+        @include mq(md) {
+            padding: 30px;
+        }
     }
 }
