@@ -12,7 +12,7 @@
             @submit.prevent="onSubmit"
         >
             <input-form-group
-                ref="valueInput"
+                ref="firstInput"
                 v-model="expense.grossValue"
                 label="Kwota kosztu brutto"
                 name="costGrossValue"
@@ -72,8 +72,7 @@
     import InputFormGroup from '@/core/components/forms/input-form-group.vue';
     import FormSwitch from '@/core/components/forms/form-switch.vue';
     import Expense from '@/modules/calculator/types/expense';
-    import ExpenseFormModel
-        from '@/modules/calculator/types/expense-form-model';
+    import ExpenseFormModel from '@/modules/calculator/types/expense-form-model';
 
     @Component({
         components: { FormSwitch, InputFormGroup, BaseModal }
@@ -90,6 +89,12 @@
             if (this.expenseToEdit) {
                 this.expense = { ...this.expenseToEdit };
             }
+        }
+
+        mounted() {
+            const inputRef = this.$refs['firstInput'] as InputFormGroup;
+            const inputEl = inputRef.$el.lastChild as HTMLInputElement;
+            inputEl.focus();
         }
 
         uuidv4() { // TODO REMOVE IT AFTER CONNECTING WITH SOME BACKEND

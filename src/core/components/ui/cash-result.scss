@@ -2,10 +2,7 @@
     --value-font-size: 1.8rem;
     display: flex;
     align-items: center;
-
-    &:not(:last-of-type) {
-        margin-bottom: 18px;
-    }
+    margin-bottom: 18px;
 
     &--primary {
         --cash-result-bg: var(--primary);
@@ -88,6 +85,9 @@
 
     &__value-container {
         margin-left: 0;
+        padding-left: 24px;
+        min-width: 150px;
+        text-align: right;
     }
 
     &__value {
@@ -95,15 +95,22 @@
         font-size: var(--value-font-size);
         color: var(--header-color);
         white-space: nowrap;
-        padding-left: 24px;
     }
 
-    &__icon-container + &__text-container {
-        --value-font-size: 2.4rem;
-        display: block;
 
-        .cash-result__value {
+    &--with-icon {
+        @include mq(md) {
+            margin-bottom: 24px;
+        }
+
+        .cash-result__text-container {
+            --value-font-size: 2.4rem;
+            display: block;
+        }
+
+        .cash-result__value-container {
             padding: 0;
+            text-align: left;
         }
     }
 }

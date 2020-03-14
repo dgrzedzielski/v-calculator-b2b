@@ -15,7 +15,8 @@ body[data-theme="dark"] {
     --accent: hsl(290, 100%, 55%);
     --success: var(--green);
     --danger: var(--red);
-    --primary-contrasting: hsl(195, 100%, 16%);
+    --primary-contrasting: hsl(195, 100%, 16%); //darker in dark theme
+    --primary-contrasting-2: hsl(195, 100%, 82%); //lighter in dark theme
     --success-contrasting: hsl(100, 100%, 14%);
     --danger-contrasting: hsl(0, 100%, 12%);
 

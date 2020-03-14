@@ -2,7 +2,7 @@
     --indicator-handle-transform: translateY(-50%);
     --indicator-highlight-opacity: 0;
 
-    margin-bottom: var(--form-field-mb);
+    margin-bottom: var(--base-margin-bottom);
 
     &--checked {
         --indicator-handle-transform: translate(36px, -50%);

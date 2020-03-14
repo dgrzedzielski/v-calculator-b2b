@@ -104,6 +104,7 @@
             @close="closeExpenseForm"
         />
         <floating-button
+            aria-keyshortcuts="ctrl+s"
             icon="save"
             title="Zapisz"
             @click="saveData"

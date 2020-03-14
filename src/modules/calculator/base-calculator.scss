@@ -7,25 +7,30 @@
     min-width: 330px;
 
     @include mq(md) {
-        width: auto;
         display: flex;
+    }
+
+    @include mq(lg) {
+        width: auto;
     }
 
     &__form {
         border-bottom: 1px solid var(--border-color);
         padding: 20px 20px 30px;
+        flex: 1;
 
         @include mq(md) {
             border-bottom: none;
             border-right: 1px solid var(--border-color);
-            padding: 30px;
+            padding: 32px;
         }
     }
 
     &__summary {
         padding: 30px 20px;
+        flex: 1;
 
-        @include mq(md) {
+        @include mq(lg) {
             padding: 30px;
         }
     }

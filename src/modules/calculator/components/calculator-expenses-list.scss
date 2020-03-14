@@ -13,19 +13,23 @@
         background: var(--border-color);
     }
 
+    &__item::before,
+    &__clickable::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        border-radius: 50%;
+    }
+
     &__item {
         margin-bottom: 16px;
         position: relative;
 
         &::before {
-            content: '';
             @include square(8px);
-            position: absolute;
             left: -38px;
-            top: 50%;
-            transform: translateY(-50%);
             background: var(--border-color);
-            border-radius: 50%;
         }
     }
 
@@ -35,31 +39,32 @@
         align-items: center;
         width: 100%;
         position: relative;
+        color: var(--primary-contrasting-2);
+        transition: 0.35s color;
 
-        &::after {
-            content: '';
-            position: absolute;
-            top: calc(100% + 4px);
-            left: 0;
-            height: 2px;
-            width: 100%;
-            background: var(--primary-gradient);
-            transform: scaleX(0);
-            transform-origin: left;
-            opacity: 0.25;
+        &::before {
+            background: var(--primary);
             transition: 0.35s ease;
+            opacity: 0;
+            transform: translateY(-50%) scale3d(2, 2, 2);
+            @include square(12px);
+            left: -40px;
+        }
+
+        &:hover, &:focus {
+            &::before {
+                opacity: 1;
+                transform: translateY(-50%) scale3d(1, 1, 1);
+            }
+        }
+
+        &:focus {
+            outline: none;
         }
 
         &:hover {
-            &::after {
-                transform: scaleX(1);
-                opacity: 1;
-            }
+            color: var(--primary);
         }
-    }
-
-    &__name {
-        color: var(--primary)
     }
 
     &__value {

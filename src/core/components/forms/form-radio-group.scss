@@ -1,5 +1,5 @@
 .form-radio-group {
-    margin-bottom: var(--form-field-mb);
+    margin-bottom: var(--base-margin-bottom);
 
     &__fieldset {
         padding: 0;
@@ -15,6 +15,11 @@
         display: flex;
         margin-right: -8px;
         margin-left: -8px;
+
+        @include mq(lg) {
+            margin-right: -12px;
+            margin-left: -12px;
+        }
     }
 
     &__option {
@@ -23,7 +28,13 @@
         margin-right: 8px;
         margin-left: 8px;
         flex: 1;
-        max-width: calc(100% / 3);
+        max-width: 150px;
+
+        @include mq(lg) {
+            margin-left: 12px;
+            margin-right: 12px;
+            width: 120px;
+        }
 
         &--checked {
             --radio-highlight-opacity: 1;
