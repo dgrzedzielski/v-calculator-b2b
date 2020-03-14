@@ -86,8 +86,11 @@
     &__value-container {
         margin-left: 0;
         padding-left: 24px;
-        min-width: 150px;
         text-align: right;
+
+        @include mq(lg) {
+            min-width: 150px;
+        }
     }
 
     &__value {

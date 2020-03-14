@@ -35,6 +35,7 @@
                 success
                 outline
                 type="button"
+                aria-keyshortcuts="ctrl+i"
                 @click="isAddExpenseModalVisible = true"
             >
                 <v-icon
@@ -156,11 +157,11 @@
                 this.form = loadedResult;
             }
 
-            document.addEventListener('keydown', this.saveOnKeyboardShortcut);
+            document.addEventListener('keydown', this.registerKeyboardShortcuts);
         }
 
         beforeDestroy() {
-            document.removeEventListener('keydown', this.saveOnKeyboardShortcut);
+            document.removeEventListener('keydown', this.registerKeyboardShortcuts);
         }
 
         get insuranceOptions() {
@@ -290,10 +291,19 @@
             this.$toast.success('Zapisano pomyślnie');
         }
 
-        saveOnKeyboardShortcut(event: KeyboardEvent) {
-            if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+        registerKeyboardShortcuts(event: KeyboardEvent) {
+            if ((event.ctrlKey || event.metaKey)) {
                 event.preventDefault();
-                this.saveData();
+
+                switch (event.key) {
+                    case 's':
+                        this.saveData();
+                        break;
+
+                    case 'i':
+                        this.isAddExpenseModalVisible = true;
+                        break;
+                }
             }
         }
     };
