@@ -293,14 +293,14 @@
 
         registerKeyboardShortcuts(event: KeyboardEvent) {
             if ((event.ctrlKey || event.metaKey)) {
-                event.preventDefault();
-
                 switch (event.key) {
                     case 's':
+                        event.preventDefault();
                         this.saveData();
                         break;
 
                     case 'i':
+                        event.preventDefault();
                         this.isAddExpenseModalVisible = true;
                         break;
                 }
