@@ -107,6 +107,9 @@
 
         onSubmit() {
             this.expense.grossValue = Number(this.expense.grossValue);
+            this.expense.name = this.expense.name.trim();
+
+            if (!this.expense.grossValue || !this.expense.name) return;
 
             if (this.expenseToEdit) {
                 this.$emit('edit-expense', this.expense);
