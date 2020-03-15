@@ -9,7 +9,7 @@
     border: 2px solid transparent;
     color: #fff;
 
-    @include mq(lg) {
+    @include mq(md) {
         padding: 0 24px;
     }
 
@@ -48,7 +48,7 @@
             @include vh;
         }
 
-        @include mq(lg) {
+        @include mq(md) {
             display: block;
             margin-left: 16px;
         }

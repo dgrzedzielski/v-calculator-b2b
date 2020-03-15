@@ -2,5 +2,9 @@
     --font-family: Muli, 'sans-serif';
     --font-weight: 500;
 
-    --form-field-mb: 24px;
+    --base-margin-bottom: 24px;
+
+    @include mq(lg) {
+        --base-margin-bottom: 32px;
+    }
 }

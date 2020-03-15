@@ -1,6 +1,6 @@
 <template>
     <div
-        :class="[`cash-result--${type}`]"
+        :class="classes"
         class="cash-result"
     >
         <div
@@ -41,6 +41,14 @@
         @Prop({ default: 'PLN', type: String }) unit!: string;
         @Prop({ default: 'primary', type: String }) type!: ThemeType;
         @Prop({ default: '', type: String }) icon!: string;
+
+        get classes() {
+            const result = [`cash-result--${this.type}`];
+
+            if (this.icon) result.push('cash-result--with-icon');
+
+            return result;
+        }
     };
 </script>
 

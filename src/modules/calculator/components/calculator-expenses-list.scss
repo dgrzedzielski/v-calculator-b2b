@@ -6,15 +6,31 @@
     &::before {
         content: '';
         left: 4px;
-        top: 0;
+        top: -20px;
         position: absolute;
-        height: 100%;
+        height: calc(100% + 20px);
         width: 3px;
         background: var(--border-color);
     }
 
+    &__item::before,
+    &__clickable::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        border-radius: 50%;
+    }
+
     &__item {
-        margin-bottom: 12px;
+        margin-bottom: 16px;
+        position: relative;
+
+        &::before {
+            @include square(8px);
+            left: -38px;
+            background: var(--border-color);
+        }
     }
 
     &__clickable {
@@ -23,15 +39,32 @@
         align-items: center;
         width: 100%;
         position: relative;
-    }
+        color: var(--primary-contrasting-2);
+        transition: 0.35s color;
 
-    &__icon {
-        position: absolute;
-        left: -35px;
-    }
+        &::before {
+            background: var(--primary);
+            transition: 0.35s ease;
+            opacity: 0;
+            transform: translateY(-50%) scale3d(2, 2, 2);
+            @include square(12px);
+            left: -40px;
+        }
 
-    &__name {
-        color: var(--subtext-color);
+        &:hover, &:focus {
+            &::before {
+                opacity: 1;
+                transform: translateY(-50%) scale3d(1, 1, 1);
+            }
+        }
+
+        &:focus {
+            outline: none;
+        }
+
+        &:hover {
+            color: var(--primary);
+        }
     }
 
     &__value {

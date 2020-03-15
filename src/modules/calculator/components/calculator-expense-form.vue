@@ -1,13 +1,18 @@
 <template>
     <base-modal @close="$emit('close')">
         <template slot="heading">
-            Dodaj koszt
+            <template v-if="expenseToEdit">
+                Edytuj koszt
+            </template>
+            <template v-else>
+                Dodaj koszt
+            </template>
         </template>
         <form
             @submit.prevent="onSubmit"
         >
             <input-form-group
-                ref="valueInput"
+                ref="firstInput"
                 v-model="expense.grossValue"
                 label="Kwota kosztu brutto"
                 name="costGrossValue"
@@ -67,8 +72,7 @@
     import InputFormGroup from '@/core/components/forms/input-form-group.vue';
     import FormSwitch from '@/core/components/forms/form-switch.vue';
     import Expense from '@/modules/calculator/types/expense';
-    import ExpenseFormModel
-        from '@/modules/calculator/types/expense-form-model';
+    import ExpenseFormModel from '@/modules/calculator/types/expense-form-model';
 
     @Component({
         components: { FormSwitch, InputFormGroup, BaseModal }
@@ -87,6 +91,12 @@
             }
         }
 
+        mounted() {
+            const inputRef = this.$refs['firstInput'] as InputFormGroup;
+            const inputEl = inputRef.$el.lastChild as HTMLInputElement;
+            inputEl.focus();
+        }
+
         uuidv4() { // TODO REMOVE IT AFTER CONNECTING WITH SOME BACKEND
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
                 const r = Math.random() * 16 | 0;
@@ -97,6 +107,9 @@
 
         onSubmit() {
             this.expense.grossValue = Number(this.expense.grossValue);
+            this.expense.name = this.expense.name.trim();
+
+            if (!this.expense.grossValue || !this.expense.name) return;
 
             if (this.expenseToEdit) {
                 this.$emit('edit-expense', this.expense);

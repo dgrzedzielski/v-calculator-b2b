@@ -35,6 +35,7 @@
                 success
                 outline
                 type="button"
+                aria-keyshortcuts="ctrl+i"
                 @click="isAddExpenseModalVisible = true"
             >
                 <v-icon
@@ -90,6 +91,7 @@
                 label="Wydatki"
             />
             <calculator-expenses-list
+                v-if="form.expenses.length > 0"
                 :expenses="form.expenses"
                 @open-expense-edit="openExpenseEdit"
             />
@@ -103,6 +105,7 @@
             @close="closeExpenseForm"
         />
         <floating-button
+            aria-keyshortcuts="ctrl+s"
             icon="save"
             title="Zapisz"
             @click="saveData"
@@ -153,6 +156,12 @@
             if (loadedResult) {
                 this.form = loadedResult;
             }
+
+            document.addEventListener('keydown', this.registerKeyboardShortcuts);
+        }
+
+        beforeDestroy() {
+            document.removeEventListener('keydown', this.registerKeyboardShortcuts);
         }
 
         get insuranceOptions() {
@@ -280,6 +289,22 @@
         saveData() {
             CalculatorService.save(this.form);
             this.$toast.success('Zapisano pomyślnie');
+        }
+
+        registerKeyboardShortcuts(event: KeyboardEvent) {
+            if ((event.ctrlKey || event.metaKey)) {
+                switch (event.key) {
+                    case 's':
+                        event.preventDefault();
+                        this.saveData();
+                        break;
+
+                    case 'i':
+                        event.preventDefault();
+                        this.isAddExpenseModalVisible = true;
+                        break;
+                }
+            }
         }
     };
 </script>

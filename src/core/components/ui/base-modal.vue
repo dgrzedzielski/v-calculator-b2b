@@ -7,6 +7,7 @@
         <div
             class="modal"
             role="dialog"
+            aria-modal="true"
         >
             <div
                 class="modal__overlay"
@@ -39,7 +40,21 @@
     import { Vue, Component } from 'vue-property-decorator';
 
     @Component
-    export default class Modal extends Vue {};
+    export default class BaseModal extends Vue {
+        mounted() {
+            document.addEventListener('keydown', this.closeOnEsc);
+        }
+
+        beforeDestroy() {
+            document.removeEventListener('keydown', this.closeOnEsc);
+        }
+
+        closeOnEsc(event: KeyboardEvent) {
+            if (event.key === 'Escape') {
+                this.$emit('close');
+            }
+        }
+    };
 </script>
 
 <style lang="scss" src="./base-modal.scss" />
