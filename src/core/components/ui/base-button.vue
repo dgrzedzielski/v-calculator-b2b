@@ -3,12 +3,7 @@
         :class="classes"
         @click="handleClick"
     >
-        <span
-            class="btn__content"
-            tabindex="-1"
-        >
-            <slot />
-        </span>
+        <slot />
     </button>
 </template>
 
