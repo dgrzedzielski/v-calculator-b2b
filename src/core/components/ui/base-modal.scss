@@ -1,17 +1,19 @@
 .modal {
-    --modal-overlay-opacity: 1;
-    --modal-content-opacity: 1;
-    --modal-content-transform: scale3d(1, 1, 1);
+    &__container {
+        --modal-overlay-opacity: 1;
+        --modal-content-opacity: 1;
+        --modal-content-transform: scale3d(1, 1, 1);
 
-    position: fixed;
-    z-index: 10000;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+        position: fixed;
+        z-index: 10000;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
     &__overlay {
         position: absolute;
@@ -48,7 +50,7 @@
         margin: 0;
     }
 
-    &.modal-transition {
+    &__container.modal-transition {
         &-enter-active, &-leave-active {
             transition: 0.35s;
         }

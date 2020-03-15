@@ -12,19 +12,21 @@
             @submit.prevent="onSubmit"
         >
             <input-form-group
-                ref="firstInput"
                 v-model="expense.grossValue"
                 label="Kwota kosztu brutto"
                 name="costGrossValue"
                 type="number"
                 min="0"
                 step="0.01"
+                required
             />
             <input-form-group
                 v-model="expense.name"
                 label="Nazwa"
                 name="name"
                 type="text"
+                autocomplete="off"
+                required
             />
             <form-switch
                 v-model="expense.isCarExpense"
@@ -89,12 +91,6 @@
             if (this.expenseToEdit) {
                 this.expense = { ...this.expenseToEdit };
             }
-        }
-
-        mounted() {
-            const inputRef = this.$refs['firstInput'] as InputFormGroup;
-            const inputEl = inputRef.$el.lastChild as HTMLInputElement;
-            inputEl.focus();
         }
 
         uuidv4() { // TODO REMOVE IT AFTER CONNECTING WITH SOME BACKEND
