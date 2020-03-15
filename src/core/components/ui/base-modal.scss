@@ -54,9 +54,16 @@
         }
 
         &-enter, &-leave-to {
-            --modal-content-transform: translateY(-100px) scale3d(1.25, 1.25, 1.25);
             --modal-content-opacity: 0;
             --modal-overlay-opacity: 0;
+        }
+
+        &-enter {
+            --modal-content-transform: translateY(-100px);
+        }
+
+        &-leave-to {
+            --modal-content-transform: translateY(100px);
         }
     }
 }
