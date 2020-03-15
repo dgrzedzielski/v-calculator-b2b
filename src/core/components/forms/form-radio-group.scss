@@ -107,7 +107,7 @@
         @include vh;
     }
 
-    &__input:focus + .form-radio-group__label {
+    &__input[data-focus-visible-added]:focus + .form-radio-group__label {
         color: var(--primary);
 
         .form-radio-group__label-text::after {

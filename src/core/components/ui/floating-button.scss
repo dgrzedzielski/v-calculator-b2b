@@ -34,7 +34,7 @@
         background: var(--body-bg);
     }
 
-    &:focus {
+    &[data-focus-visible-added]:focus {
         outline: none;
 
         &::after {

@@ -1,3 +1,4 @@
+import 'focus-visible';
 import Vue from 'vue';
 import App from '@/core/app.vue';
 import router from '@/core/lib/router';

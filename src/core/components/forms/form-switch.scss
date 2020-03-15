@@ -12,6 +12,7 @@
     &__label {
         display: flex;
         align-items: center;
+        cursor: pointer;
     }
 
     &__indicator {
@@ -55,7 +56,7 @@
         @include vh;
     }
 
-    &__input:focus + .form-switch__label .form-switch__indicator {
+    &__input[data-focus-visible-added]:focus + .form-switch__label .form-switch__indicator {
         box-shadow:
             0 0 0 2px var(--panel-bg),
             0 0 0 4px var(--primary);
