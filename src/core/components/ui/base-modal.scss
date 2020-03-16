@@ -1,4 +1,17 @@
 .modal {
+    margin: 20px;
+    border-radius: 16px;
+    min-width: 320px;
+    max-width: 100%;
+    background: var(--panel-bg);
+    opacity: var(--modal-content-opacity);
+    transform: var(--modal-content-transform);
+    transition: 0.3s ease-in-out;
+
+    @include mq(xs, max) {
+        width: 100%;
+    }
+
     &__container {
         --modal-overlay-opacity: 1;
         --modal-content-opacity: 1;
@@ -27,18 +40,14 @@
         opacity: var(--modal-overlay-opacity);
     }
 
-    &__content {
-        margin: 20px;
-        border-radius: 16px;
-        min-width: 320px;
-        max-width: 100%;
-        background: var(--panel-bg);
-        opacity: var(--modal-content-opacity);
-        transform: var(--modal-content-transform);
-        transition: 0.3s ease-in-out;
+    &__close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        opacity: 0.75;
 
-        @include mq(xs, max) {
-            width: 100%;
+        &:hover {
+            opacity: 1;
         }
     }
 

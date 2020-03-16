@@ -10,34 +10,42 @@
                 @click.stop="$emit('close')"
             />
             <div
-                ref="modal"
                 :aria-labelledby="`${modalName}-heading`"
                 class="modal"
                 role="dialog"
                 aria-modal="true"
                 @keydown.esc="$emit('close')"
+                @keydown.tab="trappedFocusHandler"
             >
-                <div class="modal__content">
-                    <header
-                        class="modal__header"
+                <header
+                    class="modal__header"
+                >
+                    <h3
+                        :id="`${modalName}-heading`"
+                        class="modal__heading"
                     >
-                        <h3
-                            :id="`${modalName}-heading`"
-                            class="modal__heading"
-                        >
-                            <slot name="heading" />
-                        </h3>
-                    </header>
-                    <div class="modal__body">
-                        <slot />
-                    </div>
-                    <footer
-                        v-if="$slots.footer"
-                        class="modal__footer"
+                        <slot name="heading" />
+                    </h3>
+                    <button
+                        class="modal__close"
+                        aria-label="Zamknij"
+                        @click="$emit('close')"
                     >
-                        <slot name="footer" />
-                    </footer>
+                        <v-icon name="times" />
+                    </button>
+                </header>
+                <div
+                    ref="modal-body"
+                    class="modal__body"
+                >
+                    <slot />
                 </div>
+                <footer
+                    v-if="$slots.footer"
+                    class="modal__footer"
+                >
+                    <slot name="footer" />
+                </footer>
             </div>
         </div>
     </transition>
@@ -54,42 +62,34 @@
 
         mounted() {
             this.previousFocusedElement = document.activeElement as HTMLElement;
-            this.focusableElements = getFocusableElements(this.$refs['modal'] as HTMLElement);
+            this.focusableElements = getFocusableElements(this.$refs['modal-body'] as HTMLElement);
             if (this.focusableElements.length) {
                 this.focusableElements[0].focus();
             }
-
-            document.addEventListener('keydown', this.trapFocus);
         }
 
         beforeDestroy() {
             if (this.previousFocusedElement) {
                 this.previousFocusedElement.focus();
             }
-
-            document.removeEventListener('keydown', this.trapFocus);
         }
 
         get modalName() {
             return this.$parent.$options.name + '-modal';
         }
 
-        trapFocus(event: KeyboardEvent) {
-            if (event.key !== 'Tab' || this.focusableElements.length === 0) return;
+        trappedFocusHandler(event: KeyboardEvent) {
+            if (this.focusableElements.length === 0) return;
 
             const lastFocusableElement =
                 this.focusableElements[this.focusableElements.length - 1];
 
-            if (event.shiftKey) {
-                if (document.activeElement === this.focusableElements[0]) {
-                    lastFocusableElement.focus();
-                    event.preventDefault();
-                }
-            } else {
-                if (document.activeElement === lastFocusableElement) {
-                    this.focusableElements[0].focus();
-                    event.preventDefault();
-                }
+            if (event.shiftKey && document.activeElement === this.focusableElements[0]) {
+                lastFocusableElement.focus();
+                event.preventDefault();
+            } else if (!event.shiftKey && document.activeElement === lastFocusableElement) {
+                this.focusableElements[0].focus();
+                event.preventDefault();
             }
         }
     };
