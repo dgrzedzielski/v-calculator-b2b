@@ -32,15 +32,24 @@
 
     &::after {
         background: var(--body-bg);
+        transition: 0.35s;
     }
 
-    &:focus {
-        outline: none;
-
+    &:hover {
         &::after {
-            background: var(--border-color);
-        }
+            transform: scale(0.9);
 
+            @include mq(md) {
+                transform: scale(0.95, 0.9);
+            }
+        }
+    }
+
+    &[data-focus-visible-added]:focus {
+        outline: none;
+        box-shadow:
+            0 0 0 6px var(--panel-bg),
+            0 0 0 8px var(--primary);
     }
 
     &__title {

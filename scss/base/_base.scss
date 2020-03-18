@@ -13,7 +13,7 @@ html {
 body {
     background: var(--body-bg);
     color: var(--text-color);
-    font-family: var(--font-family);
+    font-family: var(--font-family), sans-serif;
     font-weight: var(--font-weight);
     font-size: 1.4rem;
 }
@@ -32,4 +32,8 @@ button {
     &:not([disabled]) {
         cursor: pointer;
     }
+}
+
+*:focus:not(.focus-visible) {
+    outline: none;
 }

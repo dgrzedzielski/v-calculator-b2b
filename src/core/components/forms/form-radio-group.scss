@@ -29,6 +29,8 @@
         margin-left: 8px;
         flex: 1;
         max-width: calc(100% / 3);
+        position: relative;
+        border-radius: 6px;
 
         @include mq(xs) {
             max-width: 124px;
@@ -43,6 +45,27 @@
         &--checked {
             --radio-highlight-opacity: 1;
         }
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            box-shadow: 0 4px 16px rgba(#000, 0.25);
+            opacity: 0;
+            transform: scale(0.75);
+            transition: 0.25s;
+            border-radius: inherit;
+        }
+
+        &:not(&--checked):hover {
+            &::after {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
     }
 
     &__label {
@@ -53,7 +76,7 @@
         text-align: center;
         line-height: 1.5;
         min-height: 76px;
-        border-radius: 6px;
+        border-radius: inherit;
         border: 2px solid transparent;
         position: relative;
         font-size: 1.3rem;
@@ -84,6 +107,7 @@
 
         &::after {
             background: var(--form-field-bg);
+            transition: 0.25s;
         }
     }
 
@@ -107,7 +131,7 @@
         @include vh;
     }
 
-    &__input:focus + .form-radio-group__label {
+    &__input[data-focus-visible-added]:focus + .form-radio-group__label {
         color: var(--primary);
 
         .form-radio-group__label-text::after {

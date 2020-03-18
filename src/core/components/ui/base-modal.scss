@@ -1,17 +1,32 @@
 .modal {
-    --modal-overlay-opacity: 1;
-    --modal-content-opacity: 1;
-    --modal-content-transform: scale3d(1, 1, 1);
+    margin: 20px;
+    border-radius: 16px;
+    min-width: 320px;
+    max-width: 100%;
+    background: var(--panel-bg);
+    opacity: var(--modal-content-opacity);
+    transform: var(--modal-content-transform);
+    transition: 0.3s ease-in-out;
 
-    position: fixed;
-    z-index: 10000;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include mq(xs, max) {
+        width: 100%;
+    }
+
+    &__container {
+        --modal-overlay-opacity: 1;
+        --modal-content-opacity: 1;
+        --modal-content-transform: scale3d(1, 1, 1);
+
+        position: fixed;
+        z-index: 10000;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
     &__overlay {
         position: absolute;
@@ -25,18 +40,14 @@
         opacity: var(--modal-overlay-opacity);
     }
 
-    &__content {
-        margin: 20px;
-        border-radius: 16px;
-        min-width: 320px;
-        max-width: 100%;
-        background: var(--panel-bg);
-        opacity: var(--modal-content-opacity);
-        transform: var(--modal-content-transform);
-        transition: 0.3s ease-in-out;
+    &__close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        opacity: 0.75;
 
-        @include mq(xs, max) {
-            width: 100%;
+        &:hover {
+            opacity: 1;
         }
     }
 
@@ -48,7 +59,7 @@
         margin: 0;
     }
 
-    &.modal-transition {
+    &__container.modal-transition {
         &-enter-active, &-leave-active {
             transition: 0.35s;
         }
