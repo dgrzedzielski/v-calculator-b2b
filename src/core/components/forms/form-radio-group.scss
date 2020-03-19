@@ -65,10 +65,8 @@
     }
 
     &__label {
-        display: flex;
+        @include flex-center;
         width: 100%;
-        justify-content: center;
-        align-items: center;
         text-align: center;
         line-height: 1.5;
         min-height: 76px;
