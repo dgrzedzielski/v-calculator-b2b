@@ -28,7 +28,7 @@
 
 <script lang="ts">
     import { Vue, Component, Prop } from 'vue-property-decorator';
-    import { isClickOutsideElement } from '@/core/utils/dom-utils';
+    import DomUtils from '@/core/utils/dom-utils';
 
     type ListItem = {
         title: string;
@@ -49,7 +49,7 @@
         }
 
         closeMenuOnClickOutside(event: MouseEvent) {
-            if (isClickOutsideElement(this.$el, event)) {
+            if (DomUtils.isClickOutsideElement(this.$el, event)) {
                 this.setIsOpen(false);
             }
         }

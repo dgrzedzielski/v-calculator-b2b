@@ -75,6 +75,7 @@
     import FormSwitch from '@/core/components/forms/form-switch.vue';
     import Expense from '@/modules/calculator/types/expense';
     import ExpenseFormModel from '@/modules/calculator/types/expense-form-model';
+    import uuid from '@/core/utils/uuid';
 
     @Component({
         components: { FormSwitch, InputFormGroup, BaseModal }
@@ -93,14 +94,6 @@
             }
         }
 
-        uuidv4() { // TODO REMOVE IT AFTER CONNECTING WITH SOME BACKEND
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                const r = Math.random() * 16 | 0;
-                const v = c === 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
-        }
-
         onSubmit() {
             this.expense.grossValue = Number(this.expense.grossValue);
             this.expense.name = this.expense.name.trim();
@@ -110,7 +103,7 @@
             if (this.expenseToEdit) {
                 this.$emit('edit-expense', this.expense);
             } else {
-                this.expense.id = this.uuidv4(); // TODO REMOVE IT LIKE ABOVE
+                this.expense.id = uuid();
                 this.$emit('add-expense', this.expense);
             }
         }
