@@ -29,11 +29,7 @@
     }
 
     &__overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        @include absolute-full;
         background: rgba(#000, 0.9);
         z-index: -1;
         transition: 0.35s ease;
@@ -41,9 +37,7 @@
     }
 
     &__close {
-        position: absolute;
-        top: 20px;
-        right: 20px;
+        @include absolute(20px, auto, 20px);
         opacity: 0.75;
 
         &:hover {

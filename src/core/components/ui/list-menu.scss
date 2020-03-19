@@ -21,11 +21,7 @@
 
         &::after {
             content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            left: 0;
+            @include absolute-full;
             margin: -3px;
             z-index: -1;
             border-radius: inherit;

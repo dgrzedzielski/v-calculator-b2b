@@ -5,9 +5,7 @@
 
     &::before {
         content: '';
-        left: 4px;
-        top: -20px;
-        position: absolute;
+        @include absolute(-20px, 4px);
         height: calc(100% + 20px);
         width: 3px;
         background: var(--border-color);
@@ -16,8 +14,7 @@
     &__item::before,
     &__clickable::before {
         content: '';
-        position: absolute;
-        top: 50%;
+        @include absolute(50%);
         transform: translateY(-50%);
         border-radius: 50%;
     }
