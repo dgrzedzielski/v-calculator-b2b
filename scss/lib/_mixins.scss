@@ -77,15 +77,26 @@
     }
 }
 
-@mixin full-pseudo {
-    content: '';
+@mixin absolute($top: "", $left: "", $right: "", $bottom: "") {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+
+    @if $top {
+        top: $top;
+    }
+    @if $left {
+        left: $left;
+    }
+    @if $right {
+        right: $right;
+    }
+    @if $bottom{
+        bottom: $bottom;
+    }
 }
 
+@mixin absolute-full() {
+    @include absolute(0, 0, 0, 0);
+}
 
 @mixin square($length) {
     width: $length;

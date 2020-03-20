@@ -8,9 +8,7 @@
     background: var(--btn-bg);
     color: var(--text-color);
     border-radius: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-center;
     cursor: pointer;
     border: 2px solid transparent;
     box-shadow: 1px 1px 5px rgba(#000, 0.19);
@@ -19,9 +17,7 @@
 
     &::before, &::after {
         content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
+        @include absolute(0, 0);
         width: 100%;
         height: 100%;
         border-radius: inherit;

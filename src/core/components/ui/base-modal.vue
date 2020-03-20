@@ -53,7 +53,7 @@
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator';
-    import { getFocusableElements } from '@/core/utils/dom-utils';
+    import DomUtils from '@/core/utils/dom-utils';
 
     @Component
     export default class BaseModal extends Vue {
@@ -62,7 +62,7 @@
 
         mounted() {
             this.previousFocusedElement = document.activeElement as HTMLElement;
-            this.focusableElements = getFocusableElements(this.$refs['modal-body'] as HTMLElement);
+            this.focusableElements = DomUtils.getFocusableElements(this.$refs['modal-body'] as HTMLElement);
             if (this.focusableElements.length) {
                 this.focusableElements[0].focus();
             }
