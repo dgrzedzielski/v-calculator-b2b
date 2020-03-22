@@ -1,6 +1,6 @@
 {
     "name": "VCalculatorB2B",
-    "short_name": "vue-calc-b2b",
+    "short_name": "VCalcB2B",
     "icons": [
         {
             "src": "./img/icons/android-chrome-192x192.png",
@@ -13,8 +13,9 @@
             "type": "image/png"
         }
     ],
-    "start_url": "./index.html",
+    "start_url": "/",
+    "scope": "/",
     "display": "standalone",
-    "background_color": "#1E1E33",
-    "theme_color": "#7033FF"
+    "background_color": "#2D2C30",
+    "theme_color": "#33CCFF"
 }

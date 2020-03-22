@@ -4,7 +4,10 @@ module.exports = {
     lintOnSave: true,
     pwa: {
         name: 'VCalculator',
-        themeColor: '#0095ff'
+        themeColor: '#33CCFF',
+        workboxOptions: {
+            navigateFallback: '/index.html',
+        },
     },
     transpileDependencies: [
         /\bvue-awesome\b/
