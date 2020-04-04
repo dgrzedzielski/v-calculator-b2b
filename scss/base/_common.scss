@@ -1,0 +1,37 @@
+.text-right {
+    text-align: right;
+}
+
+.view {
+    min-height: 100%;
+
+    &--centered {
+        @include flex-center;
+    }
+}
+
+.card {
+    margin: 16px;
+    background: var(--panel-bg);
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(#000, 0.15);
+    width: 100%;
+    padding: 24px;
+
+    @include mq(sm) {
+        padding: 32px;
+    }
+
+    @include mq(md) {
+        width: auto;
+        min-width: 540px;
+        padding: 60px 64px;
+    }
+}
+
+.section {
+    &__heading {
+        margin-top: 0;
+        margin-bottom: var(--base-margin-bottom);
+    }
+}

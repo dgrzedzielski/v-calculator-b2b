@@ -77,7 +77,7 @@
     }
 }
 
-@mixin absolute($top: "", $left: "", $right: "", $bottom: "") {
+@mixin absolute($top: null, $left: null, $right: null, $bottom: null) {
     position: absolute;
 
     @if $top {

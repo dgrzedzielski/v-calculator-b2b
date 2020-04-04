@@ -71,14 +71,13 @@
 <script lang="ts">
     import { Vue, Component, Prop } from 'vue-property-decorator';
     import BaseModal from '@/core/components/ui/base-modal.vue';
-    import InputFormGroup from '@/core/components/forms/input-form-group.vue';
     import FormSwitch from '@/core/components/forms/form-switch.vue';
     import Expense from '@/modules/calculator/types/expense';
     import ExpenseFormModel from '@/modules/calculator/types/expense-form-model';
     import uuid from '@/core/utils/uuid';
 
     @Component({
-        components: { FormSwitch, InputFormGroup, BaseModal }
+        components: { FormSwitch, BaseModal }
     })
     export default class CalculatorExpenseForm extends Vue {
         @Prop({ type: Object }) expenseToEdit?: Expense;

@@ -1,5 +1,6 @@
 <template>
     <button
+        :disabled="disabled"
         :class="classes"
         @click="handleClick"
     >
@@ -8,21 +9,13 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component, Prop } from 'vue-property-decorator';
+    import { Component, Mixins } from 'vue-property-decorator';
+    import ButtonMixin from '@/core/mixins/button-mixin';
 
-    const BUTTON_TYPES = ['primary', 'secondary', 'success', 'danger'];
+    const BUTTON_TYPES = ['primary', 'success', 'danger'];
 
     @Component
-    export default class Button extends Vue {
-        @Prop({ default: false, type: Boolean }) primary!: boolean;
-        @Prop({ default: false, type: Boolean }) secondary!: boolean;
-        @Prop({ default: false, type: Boolean }) success!: boolean;
-        @Prop({ default: false, type: Boolean }) danger!: boolean;
-        @Prop({ default: false, type: Boolean }) outline!: boolean;
-        @Prop({ default: false, type: Boolean }) small!: boolean;
-        @Prop({ default: false, type: Boolean }) large!: boolean;
-        @Prop({ default: false, type: Boolean }) disabled!: boolean;
-
+    export default class Button extends Mixins(ButtonMixin) {
         get classes(): string[] {
             const result: string[] = ['btn'];
 

@@ -11,5 +11,6 @@ import 'vue-awesome/icons/ellipsis-v';
 import 'vue-awesome/icons/edit';
 import 'vue-awesome/icons/trash-alt';
 import 'vue-awesome/icons/save';
+import 'vue-awesome/icons/arrow-right';
 
 Vue.component('v-icon', Icon);

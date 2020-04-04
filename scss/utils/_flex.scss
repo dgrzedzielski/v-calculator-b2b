@@ -1,5 +1,9 @@
 .flex {
     display: flex;
+
+    &-center {
+        @include flex-center;
+    }
 }
 
 .justify-between {

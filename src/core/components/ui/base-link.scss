@@ -1,0 +1,53 @@
+.link {
+    display: inline-block;
+    position: relative;
+    padding-bottom: 4px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--header-color);
+    border-bottom: 4px solid var(--primary);
+    transition: 0.25s;
+    transition-delay: 0.15s;
+    z-index: 1;
+
+    &::before, &::after {
+        content: '';
+        @include absolute(50%, 0);
+        width: 100%;
+        height: 4px;
+        background: var(--primary);
+        opacity: 1;
+        z-index: -1;
+        transform: translateY(260%);
+        transition: 0.25s transform;
+    }
+
+    &::after {
+        transform-origin: 50% 100%;
+        opacity: 1;
+    }
+
+    &:hover {
+        &::before {
+            transform: translateY(-400%);
+        }
+
+        &::after {
+            animation: link-hover 0.35s forwards;
+        }
+    }
+}
+
+@keyframes link-hover {
+    0% {
+        transform: translateY(260%) scaleY(1);
+    }
+
+    40% {
+        transform: translateY(260%) scaleY(8);
+    }
+
+    100% {
+        transform: translateY(-400%) scaleY(1);
+    }
+}

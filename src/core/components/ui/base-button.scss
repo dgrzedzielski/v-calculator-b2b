@@ -8,12 +8,13 @@
     background: var(--btn-bg);
     color: var(--text-color);
     border-radius: 24px;
-    @include flex-center;
     cursor: pointer;
     border: 2px solid transparent;
     box-shadow: 1px 1px 5px rgba(#000, 0.19);
     position: relative;
+    text-decoration: none;
     z-index: 1;
+    font-weight: 700;
 
     &::before, &::after {
         content: '';
@@ -59,6 +60,12 @@
     }
 
     &--primary {
+        --btn-bg: var(--primary);
+        --btn-color: var(--primary);
+        --text-color: var(--primary-contrasting);
+    }
+
+    &--gradient {
         --btn-bg: var(--primary-gradient);
         --btn-color: var(--primary);
         --text-color: var(--header-color);
@@ -86,15 +93,39 @@
         --btn-bg: transparent;
         --text-color: var(--btn-color);
         border-color: var(--btn-color);
-        font-weight: 700;
+    }
+
+    &__content {
+        @include flex-center;
+        position: relative;
     }
 
     &__icon + &__text {
         padding-left: 12px;
     }
 
+    &__text + &__icon {
+        margin-left: 12px;
+    }
+
     &[data-focus-visible-added]:focus {
         outline: none;
         box-shadow: 0 0 0 4px var(--panel-bg), 0 0 0 8px var(--btn-color);
+    }
+
+    &--loading {
+        pointer-events: none;
+    }
+
+    &--loading &__content {
+        opacity: 0;
+    }
+
+    & &__loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
     }
 }

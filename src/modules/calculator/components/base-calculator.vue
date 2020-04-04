@@ -1,50 +1,22 @@
 <template>
-    <div class="base-calculator">
-        <form
-            class="base-calculator__form"
-            @submit.prevent="() => {}"
-        >
-            <input-form-group
-                v-model="form.netIncome"
-                type="text"
-                name="netIncome"
-                inputmode="numeric"
-                min="0"
-                maxlength="12"
-                label="Przychód netto"
-                placholder="Wpisz wartość"
-            />
-            <form-radio-group
-                v-model="form.taxForm"
-                :options="taxFormOptions"
-                name="taxForm"
-                label="Forma opodatkowania"
-            />
-            <form-radio-group
-                v-model="form.insuranceVariant"
-                :options="insuranceOptions"
-                name="insuranceVariant"
-                label="Składka ZUS"
-            />
-            <form-switch
-                v-model="form.optionalSicknessInsurance"
-                name="optionalSicknessInsurance"
-                label="Opcjonalne ubezpieczenie chorobowe"
-            />
-            <base-button
-                success
-                outline
-                type="button"
-                aria-keyshortcuts="ctrl+i"
-                @click="isAddExpenseModalVisible = true"
-            >
-                <v-icon
-                    name="plus-circle"
-                    class="btn__icon"
-                />
-                <span class="btn__text">Dodaj wydatek</span>
-            </base-button>
-        </form>
+    <div class="card base-calculator">
+        <div class="base-calculator__form">
+            <calculator-form v-model="form">
+                <base-button
+                    success
+                    outline
+                    type="button"
+                    aria-keyshortcuts="ctrl+i"
+                    @click="isAddExpenseModalVisible = true"
+                >
+                    <v-icon
+                        name="plus-circle"
+                        class="btn__icon"
+                    />
+                    <span class="btn__text">Dodaj wydatek</span>
+                </base-button>
+            </calculator-form>
+        </div>
         <div class="base-calculator__summary">
             <cash-result
                 :value="result"
@@ -114,32 +86,29 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator';
-    import InputFormGroup from '@/core/components/forms/input-form-group.vue';
-    import FormRadioGroup from '@/core/components/forms/form-radio-group.vue';
-    import FormSwitch from '@/core/components/forms/form-switch.vue';
+    import { Component, Mixins } from 'vue-property-decorator';
     import CashResult from '@/core/components/ui/cash-result.vue';
     import CalculatorExpenseForm from '@/modules/calculator/components/calculator-expense-form.vue';
     import CalculatorExpensesList from '@/modules/calculator/components/calculator-expenses-list.vue';
     import CalculatorService from '@/modules/calculator/calculator-service';
-    import CalculatorFormModel from '@/modules/calculator/types/calculator-form-model';
-    import Expense from './types/expense';
-    import { TAX_FORM_OPTIONS, TaxForm } from './types/tax-form-options';
-    import { INSURANCE_OPTIONS, InsuranceVariant } from './types/insurance-options';
     import FloatingButton from '@/core/components/ui/floating-button.vue';
+    import CalculatorForm from '@/modules/calculator/components/calculator-form.vue';
+    import CalculatorOptionsMixin from '@/modules/calculator/components/calculator-options-mixin';
+    import { TaxForm } from '@/modules/calculator/types/tax-form-options';
+    import { InsuranceVariant } from '@/modules/calculator/types/insurance-options';
+    import { CalculatorFormModel } from '@/modules/calculator/types/calculator-form-model';
+    import Expense from '@/modules/calculator/types/expense';
 
     @Component({
         components: {
+            CalculatorForm,
             FloatingButton,
             CalculatorExpensesList,
             CalculatorExpenseForm,
-            CashResult,
-            FormSwitch,
-            FormRadioGroup,
-            InputFormGroup
+            CashResult
         }
     })
-    export default class BaseCalculator extends Vue {
+    export default class BaseCalculator extends Mixins(CalculatorOptionsMixin) {
         form: CalculatorFormModel = {
             netIncome: 10000,
             taxForm: TaxForm.LINEAR,
@@ -164,22 +133,14 @@
             document.removeEventListener('keydown', this.registerKeyboardShortcuts);
         }
 
-        get insuranceOptions() {
-            return INSURANCE_OPTIONS;
-        }
-
-        get taxFormOptions() {
-            return TAX_FORM_OPTIONS;
-        }
-
         get selectedInsuranceOption() {
             return this.insuranceOptions
-                .find(option => option.id === this.form.insuranceVariant)!;
+            .find(option => option.id === this.form.insuranceVariant)!;
         }
 
         get selectedTaxForm() {
             return this.taxFormOptions
-                .find(option => option.id === this.form.taxForm)!;
+            .find(option => option.id === this.form.taxForm)!;
         }
 
         get socialContributionCost() {
@@ -203,7 +164,6 @@
 
         get reductions() {
             const result = { vatReduction: 0, costReduction: 0 };
-
             this.form.expenses.forEach(({ grossValue, isCarExpense }) => {
                 const { costReduction, vatReduction } =
                     CalculatorService.getReduction(grossValue, isCarExpense);
@@ -294,15 +254,15 @@
         registerKeyboardShortcuts(event: KeyboardEvent) {
             if ((event.ctrlKey || event.metaKey)) {
                 switch (event.key) {
-                    case 's':
-                        event.preventDefault();
-                        this.saveData();
-                        break;
+                case 's':
+                    event.preventDefault();
+                    this.saveData();
+                    break;
 
-                    case 'i':
-                        event.preventDefault();
-                        this.isAddExpenseModalVisible = true;
-                        break;
+                case 'i':
+                    event.preventDefault();
+                    this.isAddExpenseModalVisible = true;
+                    break;
                 }
             }
         }

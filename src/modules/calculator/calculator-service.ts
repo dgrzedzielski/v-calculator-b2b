@@ -7,11 +7,8 @@ import {
     PROGRESSIVE_TAX_THRESHOLD
 } from '@/modules/calculator/tax-rates';
 import NumberUtils from '@/core/utils/number-utils';
-import {
-    TaxForm,
-    TaxFormOption
-} from '@/modules/calculator/types/tax-form-options';
-import CalculatorFormModel from '@/modules/calculator/types/calculator-form-model';
+import { TaxForm, TaxFormOption } from '@/modules/calculator/types/tax-form-options';
+import { CalculatorFormModel } from '@/modules/calculator/types/calculator-form-model';
 
 class CalculatorService {
     static getGrossFromNet = (netValue: number, grossBase = GROSS_BASE) =>

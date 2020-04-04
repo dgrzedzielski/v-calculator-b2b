@@ -1,17 +1,8 @@
 .base-calculator {
-    margin: 16px;
-    background: var(--panel-bg);
-    border-radius: 12px;
-    box-shadow: 0 0 30px rgba(#000, 0.2);
-    width: 100%;
-    min-width: 330px;
+    padding: 0;
 
     @include mq(md) {
         display: flex;
-    }
-
-    @include mq(lg) {
-        width: auto;
     }
 
     &__form {
@@ -31,7 +22,7 @@
         flex: 1;
 
         @include mq(lg) {
-            padding: 30px;
+            padding: 32px;
         }
     }
 }
