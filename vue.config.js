@@ -10,7 +10,8 @@ module.exports = {
         },
     },
     transpileDependencies: [
-        /\bvue-awesome\b/
+        /\bvue-awesome\b/,
+        'vuex-module-decorators'
     ],
     pluginOptions: {
         'style-resources-loader': {
