@@ -1,8 +1,5 @@
-enum ThemeVariant {
-    PRIMARY = 'primary',
-    PRIMARY_GRADIENT = 'primary-gradient',
-    SUCCESS = 'success',
-    DANGER = 'danger',
-}
+export type ThemeVariant = 'primary' | 'primary-gradient'| 'success'| 'danger';
 
-export default ThemeVariant;
+export interface Themable {
+    theme: ThemeVariant;
+}

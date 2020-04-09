@@ -39,26 +39,46 @@
 </template>
 
 <script lang="ts">
-    import { Component, Prop, Mixins } from 'vue-property-decorator';
-    import { BaseCalculatorFormModel } from '@/modules/calculator/types/calculator-form-model';
-    import FormSwitch from '@/core/components/forms/form-switch.vue';
-    import FormRadioGroup from '@/core/components/forms/form-radio-group.vue';
-    import CalculatorOptionsMixin from '@/modules/calculator/components/calculator-options-mixin';
+    import { defineComponent } from '@vue/composition-api';
+    import { BaseCalculatorFormModel } from '@/modules/calculator/types/calculator-model';
+    import FormSwitch from '@/core/components/forms/form-switch/form-switch.vue';
+    import FormRadioGroup from '@/core/components/forms/form-radio-group';
+    import useTaxOptions from '@/modules/calculator/composition-functions/use-tax-options';
 
-    const copyObjectSimple = <T extends {}>(obj: T): T => JSON.parse(JSON.stringify(obj));
+    interface CalculatorFormProps {
+        value: BaseCalculatorFormModel;
+    }
 
-    @Component({
+    type UpdatedValueType = {
+        [key: string]: unknown;
+    }
+
+    const CalculatorForm = defineComponent<CalculatorFormProps>({
         components: {
             FormSwitch,
             FormRadioGroup
-        }
-    })
-    export default class CalculatorForm extends Mixins(CalculatorOptionsMixin) {
-        @Prop({ type: Object, required: true }) value!: BaseCalculatorFormModel;
+        },
+        props: {
+            value: {
+                required: true,
+                type: Object
+            }
+        },
+        setup(props, context) {
+            const updateValue = (updatedValue: UpdatedValueType) => {
+                const newValue = { ...props.value, ...updatedValue };
+                context.emit('input', newValue);
+            };
 
-        updateValue(updatedValue: { [key: string]: any }) {
-            const newValue = { ...copyObjectSimple(this.value), ...updatedValue };
-            this.$emit('input', newValue);
+            const { insuranceOptions, taxFormOptions } = useTaxOptions();
+
+            return {
+                updateValue,
+                insuranceOptions,
+                taxFormOptions
+            };
         }
-    };
+    });
+
+    export default CalculatorForm;
 </script>

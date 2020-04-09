@@ -15,15 +15,25 @@
 </template>
 
 <script lang="ts">
-    import { Component, Mixins, Prop } from 'vue-property-decorator';
-    import BaseFormGroup from './base-form-group.vue';
-    import BaseFormGroupMixin from '@/core/mixins/base-form-group-mixin';
+    import { defineComponent } from '@vue/composition-api';
+    import BaseFormGroup from '@/core/components/forms/base-form-group';
+    import BaseFormGroupMixin, { BaseFormGroupProps } from '@/core/components/forms/base-form-group-mixin';
 
-    @Component({
+    interface InputFormGroupProps extends BaseFormGroupProps {
+        value: string | number;
+    }
+
+    const InputFormGroup = defineComponent<InputFormGroupProps>({
+        mixins: [BaseFormGroupMixin],
         components: { BaseFormGroup },
-        inheritAttrs: false
-    })
-    export default class InputFormGroup extends Mixins(BaseFormGroupMixin) {
-        @Prop({ required: true }) value!: string | number;
-    };
+        inheritAttrs: false,
+        props: {
+            value: {
+                required: true,
+                type: [String, Number]
+            }
+        }
+    });
+
+    export default InputFormGroup;
 </script>

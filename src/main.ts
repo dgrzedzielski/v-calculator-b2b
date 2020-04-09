@@ -16,7 +16,6 @@ new Vue({
     store,
     created() {
         auth.onAuthStateChanged((user) => {
-            console.log('onAuthStateChanged', { user });
             store.dispatch('auth/init', user);
         });
     },

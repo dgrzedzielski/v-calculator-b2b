@@ -32,8 +32,8 @@
             </base-link>
             <button-with-loader
                 :loading="loading"
-                primary
                 outline
+                theme="primary"
                 type="submit"
             >
                 <span class="btn__text">Dalej</span>
@@ -47,48 +47,58 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component } from 'vue-property-decorator';
+    import Vue from 'vue';
+    import { defineComponent, ref, computed } from '@vue/composition-api';
+    import { useRouter } from '@/core/composition-functions/use-router';
     import AuthService from '@/modules/auth/auth-service';
 
     type FeedbackMessages = { [key: string]: string }
 
-    @Component
-    export default class AuthRegisterFormStep1 extends Vue {
-        email = '';
-        password = '';
-        retypePassword = '';
-        loading = false;
+    const FEEDBACK_MESSAGES: FeedbackMessages = {
+        'auth/invalid-email': 'Podany email jest niepoprawny',
+        'auth/email-already-in-use': 'Podany email jest już w użyciu',
+        'auth/weak-password': 'Hasło powinno mieć co najmniej 6 znaków',
+    };
 
-        get signUpFeedbackMessages(): FeedbackMessages {
+    const AuthRegisterFormStep1 = defineComponent({
+        setup() {
+            const email = ref<string>('');
+            const password = ref<string>('');
+            const retypePassword = ref<string>('');
+            const loading = ref<boolean>(false);
+
+            const $router = useRouter();
+
+            const isFormValid = computed(() => password.value === retypePassword.value);
+            const onSubmit = async () => {
+                Vue.$toast.clear();
+
+                if (!isFormValid.value) {
+                    Vue.$toast.error('Błąd walidacji. Hasła nie zgadzają się');
+                    return;
+                }
+
+                loading.value = true;
+
+                try {
+                    await AuthService.register(email.value, password.value);
+                    $router.replace({ name: 'auth.register', params: { step: '2' } });
+                } catch (e) {
+                    Vue.$toast.error(`Rejestracja nieudana. ${FEEDBACK_MESSAGES[e.code]}`);
+                } finally {
+                    loading.value = false;
+                }
+            };
+
             return {
-                'auth/invalid-email': 'Podany email jest niepoprawny',
-                'auth/email-already-in-use': 'Podany email jest już w użyciu',
-                'auth/weak-password': 'Hasło powinno mieć co najmniej 6 znaków',
+                email,
+                password,
+                retypePassword,
+                loading,
+                onSubmit
             };
         }
+    });
 
-        get isFormValid() {
-            return this.password === this.retypePassword;
-        }
-
-        async onSubmit() {
-            this.$toast.clear();
-
-            if (!this.isFormValid) {
-                this.$toast.error('Błąd walidacji. Hasła nie zgadzają się');
-                return;
-            }
-
-            this.loading = true;
-
-            try {
-                await AuthService.register(this.email, this.password);
-                this.$router.replace({ name: 'auth.register', params: { step: '2' } });
-            } catch (e) {
-                this.$toast.error(`Rejestracja nieudana. ${this.signUpFeedbackMessages[e.code]}`);
-            } finally {
-                this.loading = false;
-            }
-        }
-    };
+    export default AuthRegisterFormStep1;
 </script>

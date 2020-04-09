@@ -1,8 +1,13 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
 import User from '@/modules/auth/types/user';
 
+export interface AuthState {
+    user: User | null;
+    isReady: boolean;
+}
+
 @Module({ namespaced: true })
-class AuthModule extends VuexModule {
+class AuthModule extends VuexModule implements AuthState {
     user: User | null = null;
     isReady: boolean = false;
 

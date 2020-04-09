@@ -1,10 +1,10 @@
 <template>
-    <div class="card base-calculator">
+    <div class="base-calculator">
         <div class="base-calculator__form">
             <calculator-form v-model="form">
                 <base-button
-                    success
                     outline
+                    theme="success"
                     type="button"
                     aria-keyshortcuts="ctrl+i"
                     @click="isAddExpenseModalVisible = true"
@@ -22,49 +22,49 @@
                 :value="result"
                 label="Wypłata"
                 icon="hand-holding-usd"
-                type="primary-gradient"
+                theme="primary-gradient"
             />
             <cash-result
-                v-if="form.expenses.length > 0"
+                v-if="expenses.length > 0"
                 :value="profit"
-                :type="profit > 0 ? 'success' : 'danger'"
+                :theme="profit > 0 ? 'success' : 'danger'"
                 label="Zysk"
                 icon="chart-line"
             />
             <cash-result
                 :value="grossIncome"
                 class="mt-30"
-                type="success"
+                theme="success"
                 label="Kwota brutto"
             />
             <cash-result
                 :value="vatCost"
-                type="danger"
+                theme="danger"
                 label="VAT"
             />
             <cash-result
                 :value="insuranceTotalCost"
-                type="danger"
+                theme="danger"
                 label="ZUS"
             />
             <cash-result
                 :value="revenueTax"
-                type="danger"
+                theme="danger"
                 label="Podatek dochodowy"
             />
             <cash-result
                 :value="taxSavings"
-                type="success"
+                theme="success"
                 label="Zaoszczędzono"
             />
             <cash-result
                 :value="expensesTotal"
-                type="danger"
+                theme="danger"
                 label="Wydatki"
             />
             <calculator-expenses-list
-                v-if="form.expenses.length > 0"
-                :expenses="form.expenses"
+                v-if="expenses.length > 0"
+                :expenses="expenses"
                 @open-expense-edit="openExpenseEdit"
             />
         </div>
@@ -86,187 +86,113 @@
 </template>
 
 <script lang="ts">
-    import { Component, Mixins } from 'vue-property-decorator';
-    import CashResult from '@/core/components/ui/cash-result.vue';
+    import {
+        computed,
+        defineComponent,
+        onBeforeUnmount,
+        onMounted,
+    } from '@vue/composition-api';
+    import CalculatorForm from '@/modules/calculator/components/calculator-form.vue';
     import CalculatorExpenseForm from '@/modules/calculator/components/calculator-expense-form.vue';
     import CalculatorExpensesList from '@/modules/calculator/components/calculator-expenses-list.vue';
-    import CalculatorService from '@/modules/calculator/calculator-service';
-    import FloatingButton from '@/core/components/ui/floating-button.vue';
-    import CalculatorForm from '@/modules/calculator/components/calculator-form.vue';
-    import CalculatorOptionsMixin from '@/modules/calculator/components/calculator-options-mixin';
-    import { TaxForm } from '@/modules/calculator/types/tax-form-options';
-    import { InsuranceVariant } from '@/modules/calculator/types/insurance-options';
-    import { CalculatorFormModel } from '@/modules/calculator/types/calculator-form-model';
-    import Expense from '@/modules/calculator/types/expense';
+    import CashResult from '@/core/components/ui/cash-result';
+    import FloatingButton from '@/core/components/buttons/floating-button';
+    import useCalculations from '@/modules/calculator/composition-functions/use-calculations';
+    import useExpenses from '@/modules/calculator/composition-functions/use-expenses';
+    import useLocalPersist from '@/modules/calculator/composition-functions/use-local-persist';
+    import { CalculatorModel } from '@/modules/calculator/types/calculator-model';
+    import {
+        createKeyboardShortcut,
+        KeyboardModifier,
+        useKeyboardShortcuts
+    } from '@/core/composition-functions/use-keyboard-shortcuts';
 
-    @Component({
+    const BaseCalculator = defineComponent({
         components: {
             CalculatorForm,
             FloatingButton,
             CalculatorExpensesList,
             CalculatorExpenseForm,
             CashResult
-        }
-    })
-    export default class BaseCalculator extends Mixins(CalculatorOptionsMixin) {
-        form: CalculatorFormModel = {
-            netIncome: 10000,
-            taxForm: TaxForm.LINEAR,
-            insuranceVariant: InsuranceVariant.START,
-            optionalSicknessInsurance: false,
-            expenses: []
-        };
-        isAddExpenseModalVisible = false;
-        expenseToEdit: Expense | null = null;
+        },
+        setup() {
+            const {
+                removeExpense,
+                openExpenseEdit,
+                expenseToEdit,
+                expenses,
+                editExpense,
+                closeExpenseForm,
+                addExpense,
+                isAddExpenseModalVisible
+            } = useExpenses();
 
-        mounted() {
-            const loadedResult = CalculatorService.load();
+            const {
+                profit,
+                result,
+                insuranceTotalCost,
+                taxSavings,
+                revenueTax,
+                grossIncome,
+                vatCost,
+                expensesTotal,
+                form
+            } = useCalculations(expenses);
 
-            if (loadedResult) {
-                this.form = loadedResult;
-            }
-
-            document.addEventListener('keydown', this.registerKeyboardShortcuts);
-        }
-
-        beforeDestroy() {
-            document.removeEventListener('keydown', this.registerKeyboardShortcuts);
-        }
-
-        get selectedInsuranceOption() {
-            return this.insuranceOptions
-            .find(option => option.id === this.form.insuranceVariant)!;
-        }
-
-        get selectedTaxForm() {
-            return this.taxFormOptions
-            .find(option => option.id === this.form.taxForm)!;
-        }
-
-        get socialContributionCost() {
-            let result = this.selectedInsuranceOption.value.socialContribution;
-
-            if (this.selectedInsuranceOption.value.additional) {
-                result += this.selectedInsuranceOption.value.additional;
-            }
-
-            if (this.form.optionalSicknessInsurance) {
-                result += this.selectedInsuranceOption.value.optionalSicknessInsurance;
-            }
-
-            return result;
-        }
-
-        get insuranceTotalCost() {
-            return this.socialContributionCost +
-                this.selectedInsuranceOption.value.healthInsurance;
-        }
-
-        get reductions() {
-            const result = { vatReduction: 0, costReduction: 0 };
-            this.form.expenses.forEach(({ grossValue, isCarExpense }) => {
-                const { costReduction, vatReduction } =
-                    CalculatorService.getReduction(grossValue, isCarExpense);
-                result.vatReduction += vatReduction;
-                result.costReduction += costReduction;
+            const data = computed<CalculatorModel>({
+                get: () => ({ ...form.value, expenses: expenses.value }),
+                set: (val: CalculatorModel) => {
+                    const { expenses: savedExpenses, ...savedValues } = val;
+                    expenses.value = savedExpenses;
+                    form.value = savedValues;
+                }
             });
 
-            return result;
-        }
-
-        get revenue() {
-            return this.form.netIncome -
-                this.reductions.costReduction -
-                this.socialContributionCost;
-        }
-
-        get revenueTax() {
-            return CalculatorService.getRevenueTax(this.revenue, this.selectedTaxForm);
-        }
-
-        get grossIncome() {
-            return CalculatorService.getGrossFromNet(this.form.netIncome);
-        }
-
-        get vatCost() {
-            return Math.max(
-                0,
-                this.grossIncome - this.form.netIncome - this.reductions.vatReduction
-            );
-        }
-
-        get result() {
-            return (
-                this.grossIncome -
-                this.vatCost -
-                this.insuranceTotalCost -
-                this.revenueTax
-            );
-        }
-
-        get expensesTotal() {
-            return this.reductions.vatReduction + this.reductions.costReduction;
-        }
-
-        get taxSavings() {
-            const baseRevenue = this.form.netIncome - this.socialContributionCost;
-
-            return (CalculatorService.getRevenueTax(baseRevenue, this.selectedTaxForm) -
-                this.revenueTax) +
-                this.reductions.vatReduction;
-        }
-
-        get profit() {
-            return this.result - this.expensesTotal;
-        }
-
-        openExpenseEdit(expense: Expense) {
-            this.isAddExpenseModalVisible = true;
-            this.expenseToEdit = expense;
-        }
-
-        closeExpenseForm() {
-            this.isAddExpenseModalVisible = false;
-            this.expenseToEdit = null;
-        }
-
-        addExpense(expense: Expense) {
-            this.form.expenses.push(expense);
-            this.closeExpenseForm();
-        }
-
-        editExpense(expense: Expense) {
-            const index = this.form.expenses.findIndex(({ id }) => id === expense.id);
-            this.$set(this.form.expenses, index, expense);
-            this.closeExpenseForm();
-        }
-
-        removeExpense(expenseId: string) {
-            this.form.expenses = this.form.expenses.filter(({ id }) => id !== expenseId);
-            this.closeExpenseForm();
-        }
-
-        saveData() {
-            CalculatorService.save(this.form);
-            this.$toast.success('Zapisano pomyślnie');
-        }
-
-        registerKeyboardShortcuts(event: KeyboardEvent) {
-            if ((event.ctrlKey || event.metaKey)) {
-                switch (event.key) {
-                case 's':
-                    event.preventDefault();
-                    this.saveData();
-                    break;
-
-                case 'i':
-                    event.preventDefault();
-                    this.isAddExpenseModalVisible = true;
-                    break;
+            const { loadData, saveData } = useLocalPersist(data);
+            const { handleKeyboardShortcuts } = useKeyboardShortcuts([
+                {
+                    shortcut: createKeyboardShortcut(KeyboardModifier.CTRL, 's'),
+                    callback: saveData
+                },
+                {
+                    shortcut: createKeyboardShortcut(KeyboardModifier.CTRL, 'i'),
+                    callback: () => { isAddExpenseModalVisible.value = true; }
                 }
-            }
+            ]);
+
+            onMounted(() => {
+                loadData();
+                document.addEventListener('keydown', handleKeyboardShortcuts);
+            });
+
+            onBeforeUnmount(() => {
+                document.removeEventListener('keydown', handleKeyboardShortcuts);
+            });
+
+            return {
+                removeExpense,
+                openExpenseEdit,
+                expenseToEdit,
+                editExpense,
+                closeExpenseForm,
+                addExpense,
+                expenses,
+                form,
+                isAddExpenseModalVisible,
+                saveData,
+                insuranceTotalCost,
+                revenueTax,
+                grossIncome,
+                vatCost,
+                result,
+                expensesTotal,
+                taxSavings,
+                profit
+            };
         }
-    };
+    });
+
+    export default BaseCalculator;
 </script>
 
 <style lang="scss" src="./base-calculator.scss" />

@@ -8,15 +8,23 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component } from 'vue-property-decorator';
+    import { defineComponent, computed } from '@vue/composition-api';
+    import { useStore } from '@/core/composition-functions/use-store';
     import BaseCalculator from './components/base-calculator.vue';
 
-    @Component({
-        components: { BaseCalculator }
-    })
-    export default class CalculatorView extends Vue {
-        get isUserLogged() {
-            return this.$store.getters['auth/isUserLogged'];
+    const CalculatorView = defineComponent({
+        components: {
+            BaseCalculator
+        },
+        setup() {
+            const store = useStore();
+            const isUserLogged = computed<boolean>(() => store.getters['auth/isUserLogged']);
+
+            return {
+                isUserLogged
+            };
         }
-    };
+    });
+
+    export default CalculatorView;
 </script>

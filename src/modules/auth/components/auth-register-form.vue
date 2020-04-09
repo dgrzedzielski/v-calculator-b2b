@@ -14,20 +14,28 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component } from 'vue-property-decorator';
     import AuthRegisterFormStep1 from '@/modules/auth/components/auth-register-form-step-1.vue';
     import AuthRegisterFormStep2 from '@/modules/auth/components/auth-register-form-step-2.vue';
+    import { computed, defineComponent } from '@vue/composition-api';
+    import { useRouter } from '@/core/composition-functions/use-router';
 
-    @Component({
-        components: { AuthRegisterFormStep2, AuthRegisterFormStep1 }
-    })
-    export default class AuthRegisterForm extends Vue {
-        get step(): number {
-            if (!this.$route.params.step) return 1;
+    const AuthRegisterForm = defineComponent({
+        components: { AuthRegisterFormStep2, AuthRegisterFormStep1 },
+        setup() {
+            const $router = useRouter();
+            const step = computed(() => {
+                if (!$router.currentRoute.params.step) return 1;
 
-            return Number(this.$route.params.step);
+                return Number($router.currentRoute.params.step);
+            });
+
+            return {
+                step
+            };
         }
-    };
+    });
+
+    export default AuthRegisterForm;
 </script>
 
 <style lang="scss" src="./auth-register-form.scss" />

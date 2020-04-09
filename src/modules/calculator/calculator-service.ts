@@ -8,7 +8,7 @@ import {
 } from '@/modules/calculator/tax-rates';
 import NumberUtils from '@/core/utils/number-utils';
 import { TaxForm, TaxFormOption } from '@/modules/calculator/types/tax-form-options';
-import { CalculatorFormModel } from '@/modules/calculator/types/calculator-form-model';
+import { CalculatorModel } from '@/modules/calculator/types/calculator-model';
 
 class CalculatorService {
     static getGrossFromNet = (netValue: number, grossBase = GROSS_BASE) =>
@@ -62,14 +62,14 @@ class CalculatorService {
         );
     }
 
-    static save = (data: CalculatorFormModel) => {
+    static save = (data: CalculatorModel) => {
         localStorage.setItem(
             CalculatorService.getCurrentMonthKey(),
             JSON.stringify(data)
         );
     };
 
-    static load = (): CalculatorFormModel | null => {
+    static load = (): CalculatorModel | null => {
         const result = localStorage.getItem(CalculatorService.getCurrentMonthKey());
 
         if (result) {

@@ -11,12 +11,9 @@
 }
 
 .card {
-    margin: 16px;
-    background: var(--panel-bg);
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(#000, 0.15);
-    width: 100%;
+    @include card;
     padding: 24px;
+    width: 100%;
 
     @include mq(sm) {
         padding: 32px;

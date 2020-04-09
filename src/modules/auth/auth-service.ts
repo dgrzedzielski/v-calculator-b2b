@@ -1,5 +1,5 @@
 import { auth, db } from '@/core/lib/firebase';
-import { BaseCalculatorFormModel } from '@/modules/calculator/types/calculator-form-model';
+import { BaseCalculatorFormModel } from '@/modules/calculator/types/calculator-model';
 import DbCollection from '@/core/types/db-collections';
 import User from '@/modules/auth/types/user';
 
@@ -12,8 +12,10 @@ class AuthService {
         await auth.createUserWithEmailAndPassword(email, password);
     }
 
-    static async updateSettings(payload: BaseCalculatorFormModel, user: User): Promise<Error | undefined> {
+    static async updateSettings(payload: BaseCalculatorFormModel, user: User | null): Promise<Error | undefined> {
         const settingsRef = db.collection(DbCollection.USER_SETTINGS);
+
+        if (!user) return new Error('Brak zalogowanego użytkownika');
 
         try {
             await settingsRef.doc(user.uid).set(payload);
