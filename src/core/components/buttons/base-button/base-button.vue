@@ -9,32 +9,32 @@
 </template>
 
 <script lang="ts">
-    import { computed, defineComponent } from '@vue/composition-api';
+    import { computed, defineComponent, toRefs } from '@vue/composition-api';
     import { BaseButtonProps } from '@/core/components/buttons/button-types';
     import ButtonMixin from '@/core/components/buttons/button-mixin';
 
     const BaseButton = defineComponent<BaseButtonProps>({
         mixins: [ButtonMixin],
         setup(
-            { theme, disabled, outline, size }: BaseButtonProps,
+            props: BaseButtonProps,
             { emit }
         ) {
             const classes = computed(() => {
-                const result: string[] = ['btn', `btn--${theme}`];
+                const result: string[] = ['btn', `btn--${props.theme}`];
 
-                if (outline) {
+                if (props.outline) {
                     result.push('btn--outline');
                 }
 
-                if (size) {
-                    result.push(`btn--${size}`);
+                if (props.size) {
+                    result.push(`btn--${props.size}`);
                 }
 
                 return result;
             });
 
             const handleClick = (event: Event) => {
-                if (disabled) return;
+                if (props.disabled) return;
                 emit('click', event);
             };
 
