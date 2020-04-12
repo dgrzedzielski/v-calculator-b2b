@@ -1,6 +1,6 @@
-import BaseButton from './base-button.vue';
+import BaseButton from '.';
 import { Wrapper } from '@vue/test-utils';
-import { shallowMount } from '@/core/utils/test-utils';
+import { shallowMount, setProps } from '@/core/utils/test-utils';
 
 const BTN_CONTENT = 'Test';
 
@@ -32,12 +32,12 @@ describe('BaseButton component', () => {
             expect(wrapper.classes(wrapperClass));
         });
 
-        wrapper.setProps({
+        await setProps(wrapper, {
             theme: 'success',
             outline: true,
             size: 'large'
         });
-        await wrapper.vm.$nextTick();
+
         ['btn', 'btn--success', 'btn--large', 'btn--outline'].forEach(wrapperClass => {
             expect(wrapper.classes()).toContain(wrapperClass);
         });
@@ -48,12 +48,10 @@ describe('BaseButton component', () => {
         expect(wrapper.emitted('click')).toBeTruthy();
     });
 
-    it('should not emit click event if button is disabled', () => {
-        wrapper = shallowMount(BaseButton, {
-            propsData: {
-                theme: 'primary',
-                disabled: true
-            }
+    it('should not emit click event if button is disabled', async () => {
+        await setProps(wrapper, {
+            theme: 'primary',
+            disabled: true
         });
         wrapper.trigger('click');
         expect(wrapper.emitted('click')).toBeFalsy();

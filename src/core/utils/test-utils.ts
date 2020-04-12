@@ -24,3 +24,11 @@ export const mount = <V extends Vue>(
 ): Wrapper<V> => {
     return defaultMount(component, { localVue, ...options });
 };
+
+export const setProps = async <V extends Vue>(
+    wrapper: Wrapper<V>,
+    props: { [key: string]: unknown }
+) => {
+    wrapper.setProps(props);
+    await wrapper.vm.$nextTick();
+};

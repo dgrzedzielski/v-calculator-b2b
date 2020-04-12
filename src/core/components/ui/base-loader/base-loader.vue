@@ -45,4 +45,5 @@
 
     export default BaseLoader;
 </script>
+
 <style lang="scss" src="./base-loader.scss"></style>

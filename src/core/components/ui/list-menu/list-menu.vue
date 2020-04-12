@@ -76,7 +76,7 @@
                 document.removeEventListener('click', closeMenuOnClickOutside);
             });
 
-            return { isOpen };
+            return { isOpen, setIsOpen };
         }
     });
 
