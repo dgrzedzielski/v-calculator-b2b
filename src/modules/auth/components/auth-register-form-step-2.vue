@@ -15,11 +15,11 @@
             v-model="form"
             @submit="onSubmit"
         >
-            <div class="text-right">
+            <div class="flex justify-end">
                 <button-with-loader
                     :loading="loading"
                     type="submit"
-                    primary
+                    theme="primary"
                     outline
                 >
                     <span class="btn__text">Potwierdź</span>
@@ -34,37 +34,53 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component } from 'vue-property-decorator';
+    import Vue from 'vue';
     import CalculatorForm from '@/modules/calculator/components/calculator-form.vue';
+    import AuthService from '@/modules/auth/auth-service';
     import { TaxForm } from '@/modules/calculator/types/tax-form-options';
     import { InsuranceVariant } from '@/modules/calculator/types/insurance-options';
-    import { BaseCalculatorFormModel } from '@/modules/calculator/types/calculator-form-model';
-    import AuthService from '@/modules/auth/auth-service';
+    import { BaseCalculatorFormModel } from '@/modules/calculator/types/calculator-model';
+    import { defineComponent, ref } from '@vue/composition-api';
+    import { useStore } from '@/core/composition-functions/use-store';
+    import { useRouter } from '@/core/composition-functions/use-router';
 
-    @Component({
-        components: { CalculatorForm }
-    })
-    export default class AuthRegisterFormStep2 extends Vue {
-        form: BaseCalculatorFormModel = {
-            netIncome: 0,
-            taxForm: TaxForm.LINEAR,
-            insuranceVariant: InsuranceVariant.START,
-            optionalSicknessInsurance: false
-        };
-        loading = false;
+    const AuthRegisterFormStep2 = defineComponent({
+        components: {
+            CalculatorForm
+        },
+        setup() {
+            const form = ref<BaseCalculatorFormModel>({
+                netIncome: 0,
+                taxForm: TaxForm.LINEAR,
+                insuranceVariant: InsuranceVariant.START,
+                optionalSicknessInsurance: false
+            });
+            const loading = ref<boolean>(false);
 
-        async onSubmit() {
-            this.loading = true;
-            const error = await AuthService.updateSettings(this.form, this.$store.state.auth.user);
+            const $store = useStore();
+            const $router = useRouter();
 
-            if (error) {
-                console.log(error);
-                this.$toast.error(error.message);
-                this.loading = false;
-            } else {
-                this.$toast.success('Rejestracja pomyślna');
-                this.$router.replace('/');
-            }
+            const onSubmit = async () => {
+                loading.value = true;
+
+                const error = await AuthService.updateSettings(form.value, $store.state.auth.user);
+                if (error) {
+                    console.log(error);
+                    Vue.$toast.error(error.message);
+                    loading.value = false;
+                } else {
+                    Vue.$toast.success('Rejestracja pomyślna');
+                    $router.replace('/');
+                }
+            };
+
+            return {
+                form,
+                loading,
+                onSubmit
+            };
         }
-    };
+    });
+
+    export default AuthRegisterFormStep2;
 </script>

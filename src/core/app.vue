@@ -3,19 +3,35 @@
         class="app"
     >
         <router-view v-if="isAuthReady" />
-        <base-loader v-else />
+        <div
+            v-else
+            class="view view--centered"
+        >
+            <base-loader width="100px" />
+        </div>
     </div>
 </template>
 
 <script lang="ts">
-    import { Vue, Component } from 'vue-property-decorator';
+    import { defineComponent, computed } from '@vue/composition-api';
+    import { provideStore } from '@/core/composition-functions/use-store';
+    import { provideRouter } from '@/core/composition-functions/use-router';
+    import store from '@/core/store';
+    import router from '@/core/lib/router';
 
-    @Component
-    export default class App extends Vue {
-        get isAuthReady() {
-            return this.$store.state.auth.isReady;
+    const App = defineComponent({
+        setup() {
+            provideStore(store);
+            provideRouter(router);
+            const isAuthReady = computed<boolean>(() => store.state.auth.isReady);
+
+            return {
+                isAuthReady
+            };
         }
-    };
+    });
+
+    export default App;
 </script>
 
 <style lang="scss">

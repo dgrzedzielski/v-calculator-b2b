@@ -21,7 +21,7 @@
             <div class="flex justify-between align-center">
                 <button-with-loader
                     :loading="loading"
-                    primary
+                    theme="primary"
                     outline
                 >
                     Zaloguj
@@ -35,31 +35,41 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component } from 'vue-property-decorator';
+    import Vue from 'vue';
     import AuthService from '@/modules/auth/auth-service';
-    import ButtonWithLoader from '@/core/components/ui/button-with-loader.vue';
+    import { defineComponent, ref } from '@vue/composition-api';
+    import { useRouter } from '@/core/composition-functions/use-router';
 
-    @Component({
-        components: { ButtonWithLoader }
-    })
-    export default class AuthLoginForm extends Vue {
-        email = '';
-        password = '';
-        loading = false;
+    const AuthLoginForm = defineComponent({
+        setup() {
+            const email = ref<string>('');
+            const password = ref<string>('');
+            const loading = ref<boolean>(false);
+            const $router = useRouter();
 
-        async onSubmit() {
-            this.loading = true;
-            this.$toast.clear();
+            const onSubmit = async () => {
+                loading.value = true;
+                Vue.$toast.clear();
 
-            try {
-                await AuthService.login(this.email, this.password);
-                this.$toast.success('Logowanie udane');
-                this.$router.replace('/');
-            } catch (e) {
-                this.$toast.error('Logowanie nieudane');
-            } finally {
-                this.loading = false;
-            }
+                try {
+                    await AuthService.login(email.value, password.value);
+                    Vue.$toast.success('Logowanie udane');
+                    $router.replace('/');
+                } catch (e) {
+                    Vue.$toast.error('Logowanie nieudane');
+                } finally {
+                    loading.value = false;
+                }
+            };
+
+            return {
+                email,
+                password,
+                loading,
+                onSubmit
+            };
         }
-    };
+    });
+
+    export default AuthLoginForm;
 </script>

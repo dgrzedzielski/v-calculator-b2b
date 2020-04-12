@@ -10,8 +10,9 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component } from 'vue-property-decorator';
+    import { defineComponent } from '@vue/composition-api';
 
-    @Component
-    export default class AuthView extends Vue {};
+    const AuthView = defineComponent({});
+
+    export default AuthView;
 </script>

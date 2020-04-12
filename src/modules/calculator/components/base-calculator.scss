@@ -1,4 +1,5 @@
 .base-calculator {
+    @include card;
     padding: 0;
 
     @include mq(md) {

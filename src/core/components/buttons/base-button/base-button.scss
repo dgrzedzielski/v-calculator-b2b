@@ -1,0 +1,133 @@
+.btn {
+    --padding-x: 24px;
+    --padding-y: 12px;
+    --font-size: 1.4rem;
+
+    padding: var(--padding-y) var(--padding-x);
+    font-size: var(--font-size);
+    background: var(--btn-bg);
+    color: var(--text-color);
+    border-radius: 24px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    box-shadow: 1px 1px 5px rgba(#000, 0.19);
+    position: relative;
+    text-decoration: none;
+    z-index: 1;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+
+    &::before, &::after {
+        content: '';
+        @include absolute(0, 0);
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        transform: scale(0.85);
+        opacity: 0;
+        z-index: -1;
+    }
+
+    &::before {
+        transition: 0.35s ease-in;
+        box-shadow: 0 0 0 8px var(--btn-color);
+    }
+
+    &::after {
+        transition: 0.35s ease-out;
+        box-shadow: 0 0 0 16px var(--btn-color);
+    }
+
+    &:hover {
+        &::before {
+            opacity: 0.4;
+            transform: scale(1);
+        }
+
+        &::after {
+            opacity: 0.2;
+            transform: scale(1);
+        }
+    }
+
+    &:active {
+        &::before, &::after {
+            @media (hover: hover) and (pointer: fine) {
+                transition-duration: 0.2s;
+                opacity: 0;
+                transform: scale(1.5);
+            }
+        }
+    }
+
+    &--primary {
+        --btn-bg: var(--primary);
+        --btn-color: var(--primary);
+        --text-color: var(--primary-contrasting);
+    }
+
+    &--gradient {
+        --btn-bg: var(--primary-gradient);
+        --btn-color: var(--primary);
+        --text-color: var(--header-color);
+    }
+
+    &--success {
+        --btn-bg: var(--success);
+        --btn-color: var(--success);
+        --text-color: var(--header-color);
+    }
+
+    &--danger {
+        --btn-bg: var(--danger);
+        --btn-color: var(--danger);
+        --text-color: var(--header-color);
+    }
+
+    &--small {
+        --padding-x: 20px;
+        --padding-y: 8px;
+        --font-size: 1.2rem;
+    }
+
+    &--outline {
+        --btn-bg: transparent;
+        --text-color: var(--btn-color);
+        border-color: var(--btn-color);
+    }
+
+    &__content {
+        @include flex-center;
+        position: relative;
+    }
+
+    &__icon + &__text {
+        padding-left: 12px;
+    }
+
+    &__text + &__icon {
+        margin-left: 12px;
+    }
+
+    &[data-focus-visible-added]:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px var(--panel-bg), 0 0 0 8px var(--btn-color);
+    }
+
+    &--loading {
+        pointer-events: none;
+    }
+
+    &--loading &__content {
+        opacity: 0;
+    }
+
+    & &__loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+    }
+}
