@@ -1,14 +1,12 @@
 <template>
+    <app-layout v-if="isAuthReady">
+        <router-view />
+    </app-layout>
     <div
-        class="app"
+        v-else
+        class="view view--centered"
     >
-        <router-view v-if="isAuthReady" />
-        <div
-            v-else
-            class="view view--centered"
-        >
-            <base-loader width="100px" />
-        </div>
+        <base-loader width="100px" />
     </div>
 </template>
 
@@ -18,8 +16,10 @@
     import { provideRouter } from '@/core/composition-functions/use-router';
     import store from '@/core/store';
     import router from '@/core/lib/router';
+    import AppLayout from '@/core/components/layout/app-layout.vue';
 
     const App = defineComponent({
+        components: { AppLayout },
         setup() {
             provideStore(store);
             provideRouter(router);
