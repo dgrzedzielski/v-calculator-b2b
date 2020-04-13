@@ -1,9 +1,6 @@
 <template>
     <div class="view view--centered">
-        <div v-if="isUserLogged">
-            kalkulatorek dla zalogowanych jest jeszcze niewdrożony XD
-        </div>
-        <base-calculator v-else />
+        <base-calculator />
     </div>
 </template>
 
@@ -15,14 +12,6 @@
     const CalculatorView = defineComponent({
         components: {
             BaseCalculator
-        },
-        setup() {
-            const store = useStore();
-            const isUserLogged = computed<boolean>(() => store.getters['auth/isUserLogged']);
-
-            return {
-                isUserLogged
-            };
         }
     });
 

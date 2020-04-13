@@ -1,9 +1,11 @@
 .base-calculator {
     @include card;
     padding: 0;
+    width: 100%;
 
     @include mq(md) {
         display: flex;
+        width: auto;
     }
 
     &__form {

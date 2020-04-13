@@ -1,5 +1,13 @@
 <template>
+    <router-link
+        v-if="to"
+        :class="classes"
+        :to="to"
+    >
+        <slot />
+    </router-link>
     <button
+        v-else
         :disabled="disabled"
         :class="classes"
         @click="handleClick"
@@ -12,9 +20,20 @@
     import { computed, defineComponent, toRefs } from '@vue/composition-api';
     import { BaseButtonProps } from '@/core/components/buttons/button-types';
     import ButtonMixin from '@/core/components/buttons/button-mixin';
+    import { ToPropType } from '@/core/types/to-prop-type';
 
-    const BaseButton = defineComponent<BaseButtonProps>({
+    interface ButtonProps extends BaseButtonProps {
+        to: ToPropType | string;
+    }
+
+    const BaseButton = defineComponent<ButtonProps>({
         mixins: [ButtonMixin],
+        props: {
+            to: {
+                default: null,
+                type: [String, Object]
+            }
+        },
         setup(
             props: BaseButtonProps,
             { emit }

@@ -4,7 +4,8 @@
     box-shadow: 0 2px 12px rgba(#000, 0.1);
     display: flex;
     align-items: center;
-    margin-bottom: 32px;
+    justify-content: space-between;
+    margin-bottom: 24px;
 
     &__heading {
         margin: 0;
@@ -12,7 +13,11 @@
     }
 
     &__link {
-        text-decoration: none;
         color: var(--primary);
+    }
+
+    &__nav-container {
+        display: flex;
+        align-items: center;
     }
 }

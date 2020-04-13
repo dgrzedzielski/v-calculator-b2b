@@ -16,7 +16,7 @@
     import { provideRouter } from '@/core/composition-functions/use-router';
     import store from '@/core/store';
     import router from '@/core/lib/router';
-    import AppLayout from '@/core/components/layout/app-layout.vue';
+    import AppLayout from '@/core/components/layout/app-layout';
 
     const App = defineComponent({
         components: { AppLayout },

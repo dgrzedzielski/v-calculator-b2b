@@ -9,12 +9,7 @@
 
 <script lang="ts">
     import { defineComponent, PropType } from '@vue/composition-api';
-
-    interface ToPropType {
-        path?: string;
-        name?: string;
-        params: { [key: string]: string }
-    }
+    import { ToPropType } from '@/core/types/to-prop-type';
 
     interface BaseLinkProps {
         to: string | ToPropType

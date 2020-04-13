@@ -9,7 +9,7 @@
 
 <script lang="ts">
     import { defineComponent } from '@vue/composition-api';
-    import AppHeader from './app-header.vue';
+    import AppHeader from '../app-header';
 
     const AppLayout = defineComponent({
         components: { AppHeader }

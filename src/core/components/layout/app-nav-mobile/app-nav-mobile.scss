@@ -1,0 +1,57 @@
+.app-nav-mobile {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: var(--panel-bg);
+    box-shadow: -4px 0 8px rgba(#000, 0.1);
+
+    &__list {
+        list-style: none;
+        display: flex;
+        margin: 0;
+        padding: 0;
+        justify-content: space-evenly;
+    }
+
+    &__link {
+        --active-indicator-opacity: 0.5;
+        --active-indicator-transform: scaleX(0);
+
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: inherit;
+        padding: 12px 0;
+        min-width: 75px;
+        font-size: 1.2rem;
+
+        &::after {
+            @include absolute(0, 0);
+            content: '';
+            width: 100%;
+            background: var(--primary-gradient);
+            height: 2px;
+            border-radius: 2px;
+            transform: var(--active-indicator-transform);
+            opacity: var(--active-indicator-opacity);
+            transition: 0.35s;
+        }
+
+        &--active {
+            --active-indicator-opacity: 1;
+            --active-indicator-transform: scaleX(1);
+
+            color: var(--header-color);
+        }
+    }
+
+    &__icon {
+        margin-bottom: 8px;
+        width: 20px;
+        max-height: 20px;
+        height: auto;
+    }
+}

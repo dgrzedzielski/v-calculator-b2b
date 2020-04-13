@@ -76,12 +76,6 @@
             @remove-expense="removeExpense"
             @close="closeExpenseForm"
         />
-        <floating-button
-            aria-keyshortcuts="ctrl+s"
-            icon="save"
-            title="Zapisz"
-            @click="saveData"
-        />
     </div>
 </template>
 

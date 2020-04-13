@@ -1,0 +1,10 @@
+.app {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    
+    &__content {
+        @include mq(md, max) {
+            padding-bottom: 80px;
+        }
+    }
+}

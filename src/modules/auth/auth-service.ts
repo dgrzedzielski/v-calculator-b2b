@@ -12,6 +12,10 @@ class AuthService {
         await auth.createUserWithEmailAndPassword(email, password);
     }
 
+    static async logout() {
+        await auth.signOut();
+    }
+
     static async updateSettings(payload: BaseCalculatorFormModel, user: User | null): Promise<Error | undefined> {
         const settingsRef = db.collection(DbCollection.USER_SETTINGS);
 
