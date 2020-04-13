@@ -7,3 +7,21 @@
         transform: translate(30px, 50px) scale3d(0, 0, 0);
     }
 }
+
+.fade-slide-x {
+    &-enter-active, &-leave-active {
+        transition: 0.35s;
+    }
+
+    &-enter, &-leave-to {
+        opacity: 0;
+    }
+
+    &-enter {
+        transform: translateX(200px);
+    }
+
+    &-leave-to {
+        transform: translateX(-200px);
+    }
+}

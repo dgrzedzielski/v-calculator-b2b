@@ -1,9 +1,17 @@
 .flex {
     display: flex;
+
+    &-center {
+        @include flex-center;
+    }
 }
 
 .justify-between {
     justify-content: space-between;
+}
+
+.justify-end {
+    justify-content: flex-end;
 }
 
 .align-center {

@@ -21,13 +21,23 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component, Prop } from 'vue-property-decorator';
+    import { defineComponent } from '@vue/composition-api';
     import Expense from '@/modules/calculator/types/expense';
 
-    @Component
-    export default class CalculatorExpensesList extends Vue {
-        @Prop({ required: true, type: Array }) expenses!: Expense[];
-    };
+    type CalculatorExpensesListProps = {
+        expenses: Expense[]
+    }
+
+    const CalculatorExpensesList = defineComponent<CalculatorExpensesListProps>({
+        props: {
+            expenses: {
+                required: true,
+                type: Array
+            }
+        }
+    });
+
+    export default CalculatorExpensesList;
 </script>
 
 <style lang="scss" src="./calculator-expenses-list.scss" />

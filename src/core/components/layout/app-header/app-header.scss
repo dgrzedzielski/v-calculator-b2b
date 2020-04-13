@@ -1,0 +1,23 @@
+.app-header {
+    background: var(--panel-bg);
+    padding: 16px 32px;
+    box-shadow: 0 2px 12px rgba(#000, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+
+    &__heading {
+        margin: 0;
+        font-size: 2rem;
+    }
+
+    &__link {
+        color: var(--primary);
+    }
+
+    &__nav-container {
+        display: flex;
+        align-items: center;
+    }
+}

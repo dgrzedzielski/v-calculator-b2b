@@ -1,15 +1,19 @@
 <template>
-    <div style="display: flex; align-items: center; justify-content: center; min-height: 100%;">
+    <div class="view view--centered">
         <base-calculator />
     </div>
 </template>
 
 <script lang="ts">
-    import { Vue, Component } from 'vue-property-decorator';
-    import BaseCalculator from '@/modules/calculator/base-calculator.vue';
+    import { defineComponent, computed } from '@vue/composition-api';
+    import { useStore } from '@/core/composition-functions/use-store';
+    import BaseCalculator from './components/base-calculator.vue';
 
-    @Component({
-        components: { BaseCalculator }
-    })
-    export default class CalculatorView extends Vue {};
+    const CalculatorView = defineComponent({
+        components: {
+            BaseCalculator
+        }
+    });
+
+    export default CalculatorView;
 </script>

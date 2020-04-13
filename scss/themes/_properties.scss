@@ -2,9 +2,9 @@
     --font-family: Muli, 'sans-serif';
     --font-weight: 500;
 
-    --base-margin-bottom: 24px;
+    --base-margin-bottom: 32px;
 
-    @include mq(lg) {
-        --base-margin-bottom: 32px;
+    @include mq(md) {
+        --base-margin-bottom: 40px;
     }
 }

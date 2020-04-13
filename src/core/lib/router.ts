@@ -13,5 +13,21 @@ export default new Router({
             name: 'calculator',
             component: CalculatorView
         },
+        {
+            path: '/auth',
+            component: () => import('@/modules/auth/auth-view.vue'),
+            children: [
+                {
+                    path: '',
+                    name: 'auth.login',
+                    component: () => import('@/modules/auth/components/auth-login-form.vue')
+                },
+                {
+                    path: 'register/:step?',
+                    name: 'auth.register',
+                    component: () => import('@/modules/auth/components/auth-register-form.vue')
+                },
+            ]
+        }
     ]
 });

@@ -1,5 +1,8 @@
 <template>
-    <base-modal @close="$emit('close')">
+    <base-modal
+        name="calculator-expense-form-modal"
+        @close="$emit('close')"
+    >
         <template slot="heading">
             <template v-if="expenseToEdit">
                 Edytuj koszt
@@ -37,7 +40,7 @@
             <div class="flex align-center justify-between">
                 <base-button
                     outline
-                    success
+                    theme="success"
                     type="submit"
                 >
                     <v-icon
@@ -51,7 +54,7 @@
                 <base-button
                     v-if="expenseToEdit"
                     outline
-                    danger
+                    theme="danger"
                     type="button"
                     @click="$emit('remove-expense', expenseToEdit.id)"
                 >
@@ -69,43 +72,56 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component, Prop } from 'vue-property-decorator';
-    import BaseModal from '@/core/components/ui/base-modal.vue';
-    import InputFormGroup from '@/core/components/forms/input-form-group.vue';
-    import FormSwitch from '@/core/components/forms/form-switch.vue';
+    import { defineComponent, ref } from '@vue/composition-api';
+    import { uuid } from '@/core/utils/uuid';
+    import BaseModal from '@/core/components/ui/base-modal';
+    import FormSwitch from '@/core/components/forms/form-switch';
     import Expense from '@/modules/calculator/types/expense';
     import ExpenseFormModel from '@/modules/calculator/types/expense-form-model';
-    import uuid from '@/core/utils/uuid';
 
-    @Component({
-        components: { FormSwitch, InputFormGroup, BaseModal }
-    })
-    export default class CalculatorExpenseForm extends Vue {
-        @Prop({ type: Object }) expenseToEdit?: Expense;
-        expense: ExpenseFormModel = {
-            isCarExpense: false,
-            name: '',
-            grossValue: null,
-        };
+    type CalculatorExpenseFormProps = {
+        expenseToEdit?: Expense
+    }
 
-        created() {
-            if (this.expenseToEdit) {
-                this.expense = { ...this.expenseToEdit };
+    const CalculatorExpenseForm = defineComponent<CalculatorExpenseFormProps>({
+        components: { FormSwitch, BaseModal },
+        props: {
+            expenseToEdit: {
+                type: Object,
+                default: undefined
             }
-        }
+        },
+        setup(props, { emit }) {
+            const expense = ref<ExpenseFormModel>({
+                isCarExpense: false,
+                name: '',
+                grossValue: null
+            });
 
-        onSubmit() {
-            this.expense.grossValue = Number(this.expense.grossValue);
-            this.expense.name = this.expense.name.trim();
-
-            if (!this.expense.grossValue || !this.expense.name) return;
-
-            if (this.expenseToEdit) {
-                this.$emit('edit-expense', this.expense);
-            } else {
-                this.expense.id = uuid();
-                this.$emit('add-expense', this.expense);
+            if (props.expenseToEdit) {
+                expense.value = { ...props.expenseToEdit };
             }
+
+            const onSubmit = () => {
+                expense.value.grossValue = Number(expense.value.grossValue);
+                expense.value.name = expense.value.name.trim();
+
+                if (!expense.value.grossValue || !expense.value.name) return;
+
+                if (props.expenseToEdit) {
+                    emit('edit-expense', expense.value);
+                } else {
+                    expense.value.id = uuid();
+                    emit('add-expense', expense.value);
+                }
+            };
+
+            return {
+                expense,
+                onSubmit
+            };
         }
-    };
+    });
+
+    export default CalculatorExpenseForm;
 </script>
