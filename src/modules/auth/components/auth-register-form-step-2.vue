@@ -43,6 +43,7 @@
     import { defineComponent, ref } from '@vue/composition-api';
     import { useStore } from '@/core/composition-functions/use-store';
     import { useRouter } from '@/core/composition-functions/use-router';
+    import CalculatorService from '../../calculator/calculator-service';
 
     const AuthRegisterFormStep2 = defineComponent({
         components: {
@@ -63,7 +64,7 @@
             const onSubmit = async () => {
                 loading.value = true;
 
-                const error = await AuthService.updateSettings(form.value, $store.state.auth.user);
+                const error = await CalculatorService.saveDefaultData(form.value, $store.state.auth.user);
                 if (error) {
                     console.log(error);
                     Vue.$toast.error(error.message);

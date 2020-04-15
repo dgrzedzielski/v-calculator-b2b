@@ -4,6 +4,11 @@
     &-center {
         @include flex-center;
     }
+
+    &-wrap {
+        display: flex;
+        flex-wrap: wrap;
+    }
 }
 
 .justify-between {

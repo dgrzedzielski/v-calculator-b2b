@@ -1,18 +1,9 @@
 import { computed, Ref, ref } from '@vue/composition-api';
-import {
-    BaseCalculatorFormModel,
-} from '@/modules/calculator/types/calculator-model';
-import CalculatorService from '@/modules/calculator/calculator-service';
-import useTaxOptions
-    from '@/modules/calculator/composition-functions/use-tax-options';
-import {
-    TaxForm,
-    TaxFormOption
-} from '@/modules/calculator/types/tax-form-options';
-import {
-    InsuranceOption,
-    InsuranceVariant
-} from '@/modules/calculator/types/insurance-options';
+import { BaseCalculatorFormModel } from '@/modules/calculator/types/calculator-model';
+import CalculationsService from '@/modules/calculator/calculations-service';
+import useTaxOptions from '@/modules/calculator/composition-functions/use-tax-options';
+import { TaxForm } from '@/modules/calculator/types/tax-form-options';
+import { InsuranceVariant } from '@/modules/calculator/types/insurance-options';
 import Expense from '@/modules/calculator/types/expense';
 
 type ReductionType = {
@@ -62,7 +53,7 @@ const useCalculations = (expenses: Ref<Expense[]>) => {
         const result = { vatReduction: 0, costReduction: 0 };
         expenses.value.forEach(({ grossValue, isCarExpense }) => {
             const { costReduction, vatReduction } =
-                CalculatorService.getReduction(grossValue, isCarExpense);
+                CalculationsService.getReduction(grossValue, isCarExpense);
             result.vatReduction += vatReduction;
             result.costReduction += costReduction;
         });
@@ -77,11 +68,11 @@ const useCalculations = (expenses: Ref<Expense[]>) => {
     });
 
     const revenueTax = computed(() => {
-        return CalculatorService.getRevenueTax(revenue.value, selectedTaxForm.value);
+        return CalculationsService.getRevenueTax(revenue.value, selectedTaxForm.value);
     });
 
     const grossIncome = computed(() => {
-        return CalculatorService.getGrossFromNet(form.value.netIncome);
+        return CalculationsService.getGrossFromNet(form.value.netIncome);
     });
 
     const vatCost = computed(() => {
@@ -107,7 +98,7 @@ const useCalculations = (expenses: Ref<Expense[]>) => {
     const taxSavings = computed(() => {
         const baseRevenue = form.value.netIncome - socialContributionCost.value;
 
-        return (CalculatorService.getRevenueTax(baseRevenue, selectedTaxForm.value) -
+        return (CalculationsService.getRevenueTax(baseRevenue, selectedTaxForm.value) -
             revenueTax.value) +
             reductions.value.vatReduction;
     });

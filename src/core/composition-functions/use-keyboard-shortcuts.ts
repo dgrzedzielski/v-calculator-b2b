@@ -1,3 +1,5 @@
+import { onMounted, onBeforeUnmount } from '@vue/composition-api';
+
 type KeyboardShortcut = {
     shortcut: string;
     callback: () => void;
@@ -28,5 +30,11 @@ export const useKeyboardShortcuts = (shortcuts: KeyboardShortcut[]) => {
         });
     };
 
-    return { handleKeyboardShortcuts };
+    onMounted(() => {
+        document.addEventListener('keydown', handleKeyboardShortcuts);
+    });
+
+    onBeforeUnmount(() => {
+        document.removeEventListener('keydown', handleKeyboardShortcuts);
+    });
 };

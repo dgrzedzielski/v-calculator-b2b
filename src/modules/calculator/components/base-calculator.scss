@@ -4,8 +4,30 @@
     width: 100%;
 
     @include mq(md) {
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         width: auto;
+    }
+
+    &__header {
+        grid-column: 1 / -1;
+        padding: 32px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    &__heading {
+        margin: 0 0 16px;
+    }
+
+    &__status {
+        text-decoration: underline;
+        margin-top: 16px;
+        width: 100%;
+
+        @include mq(md) {
+            margin: 0;
+            width: auto;
+        }
     }
 
     &__form {

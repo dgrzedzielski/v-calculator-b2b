@@ -1,5 +1,7 @@
-enum DbCollection {
-    USER_SETTINGS = 'user-settings'
+export enum DbCollection {
+    USER_DATA = 'user-data'
 }
 
-export default DbCollection;
+export enum UserDataCollection {
+    SAVED_CALCULTIONS = 'saved-calculations'
+}
