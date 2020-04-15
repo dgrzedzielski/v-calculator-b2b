@@ -3,23 +3,17 @@ import { CalculatorModel } from '@/modules/calculator/types/calculator-model';
 import { Ref, ref } from '@vue/composition-api';
 import { PersistStatus } from './use-persist';
 
-const useLocalPersist = (data: Ref<CalculatorModel>, status: Ref<PersistStatus>) => {
+const useLocalPersist = (status: Ref<PersistStatus>) => {
     const savedData = ref<CalculatorModel>({});
 
-    const saveData = () => {
-        CalculatorService.saveDataLocally(data.value);
-        savedData.value = { ...data.value };
+    const saveData = (data: CalculatorModel) => {
+        CalculatorService.saveDataLocally(data);
+        savedData.value = { ...data };
         status.value = PersistStatus.SAVED;
     };
 
     const loadData = () => {
-        const loadedResult = CalculatorService.loadLocalData();
-
-        if (loadedResult) {
-            data.value = loadedResult;
-            savedData.value = { ...loadedResult };
-            status.value = PersistStatus.LOADED;
-        }
+        return CalculatorService.loadLocalData();
     };
 
     return {

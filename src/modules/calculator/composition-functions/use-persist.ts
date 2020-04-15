@@ -12,7 +12,8 @@ export enum PersistStatus {
     SAVING = 'saving',
     SAVED = 'saved',
     WILL_SAVE = 'will-save',
-    ERROR = 'error'
+    ERROR = 'error',
+    NOTHING_TO_LOAD = 'nothing-to-load'
 }
 
 export const usePersist = (data: Ref<CalculatorModel>, loggedUser: Ref<Readonly<User | null>>) => {
@@ -22,43 +23,53 @@ export const usePersist = (data: Ref<CalculatorModel>, loggedUser: Ref<Readonly<
         loadData: loadLocalData,
         saveData: saveDataLocally,
         savedData: localSavedData
-    } = useLocalPersist(data, status);
+    } = useLocalPersist(status);
 
     const {
         loadData: loadDbData,
         saveData: saveDataToDb,
         saveKey: dataSaveKey,
         savedData: dbSavedData,
-    } = useDbPersist(data, status);
+    } = useDbPersist(status);
 
-    const savedData = computed(() => {
-        if (loggedUser.value) {
-            return dbSavedData.value;
+    const savedData = computed<CalculatorModel>({
+        get: () => loggedUser.value ? dbSavedData.value : localSavedData.value,
+        set: (newValue: CalculatorModel) => {
+            if (loggedUser.value) {
+                dbSavedData.value = newValue;
+            } else {
+                localSavedData.value = newValue;
+            }
         }
-
-        return localSavedData.value;
     });
 
     const loadData = async () => {
-        if (loggedUser.value) {
-            await loadDbData(loggedUser.value);
+        status.value = PersistStatus.LOADING;
+
+        const loadedResult = loggedUser.value
+            ? await loadDbData(loggedUser.value)
+            : loadLocalData();
+
+        if (loadedResult) {
+            data.value = { ...loadedResult };
+            savedData.value = { ...loadedResult };
+            status.value = PersistStatus.LOADED;
         } else {
-            loadLocalData();
+            status.value = PersistStatus.NOTHING_TO_LOAD;
         }
     };
 
     const saveData = () => {
         if (loggedUser.value) {
-            saveDataToDb(loggedUser.value);
+            saveDataToDb(data.value, loggedUser.value);
         } else {
-            saveDataLocally();
+            saveDataLocally(data.value);
         }
     };
 
     const debouncedSave = debounce(saveData, 2000);
 
     const handleDataChange = () => {
-        console.log({ data: data.value, savedData: savedData.value });
         if (isEqual(data.value, savedData.value)) {
             if (status.value === PersistStatus.WILL_SAVE) status.value = PersistStatus.SAVED;
             return;

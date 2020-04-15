@@ -26,6 +26,9 @@
                     <template v-else-if="status === 'loaded'">
                         Wczytano
                     </template>
+                    <template v-else-if="status === 'nothing-to-load'">
+                        Brak zapisanych danych
+                    </template>
                     <template v-else-if="status === 'saving'">
                         Zapisywanie...
                     </template>
