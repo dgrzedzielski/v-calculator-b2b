@@ -43,7 +43,7 @@
     import { defineComponent, ref } from '@vue/composition-api';
     import { useStore } from '@/core/composition-functions/use-store';
     import { useRouter } from '@/core/composition-functions/use-router';
-    import CalculatorService from '../../calculator/calculator-service';
+    import CalculatorService from '@/modules/calculator/calculator-service';
 
     const AuthRegisterFormStep2 = defineComponent({
         components: {
