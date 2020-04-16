@@ -46,9 +46,7 @@ class CalculatorService {
         try {
             await ref
                 .doc(user.uid)
-                .collection(UserDataCollection.SAVED_CALCULTIONS)
-                .doc('default')
-                .set(payload);
+                .set({ defaultPreset: payload });
         } catch (e) {
             return e;
         }
@@ -60,12 +58,11 @@ class CalculatorService {
         try {
             const doc = await ref
                 .doc(user.uid)
-                .collection(UserDataCollection.SAVED_CALCULTIONS)
-                .doc('default')
                 .get();
 
             if (doc.exists) {
-                return doc.data() as BaseCalculatorFormModel;
+                const data = doc.data();
+                return data?.defaultPreset as BaseCalculatorFormModel;
             }
         } catch (e) {
             console.log(e);
