@@ -1,25 +1,25 @@
 import CalculatorService from '@/modules/calculator/calculator-service';
-import Vue from 'vue';
 import { CalculatorModel } from '@/modules/calculator/types/calculator-model';
-import { Ref } from '@vue/composition-api';
+import { Ref, ref } from '@vue/composition-api';
+import { PersistStatus } from './use-persist';
 
-const useLocalPersist = (data: Ref<CalculatorModel>) => {
-    const saveData = () => {
-        CalculatorService.save(data.value);
-        Vue.$toast.success('Zapisano pomyślnie');
+const useLocalPersist = (status: Ref<PersistStatus>) => {
+    const savedData = ref<CalculatorModel>({});
+
+    const saveData = (data: CalculatorModel) => {
+        CalculatorService.saveDataLocally(data);
+        savedData.value = { ...data };
+        status.value = PersistStatus.SAVED;
     };
 
     const loadData = () => {
-        const loadedResult = CalculatorService.load();
-
-        if (loadedResult) {
-            data.value = loadedResult;
-        }
+        return CalculatorService.loadLocalData();
     };
 
     return {
         loadData,
-        saveData
+        saveData,
+        savedData
     };
 };
 
