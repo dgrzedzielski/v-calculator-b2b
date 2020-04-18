@@ -4,7 +4,7 @@ import { Ref, ref } from '@vue/composition-api';
 import { PersistStatus } from './use-persist';
 import CalculatorData from '../calculator-data';
 
-const useLocalPersist = (status: Ref<PersistStatus>) => {
+export const useLocalPersist = (status: Ref<PersistStatus>) => {
     const savedData = ref<CalculatorModel | null>(null);
 
     const saveData = (data: CalculatorModel) => {
@@ -28,5 +28,3 @@ const useLocalPersist = (status: Ref<PersistStatus>) => {
         savedData
     };
 };
-
-export default useLocalPersist;

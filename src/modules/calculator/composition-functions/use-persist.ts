@@ -1,11 +1,18 @@
-import { BaseCalculatorFormModel } from './../types/calculator-model';
-import debounce from 'debounce';
-import useLocalPersist from './use-local-persist';
-import { useDbPersist } from './use-db-persist';
-import { Ref, onMounted, ref, watch, computed, onBeforeUnmount } from '@vue/composition-api';
-import { CalculatorModel } from '../types/calculator-model';
-import { User } from '@/modules/auth/types/user';
 import isEqual from 'lodash.isequal';
+import debounce from 'debounce';
+import {
+    Ref,
+    onMounted,
+    ref,
+    watch,
+    computed,
+    onBeforeUnmount
+} from '@vue/composition-api';
+import { User } from '@/modules/auth/types/user';
+import { BaseCalculatorFormModel } from './../types/calculator-model';
+import { useLocalPersist } from './use-local-persist';
+import { useDbPersist } from './use-db-persist';
+import { CalculatorModel } from '../types/calculator-model';
 import CalculatorData from '../calculator-data';
 
 export enum PersistStatus {
