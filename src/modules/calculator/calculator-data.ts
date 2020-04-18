@@ -5,7 +5,7 @@ import { TaxForm } from './types/tax-form-options';
 import { InsuranceVariant } from './types/insurance-options';
 import NumberUtils from '@/core/utils/number-utils';
 
-interface ConstructorInput {
+interface InitialValues {
     form?: BaseCalculatorFormModel,
     expenses?: Expense[],
     billingPeriod?: BillingPeriod
@@ -23,7 +23,7 @@ class CalculatorData {
 
     public billingPeriodRef = ref<BillingPeriod>(CalculatorData.defaultBillingPeriod);
 
-    constructor({ form, expenses, billingPeriod }: ConstructorInput) {
+    constructor({ form, expenses, billingPeriod }: InitialValues) {
         if (form) {
             this.formRef.value = { ...form };
         }

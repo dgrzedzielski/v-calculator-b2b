@@ -47,7 +47,7 @@ export const usePersist = (data: CalculatorData, loggedUser: Ref<Readonly<User |
     const loadData = async () => {
         status.value = PersistStatus.LOADING;
 
-        let loadedResult = loggedUser.value
+        const loadedResult = loggedUser.value
             ? await loadDbData(data, loggedUser.value)
             : loadLocalData(data);
 

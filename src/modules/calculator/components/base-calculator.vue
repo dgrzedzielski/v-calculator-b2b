@@ -8,7 +8,7 @@
                 <div class="flex align-center mr-10">
                     <p class="m-0">
                         Aktualnie wybrany okres rozliczeniowy:
-                        <strong>{{ billingPeriod.month }}.{{ billingPeriod.year }}</strong>
+                        <strong>{{ monthName }} {{ billingPeriod.year }}</strong>
                     </p>
                     <base-button
                         v-if="loggedUser"
@@ -212,7 +212,11 @@
                 debouncedSave,
             } = usePersist(data, loggedUser);
 
-            const { isChangeBillingPeriodVisible, changeBillingPeriod } = useBillingPeriod($router);
+            const {
+                isChangeBillingPeriodVisible,
+                changeBillingPeriod,
+                monthName
+            } = useBillingPeriod(data, $router);
 
             useKeyboardShortcuts([
                 {
@@ -249,7 +253,8 @@
                 loggedUser,
                 status,
                 isChangeBillingPeriodVisible,
-                changeBillingPeriod
+                changeBillingPeriod,
+                monthName
             };
         }
     });

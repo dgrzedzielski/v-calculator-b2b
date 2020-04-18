@@ -1,13 +1,14 @@
-export interface Expense {
-    id: string;
+interface BaseExpense {
     name: string;
-    grossValue: number;
     isCarExpense: boolean;
 }
 
-export interface ExpenseFormModel {
+export interface Expense extends BaseExpense {
+    id: string;
+    grossValue: number;
+}
+
+export interface ExpenseFormModel extends BaseExpense {
     id?: string;
-    name: string;
     grossValue: number | null;
-    isCarExpense: boolean;
 }

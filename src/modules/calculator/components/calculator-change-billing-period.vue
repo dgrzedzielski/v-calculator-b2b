@@ -36,25 +36,11 @@
     import BaseModal from '@/core/components/ui/base-modal';
     import FormSelect from '@/core/components/forms/form-select';
     import { BillingPeriod } from '../types/calculator-model';
+    import { useMonths } from '../../../core/composition-functions/use-months';
 
     interface CalculatorChangeBillingPeriodProps {
         currentBillingPeriod: BillingPeriod;
     }
-
-    const monthOptions = [
-        { value: '01', label: 'Styczeń' },
-        { value: '02', label: 'Luty' },
-        { value: '03', label: 'Marzec' },
-        { value: '04', label: 'Kwiecień' },
-        { value: '05', label: 'Maj' },
-        { value: '06', label: 'Czerwiec' },
-        { value: '07', label: 'Lipiec' },
-        { value: '08', label: 'Sierpień' },
-        { value: '09', label: 'Wrzesień' },
-        { value: '10', label: 'Październik' },
-        { value: '11', label: 'Listopad' },
-        { value: '12', label: 'Grudzień' }
-    ];
 
     const CalculatorChangeBillingPeriod = defineComponent<CalculatorChangeBillingPeriodProps>({
         components: { BaseModal, FormSelect },
@@ -68,6 +54,8 @@
             const month = ref<string>(props.currentBillingPeriod.month);
             const year = ref<string>(props.currentBillingPeriod.year);
 
+            const { months: monthOptions } = useMonths();
+
             const onSubmit = () => {
                 emit('change', { month: month.value, year: year.value });
                 emit('close');
@@ -79,7 +67,3 @@
 
     export default CalculatorChangeBillingPeriod;
 </script>
-
-<style scoped>
-
-</style>
