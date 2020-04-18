@@ -1,6 +1,6 @@
 <template>
     <app-layout v-if="isAuthReady">
-        <router-view />
+        <router-view :key="$route.fullPath" />
     </app-layout>
     <div
         v-else

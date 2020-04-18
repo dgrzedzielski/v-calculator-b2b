@@ -1,10 +1,12 @@
+import { BaseCalculatorFormModel } from './../types/calculator-model';
 import debounce from 'debounce';
 import useLocalPersist from './use-local-persist';
 import { useDbPersist } from './use-db-persist';
-import { Ref, onMounted, ref, watch, computed } from '@vue/composition-api';
+import { Ref, onMounted, ref, watch, computed, onBeforeUnmount } from '@vue/composition-api';
 import { CalculatorModel } from '../types/calculator-model';
-import User from '@/modules/auth/types/user';
+import { User } from '@/modules/auth/types/user';
 import isEqual from 'lodash.isequal';
+import CalculatorData from '../calculator-data';
 
 export enum PersistStatus {
     LOADING = 'loading',
@@ -16,7 +18,7 @@ export enum PersistStatus {
     NOTHING_TO_LOAD = 'nothing-to-load'
 }
 
-export const usePersist = (data: Ref<CalculatorModel>, loggedUser: Ref<Readonly<User | null>>) => {
+export const usePersist = (data: CalculatorData, loggedUser: Ref<Readonly<User | null>>) => {
     const status = ref<PersistStatus>(PersistStatus.LOADING);
 
     const {
@@ -28,17 +30,16 @@ export const usePersist = (data: Ref<CalculatorModel>, loggedUser: Ref<Readonly<
     const {
         loadData: loadDbData,
         saveData: saveDataToDb,
-        saveKey: dataSaveKey,
         savedData: dbSavedData,
     } = useDbPersist(status);
 
-    const savedData = computed<CalculatorModel>({
+    const savedData = computed<CalculatorModel | BaseCalculatorFormModel | null>({
         get: () => loggedUser.value ? dbSavedData.value : localSavedData.value,
-        set: (newValue: CalculatorModel) => {
+        set: (newValue: CalculatorModel | BaseCalculatorFormModel | null) => {
             if (loggedUser.value) {
                 dbSavedData.value = newValue;
             } else {
-                localSavedData.value = newValue;
+                localSavedData.value = newValue as CalculatorModel | null;
             }
         }
     });
@@ -46,13 +47,12 @@ export const usePersist = (data: Ref<CalculatorModel>, loggedUser: Ref<Readonly<
     const loadData = async () => {
         status.value = PersistStatus.LOADING;
 
-        const loadedResult = loggedUser.value
-            ? await loadDbData(loggedUser.value)
-            : loadLocalData();
+        let loadedResult = loggedUser.value
+            ? await loadDbData(data, loggedUser.value)
+            : loadLocalData(data);
 
         if (loadedResult) {
-            data.value = { ...loadedResult };
-            savedData.value = { ...loadedResult };
+            savedData.value = loadedResult;
             status.value = PersistStatus.LOADED;
         } else {
             status.value = PersistStatus.NOTHING_TO_LOAD;
@@ -61,7 +61,7 @@ export const usePersist = (data: Ref<CalculatorModel>, loggedUser: Ref<Readonly<
 
     const saveData = () => {
         if (loggedUser.value) {
-            saveDataToDb(data.value, loggedUser.value);
+            saveDataToDb(data.value, data.id, loggedUser.value);
         } else {
             saveDataLocally(data.value);
         }
@@ -72,25 +72,27 @@ export const usePersist = (data: Ref<CalculatorModel>, loggedUser: Ref<Readonly<
     const handleDataChange = () => {
         if (isEqual(data.value, savedData.value)) {
             if (status.value === PersistStatus.WILL_SAVE) status.value = PersistStatus.SAVED;
-            return;
+            debouncedSave.clear();
+        } else {
+            status.value = PersistStatus.WILL_SAVE;
+            debouncedSave();
         }
-
-        status.value = PersistStatus.WILL_SAVE;
-        debouncedSave();
     };
 
-    watch(data, handleDataChange, { lazy: true });
+    let stopHandle: () => void;
 
-    onMounted(() => {
-        loadData();
+    onMounted(async () => {
+        await loadData();
+        stopHandle = watch([data.formRef, data.expensesRef], handleDataChange, { lazy: true });
     });
+
+    onBeforeUnmount(() => void stopHandle());
 
     return {
         status,
         savedData,
         loadData,
         saveData,
-        dataSaveKey,
         debouncedSave
     };
 };

@@ -1,7 +1,7 @@
 import {
     LINEAR_TAX_RATE,
     PROGRESSIVE_TAX_RATE_BASE
-} from '@/modules/calculator/tax-rates';
+} from '../tax-rates';
 
 export enum TaxForm {
     LINEAR,

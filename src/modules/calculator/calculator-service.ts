@@ -1,8 +1,9 @@
 import NumberUtils from '@/core/utils/number-utils';
 import { CalculatorModel, BaseCalculatorFormModel } from '@/modules/calculator/types/calculator-model';
-import User from '../auth/types/user';
+import { User } from '../auth/types/user';
 import { db } from '@/core/lib/firebase';
 import { DbCollection, UserDataCollection } from '@/core/types/db-collections';
+import CalculatorData from './calculator-data';
 
 class CalculatorService {
     static getSaveKey(month: string, year: number): string {
@@ -25,14 +26,12 @@ class CalculatorService {
         );
     };
 
-    static loadLocalData(): CalculatorModel | null {
+    static loadLocalData(): CalculatorModel | undefined {
         const result = localStorage.getItem(CalculatorService.getCurrentMonthKey());
 
         if (result) {
             return JSON.parse(result);
         }
-
-        return null;
     }
 
     static async saveDefaultData(
@@ -83,23 +82,26 @@ class CalculatorService {
         }
     }
 
-    static async loadData(savedKey: string, user: User): Promise<CalculatorModel | undefined> {
+    static async loadData(data: CalculatorData, user: User): Promise<CalculatorModel | BaseCalculatorFormModel | undefined> {
         const ref = db.collection(DbCollection.USER_DATA);
 
         try {
             const doc = await ref
                 .doc(user.uid)
                 .collection(UserDataCollection.SAVED_CALCULTIONS)
-                .doc(savedKey)
+                .doc(data.id)
                 .get();
 
             if (doc.exists) {
-                return doc.data() as CalculatorModel;
+                const result = doc.data() as CalculatorModel;
+                data.value = result;
+                return result;
             } else {
                 const defaultData = await CalculatorService.loadDefaultData(user);
 
                 if (defaultData) {
-                    return { ...defaultData, expenses: [] };
+                    data.form = defaultData;
+                    return defaultData;
                 }
             }
         } catch (e) {

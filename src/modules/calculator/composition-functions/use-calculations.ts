@@ -4,30 +4,25 @@ import CalculationsService from '@/modules/calculator/calculations-service';
 import useTaxOptions from '@/modules/calculator/composition-functions/use-tax-options';
 import { TaxForm } from '@/modules/calculator/types/tax-form-options';
 import { InsuranceVariant } from '@/modules/calculator/types/insurance-options';
-import Expense from '@/modules/calculator/types/expense';
+import { Expense } from '@/modules/calculator/types/expense';
+import CalculatorData from '../calculator-data';
 
 type ReductionType = {
     costReduction: number;
     vatReduction: number;
 }
 
-const useCalculations = (expenses: Ref<Expense[]>) => {
-    const form = ref<BaseCalculatorFormModel>({
-        netIncome: 10000,
-        taxForm: TaxForm.LINEAR,
-        insuranceVariant: InsuranceVariant.START,
-        optionalSicknessInsurance: false,
-    });
+const useCalculations = (data: CalculatorData) => {
     const { insuranceOptions, taxFormOptions } = useTaxOptions();
 
     const selectedInsuranceOption = computed(() => {
         return insuranceOptions
-            .find(option => option.id === form.value.insuranceVariant)!;
+            .find(option => option.id === data.form.insuranceVariant)!;
     });
 
     const selectedTaxForm = computed(() => {
         return taxFormOptions
-            .find(option => option.id === form.value.taxForm)!;
+            .find(option => option.id === data.form.taxForm)!;
     });
 
     const socialContributionCost = computed(() => {
@@ -37,7 +32,7 @@ const useCalculations = (expenses: Ref<Expense[]>) => {
             result += selectedInsuranceOption.value.value.additional;
         }
 
-        if (form.value.optionalSicknessInsurance) {
+        if (data.form.optionalSicknessInsurance) {
             result += selectedInsuranceOption.value.value.optionalSicknessInsurance;
         }
 
@@ -51,7 +46,7 @@ const useCalculations = (expenses: Ref<Expense[]>) => {
 
     const reductions = computed<ReductionType>(() => {
         const result = { vatReduction: 0, costReduction: 0 };
-        expenses.value.forEach(({ grossValue, isCarExpense }) => {
+        data.expenses.forEach(({ grossValue, isCarExpense }) => {
             const { costReduction, vatReduction } =
                 CalculationsService.getReduction(grossValue, isCarExpense);
             result.vatReduction += vatReduction;
@@ -62,7 +57,7 @@ const useCalculations = (expenses: Ref<Expense[]>) => {
     });
 
     const revenue = computed(() => {
-        return form.value.netIncome -
+        return data.form.netIncome -
             reductions.value.costReduction -
             socialContributionCost.value;
     });
@@ -72,13 +67,13 @@ const useCalculations = (expenses: Ref<Expense[]>) => {
     });
 
     const grossIncome = computed(() => {
-        return CalculationsService.getGrossFromNet(form.value.netIncome);
+        return CalculationsService.getGrossFromNet(data.form.netIncome);
     });
 
     const vatCost = computed(() => {
         return Math.max(
             0,
-            grossIncome.value - form.value.netIncome - reductions.value.vatReduction
+            grossIncome.value - data.form.netIncome - reductions.value.vatReduction
         );
     });
 
@@ -96,7 +91,7 @@ const useCalculations = (expenses: Ref<Expense[]>) => {
     });
 
     const taxSavings = computed(() => {
-        const baseRevenue = form.value.netIncome - socialContributionCost.value;
+        const baseRevenue = data.form.netIncome - socialContributionCost.value;
 
         return (CalculationsService.getRevenueTax(baseRevenue, selectedTaxForm.value) -
             revenueTax.value) +
@@ -118,8 +113,7 @@ const useCalculations = (expenses: Ref<Expense[]>) => {
         result,
         expensesTotal,
         taxSavings,
-        profit,
-        form
+        profit
     };
 };
 
