@@ -76,8 +76,7 @@
     import { uuid } from '@/core/utils/uuid';
     import BaseModal from '@/core/components/ui/base-modal';
     import FormSwitch from '@/core/components/forms/form-switch';
-    import Expense from '@/modules/calculator/types/expense';
-    import ExpenseFormModel from '@/modules/calculator/types/expense-form-model';
+    import { Expense, ExpenseFormModel } from '../types/expense';
 
     type CalculatorExpenseFormProps = {
         expenseToEdit?: Expense

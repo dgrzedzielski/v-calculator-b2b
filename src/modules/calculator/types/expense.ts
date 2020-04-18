@@ -1,8 +1,14 @@
-interface Expense {
-    id: string;
+interface BaseExpense {
     name: string;
-    grossValue: number;
     isCarExpense: boolean;
 }
 
-export default Expense;
+export interface Expense extends BaseExpense {
+    id: string;
+    grossValue: number;
+}
+
+export interface ExpenseFormModel extends BaseExpense {
+    id?: string;
+    grossValue: number | null;
+}

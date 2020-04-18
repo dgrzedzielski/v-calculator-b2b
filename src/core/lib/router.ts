@@ -10,7 +10,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            name: 'calculator',
+            name: 'home',
             component: CalculatorView
         },
         {
@@ -28,6 +28,12 @@ export default new Router({
                     component: () => import('@/modules/auth/components/auth-register-form.vue')
                 },
             ]
+        },
+        {
+            path: '/calculator/:month/:year',
+            name: 'calculator',
+            component: CalculatorView
+            // TODO ONLY FOR LOGGED USERS
         }
     ]
 });

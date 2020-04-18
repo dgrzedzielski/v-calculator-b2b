@@ -22,7 +22,7 @@
 
 <script lang="ts">
     import { defineComponent } from '@vue/composition-api';
-    import Expense from '@/modules/calculator/types/expense';
+    import { Expense } from '@/modules/calculator/types/expense';
 
     type CalculatorExpensesListProps = {
         expenses: Expense[]
