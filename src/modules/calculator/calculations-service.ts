@@ -27,8 +27,8 @@ class CalculationsService {
         }
 
         return {
-            costReduction: NumberUtils.asStandardFormat(costReduction),
-            vatReduction: NumberUtils.asStandardFormat(vatReduction)
+            costReduction: NumberUtils.as2Decimals(costReduction),
+            vatReduction: NumberUtils.as2Decimals(vatReduction)
         };
     };
 
