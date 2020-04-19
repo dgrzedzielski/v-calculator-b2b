@@ -1,7 +1,7 @@
 .modal {
     margin: 20px;
     border-radius: 16px;
-    min-width: 320px;
+    min-width: 400px;
     max-width: 100%;
     background: var(--panel-bg);
     opacity: var(--modal-content-opacity);
@@ -9,7 +9,12 @@
     transition: 0.3s ease-in-out;
 
     @include mq(xs, max) {
+        min-width: unset;
         width: 100%;
+    }
+
+    @include mq(xl) {
+        min-width: 440px;
     }
 
     &__container {
@@ -43,11 +48,29 @@
         }
     }
 
-    &__body, &__header, &__footer {
-        padding: 20px;
+    &__body, &__footer {
+        padding: 24px 32px;
+
+        @include mq(xl) {
+            padding: 24px 48px;
+        }
+    }
+
+    &__header {
+        padding: 32px;
+
+        @include mq(xl) {
+            padding: 32px 48px;
+        }
+    }
+
+    &__body {
+        padding-top: 12px;
+        padding-bottom: 32px;
     }
 
     &__heading {
+        font-size: 2rem;
         margin: 0;
     }
 
