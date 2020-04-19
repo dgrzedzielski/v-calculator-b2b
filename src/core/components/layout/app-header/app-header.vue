@@ -42,7 +42,7 @@
 <script lang="ts">
     import { defineComponent, ref, onMounted, onBeforeUnmount, computed } from '@vue/composition-api';
     import { useMobileCheck } from '@/core/composition-functions/use-mobile-check';
-    import { ToPropType } from '@/core/types/nav';
+    import { ToPropType, NavItem } from '@/core/types/nav';
     import { useStore } from '@/core/composition-functions/use-store';
     import AuthService from '@/modules/auth/auth-service';
     import AppNav from '../app-nav';
