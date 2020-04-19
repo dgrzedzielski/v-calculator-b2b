@@ -10,8 +10,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            name: 'home',
-            component: CalculatorView
+            redirect: { name: 'calculator' }
         },
         {
             path: '/auth',
@@ -30,7 +29,7 @@ export default new Router({
             ]
         },
         {
-            path: '/calculator/:month/:year',
+            path: '/calculator/:month?/:year?',
             name: 'calculator',
             component: CalculatorView
             // TODO ONLY FOR LOGGED USERS

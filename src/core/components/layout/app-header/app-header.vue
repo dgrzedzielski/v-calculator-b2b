@@ -45,8 +45,8 @@
     import { ToPropType, NavItem } from '@/core/types/nav';
     import { useStore } from '@/core/composition-functions/use-store';
     import AuthService from '@/modules/auth/auth-service';
-    import AppNav from '../app-nav';
-    import AppNavMobile from '../app-nav-mobile';
+    import AppNav from '../nav/app-nav';
+    import AppNavMobile from '../nav/app-nav-mobile';
 
     const AppHeader = defineComponent({
         components: { AppNavMobile, AppNav },
@@ -59,7 +59,7 @@
                     icon: 'chart-line'
                 },
                 {
-                    to: '/',
+                    to: '/calculator',
                     title: 'Kalkulator',
                     icon: 'calculator'
                 },
