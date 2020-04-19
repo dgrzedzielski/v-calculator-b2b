@@ -1,11 +1,12 @@
 .app-nav-mobile {
     position: fixed;
-    bottom: 0;
+    top: 100vh;
     left: 0;
     width: 100%;
     z-index: 1000;
     background: var(--panel-bg);
     box-shadow: -4px 0 8px rgba(#000, 0.1);
+    transform: translateY(-100%);
 
     &__list {
         justify-content: space-evenly;

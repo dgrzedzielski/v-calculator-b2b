@@ -10,16 +10,22 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent } from '@vue/composition-api';
+    import { defineComponent, onMounted } from '@vue/composition-api';
 
     const AppTransition = defineComponent({
         setup() {
+            let appElement: HTMLElement;
+
+            onMounted(() => {
+                appElement = document.querySelector('.app') as HTMLElement;
+            });
+
             const onBeforeLeave = () => {
-                document.body.style.overflow = 'hidden';
+                appElement.style.overflow = 'hidden';
             };
 
             const onAfterEnter = () => {
-                document.body.style.overflow = '';
+                appElement.style.overflow = '';
             };
 
             return {
