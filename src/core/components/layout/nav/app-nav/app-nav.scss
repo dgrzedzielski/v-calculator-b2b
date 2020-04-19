@@ -6,11 +6,7 @@
     }
 
     &__list {
-        list-style: none;
-        display: flex;
         align-items: center;
-        margin: 0;
-        padding: 0;
     }
 
     &__list-item {
@@ -24,18 +20,20 @@
     }
 
     &__link {
-        display: flex;
-        align-items: center;
-        text-transform: uppercase;
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: inherit;
+        font-size: 1.3rem;
+        transition: 0.35s;
+
+        &::after {
+            @include absolute(-23px, 0);
+        }
+
+        &:hover {
+            --link-color: var(--primary);
+        }
     }
 
     &__icon {
         margin-right: 10px;
         width: 18px;
-        height: auto;
-        max-height: 20px;
     }
 }
