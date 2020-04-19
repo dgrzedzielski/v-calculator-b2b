@@ -1,6 +1,7 @@
 .fade-slide-x {
     &-enter-active, &-leave-active {
         transition: 0.35s;
+        will-change: contents;
     }
 
     &-enter, &-leave-to {
