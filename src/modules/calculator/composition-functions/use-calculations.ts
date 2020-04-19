@@ -1,10 +1,6 @@
-import { computed, Ref, ref } from '@vue/composition-api';
-import { BaseCalculatorFormModel } from '@/modules/calculator/types/calculator-model';
+import { computed } from '@vue/composition-api';
 import CalculationsService from '@/modules/calculator/calculations-service';
-import useTaxOptions from '@/modules/calculator/composition-functions/use-tax-options';
-import { TaxForm } from '@/modules/calculator/types/tax-form-options';
-import { InsuranceVariant } from '@/modules/calculator/types/insurance-options';
-import { Expense } from '@/modules/calculator/types/expense';
+import { useTaxOptions } from '@/modules/calculator/composition-functions/use-tax-options';
 import CalculatorData from '../calculator-data';
 
 type ReductionType = {
@@ -12,7 +8,7 @@ type ReductionType = {
     vatReduction: number;
 }
 
-const useCalculations = (data: CalculatorData) => {
+export const useCalculations = (data: CalculatorData) => {
     const { insuranceOptions, taxFormOptions } = useTaxOptions();
 
     const selectedInsuranceOption = computed(() => {
@@ -103,10 +99,7 @@ const useCalculations = (data: CalculatorData) => {
     });
 
     return {
-        // socialContributionCost,
         insuranceTotalCost,
-        // reductions,
-        // revenue,
         revenueTax,
         grossIncome,
         vatCost,
@@ -116,5 +109,3 @@ const useCalculations = (data: CalculatorData) => {
         profit
     };
 };
-
-export default useCalculations;

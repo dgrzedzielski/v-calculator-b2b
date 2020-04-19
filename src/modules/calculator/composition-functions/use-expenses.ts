@@ -3,7 +3,7 @@ import { ref } from '@vue/composition-api';
 import { Expense } from '@/modules/calculator/types/expense';
 import CalculatorData from '../calculator-data';
 
-const useExpenses = (data: CalculatorData) => {
+export const useExpenses = (data: CalculatorData) => {
     const expenseToEdit = ref<Expense | null>(null);
     const isAddExpenseModalVisible = ref<boolean>(false);
 
@@ -43,5 +43,3 @@ const useExpenses = (data: CalculatorData) => {
         removeExpense
     };
 };
-
-export default useExpenses;

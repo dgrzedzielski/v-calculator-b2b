@@ -40,10 +40,10 @@
 
 <script lang="ts">
     import { defineComponent } from '@vue/composition-api';
-    import { BaseCalculatorFormModel } from '@/modules/calculator/types/calculator-model';
     import FormSwitch from '@/core/components/forms/form-switch/form-switch.vue';
     import FormRadioGroup from '@/core/components/forms/form-radio-group';
-    import useTaxOptions from '@/modules/calculator/composition-functions/use-tax-options';
+    import { BaseCalculatorFormModel } from '../types/calculator-model';
+    import { useTaxOptions } from '../composition-functions/use-tax-options';
 
     interface CalculatorFormProps {
         value: BaseCalculatorFormModel;

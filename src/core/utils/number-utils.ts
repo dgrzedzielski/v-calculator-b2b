@@ -1,5 +1,5 @@
 class NumberUtils {
-    static asStandardFormat = (val: number): number => parseFloat(
+    static as2Decimals = (val: number): number => parseFloat(
         val.toFixed(2)
     );
 

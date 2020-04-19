@@ -135,27 +135,25 @@
         onMounted,
         watch,
     } from '@vue/composition-api';
-    import CalculatorForm from './calculator-form.vue';
-    import CalculatorExpenseForm from './calculator-expense-form.vue';
-    import CalculatorExpensesList from './calculator-expenses-list.vue';
-    import CashResult from '@/core/components/ui/cash-result';
-    import CalculatorChangeBillingPeriod from './calculator-change-billing-period.vue';
-    import useCalculations from '../composition-functions/use-calculations';
-    import useExpenses from '../composition-functions/use-expenses';
-    import useLocalPersist from '../composition-functions/use-local-persist';
-    import { CalculatorModel, BillingPeriod } from '../types/calculator-model';
     import {
         createKeyboardShortcut,
         KeyboardModifier,
         useKeyboardShortcuts
     } from '@/core/composition-functions/use-keyboard-shortcuts';
     import { useStore } from '@/core/composition-functions/use-store';
-    import { useDbPersist } from '../composition-functions/use-db-persist';
     import { User } from '@/modules/auth/types/user';
-    import { PersistStatus, usePersist } from '../composition-functions/use-persist';
-    import CalculatorData from '../calculator-data';
-    import { useBillingPeriod } from '../composition-functions/use-billing-period';
     import { useRouter } from '@/core/composition-functions/use-router';
+    import CashResult from '@/core/components/ui/cash-result';
+    import CalculatorForm from './calculator-form.vue';
+    import CalculatorExpenseForm from './calculator-expense-form.vue';
+    import CalculatorExpensesList from './calculator-expenses-list.vue';
+    import CalculatorChangeBillingPeriod from './calculator-change-billing-period.vue';
+    import CalculatorData from '../calculator-data';
+    import { useCalculations } from '../composition-functions/use-calculations';
+    import { useExpenses } from '../composition-functions/use-expenses';
+    import { CalculatorModel, BillingPeriod } from '../types/calculator-model';
+    import { PersistStatus, usePersist } from '../composition-functions/use-persist';
+    import { useBillingPeriod } from '../composition-functions/use-billing-period';
 
     const BaseCalculator = defineComponent({
         components: {

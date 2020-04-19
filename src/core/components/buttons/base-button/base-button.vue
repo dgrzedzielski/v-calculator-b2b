@@ -19,8 +19,8 @@
 <script lang="ts">
     import { computed, defineComponent, toRefs } from '@vue/composition-api';
     import { BaseButtonProps } from '@/core/components/buttons/button-types';
+    import { ToPropType } from '@/core/types/nav';
     import ButtonMixin from '@/core/components/buttons/button-mixin';
-    import { ToPropType } from '@/core/types/to-prop-type';
 
     interface ButtonProps extends BaseButtonProps {
         to: ToPropType | string;
