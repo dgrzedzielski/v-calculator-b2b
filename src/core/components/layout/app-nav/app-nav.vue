@@ -25,15 +25,11 @@
 
 <script lang="ts">
     import { defineComponent } from '@vue/composition-api';
-    import { ToPropType } from '@/core/types/to-prop-type';
+    import { ToPropType } from '@/core/types/nav';
+    import NavMixin, { NavProps } from '../nav-mixin';
 
-    const AppNav = defineComponent({
-        props: {
-            navItems: {
-                required: true,
-                type: Array
-            }
-        }
+    const AppNav = defineComponent<NavProps>({
+        mixins: [NavMixin]
     });
 
     export default AppNav;

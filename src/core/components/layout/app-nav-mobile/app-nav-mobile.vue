@@ -25,15 +25,11 @@
 
 <script lang="ts">
     import { defineComponent } from '@vue/composition-api';
-    import { ToPropType } from '@/core/types/to-prop-type';
+    import { ToPropType } from '@/core/types/nav';
+    import NavMixin, { NavProps } from '../nav-mixin';
 
-    const AppNavMobile = defineComponent({
-        props: {
-            navItems: {
-                required: true,
-                type: Array
-            }
-        }
+    const AppNavMobile = defineComponent<NavProps>({
+        mixins: [NavMixin]
     });
 
     export default AppNavMobile;

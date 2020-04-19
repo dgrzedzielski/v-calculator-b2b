@@ -42,17 +42,11 @@
 <script lang="ts">
     import { defineComponent, ref, onMounted, onBeforeUnmount, computed } from '@vue/composition-api';
     import { useMobileCheck } from '@/core/composition-functions/use-mobile-check';
-    import { ToPropType } from '@/core/types/to-prop-type';
-    import { useStore } from '../../../composition-functions/use-store';
-    import AppNavMobile from '../app-nav-mobile';
+    import { ToPropType } from '@/core/types/nav';
+    import { useStore } from '@/core/composition-functions/use-store';
+    import AuthService from '@/modules/auth/auth-service';
     import AppNav from '../app-nav';
-    import AuthService from '../../../../modules/auth/auth-service';
-
-    type NavItem = {
-        to: string | ToPropType;
-        title: string;
-        icon: string;
-    }
+    import AppNavMobile from '../app-nav-mobile';
 
     const AppHeader = defineComponent({
         components: { AppNavMobile, AppNav },
