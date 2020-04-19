@@ -9,9 +9,17 @@
         width: auto;
     }
 
+    &__header, &__form, &__summary {
+        padding: 32px;
+
+        @include mq(xl) {
+            padding: 48px;
+        }
+    }
+
+
     &__header {
         grid-column: 1 / -1;
-        padding: 32px;
         border-bottom: 1px solid var(--border-color);
     }
 
@@ -32,22 +40,15 @@
 
     &__form {
         border-bottom: 1px solid var(--border-color);
-        padding: 20px 20px 30px;
         flex: 1;
 
         @include mq(md) {
             border-bottom: none;
             border-right: 1px solid var(--border-color);
-            padding: 32px;
         }
     }
 
     &__summary {
-        padding: 30px 20px;
         flex: 1;
-
-        @include mq(lg) {
-            padding: 32px;
-        }
     }
 }
