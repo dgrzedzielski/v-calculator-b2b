@@ -20,7 +20,7 @@
     import BaseFormGroupMixin, { BaseFormGroupProps } from '@/core/components/forms/base-form-group-mixin';
 
     interface InputFormGroupProps extends BaseFormGroupProps {
-        value: string | number;
+        value: string | number | null;
     }
 
     const InputFormGroup = defineComponent<InputFormGroupProps>({
@@ -30,7 +30,9 @@
         props: {
             value: {
                 required: true,
-                type: [String, Number]
+                validator: (val) => {
+                    return ['string', 'number'].includes(typeof val) || val === null;
+                }
             }
         }
     });
