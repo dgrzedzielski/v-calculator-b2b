@@ -1,7 +1,9 @@
 body[data-theme="dark"] {
     --body-bg: hsl(261, 5%, 18%);
     --panel-bg: hsl(255, 5%, 21%);
-    --border-color: hsl(253, 5%, 28%);
+
+    --border-color: hsl(253, 5%, 27%);
+    --element-border: none;
 
     --text-color: hsl(250, 5%, 85%);
     --inverted-text-color: hsl(250, 90%, 5%);
@@ -23,4 +25,10 @@ body[data-theme="dark"] {
     --primary-gradient: linear-gradient(128deg, hsl(195, 100%, 60%), hsl(290, 100%, 55%));
 
     --form-field-bg: hsl(253, 5%, 16%);
+    --form-field-border-color: transparent;
+
+    --shadow-smallest: rgba(0, 0, 0, 0.1);
+    --shadow-smaller: rgba(0, 0, 0, 0.15);
+    --shadow: rgba(0, 0, 0, 0.2);
+    --shadow-bigger: rgba(0, 0, 0, 0.25);
 }

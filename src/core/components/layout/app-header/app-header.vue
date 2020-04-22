@@ -35,6 +35,7 @@
             >
                 Zaloguj
             </base-button>
+            <app-theme-switch />
         </div>
     </header>
 </template>
@@ -47,9 +48,10 @@
     import AuthService from '@/modules/auth/auth-service';
     import AppNav from '../nav/app-nav';
     import AppNavMobile from '../nav/app-nav-mobile';
+    import AppThemeSwitch from '../app-theme-switch';
 
     const AppHeader = defineComponent({
-        components: { AppNavMobile, AppNav },
+        components: { AppNavMobile, AppNav, AppThemeSwitch },
         setup() {
             const { isMobile } = useMobileCheck();
             const navItems: NavItem[] = [

@@ -5,7 +5,8 @@
     width: 100%;
     z-index: 1000;
     background: var(--panel-bg);
-    box-shadow: -4px 0 8px rgba(#000, 0.1);
+    box-shadow: -4px 0 8px var(--shadow-smaller);
+    border-top: var(--element-border);
 
     &__list {
         justify-content: space-evenly;
