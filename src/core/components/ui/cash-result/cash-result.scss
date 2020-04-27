@@ -6,18 +6,22 @@
 
     &--primary {
         --cash-result-bg: var(--primary);
+        --icon-color: var(--primary-contrasting);
     }
 
     &--primary-gradient {
         --cash-result-bg: var(--primary-gradient);
+        --icon-color: var(--primary-contrasting);
     }
 
     &--success {
         --cash-result-bg: var(--success);
+        --icon-color: var(--success-contrasting);
     }
 
     &--danger {
         --cash-result-bg: var(--danger);
+        --icon-color: var(--danger-contrasting);
     }
 
     &__icon-container {
@@ -49,7 +53,7 @@
     }
 
     &__icon {
-        color: var(--header-color);
+        color: var(--icon-color);
         z-index: 2;
         width: 24px;
         height: auto;

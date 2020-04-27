@@ -17,10 +17,12 @@ body[data-theme="dark"] {
     --accent: hsl(260, 100%, 64%);
     --success: var(--green);
     --danger: var(--red);
-    --primary-contrasting: hsl(195, 100%, 16%); //darker in dark theme
-    --primary-contrasting-2: hsl(195, 100%, 82%); //lighter in dark theme
-    --success-contrasting: hsl(100, 100%, 14%);
-    --danger-contrasting: hsl(0, 100%, 12%);
+    --primary-contrasting-inverse: hsl(205, 100%, 16%); //darker in dark theme
+    --primary-contrasting: hsl(205, 100%, 82%); //lighter in dark theme
+    --success-contrasting-inverse: hsl(100, 100%, 14%);
+    --success-contrasting: hsl(100, 100%, 86%);
+    --danger-contrasting-inverse: hsl(0, 100%, 12%);
+    --danger-contrasting: hsl(0, 100%, 86%);
 
     --primary-gradient: linear-gradient(128deg, hsl(195, 100%, 60%), hsl(290, 100%, 55%));
 
