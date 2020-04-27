@@ -1,6 +1,6 @@
 <template>
     <section class="card auth-card register">
-        <h2 class="section__heading">
+        <h2 class="card__heading">
             Rejestracja
         </h2>
         <span class="register__steps">Krok {{ step }} / 2</span>
