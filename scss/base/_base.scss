@@ -45,3 +45,7 @@ button {
 *:focus:not(.focus-visible) {
     outline: none;
 }
+
+* {
+    -webkit-tap-highlight-color: transparent; /* for removing the highlight */
+}
