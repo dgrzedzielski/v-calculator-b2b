@@ -16,17 +16,17 @@
 
     &--info {
         --toast-bg: var(--primary);
-        --toast-text-color: var(--primary-contrasting);
+        --toast-text-color: var(--primary-contrasting-inverse);
     }
 
     &--success {
         --toast-bg: var(--success);
-        --toast-text-color: var(--success-contrasting);
+        --toast-text-color: var(--success-contrasting-inverse);
     }
 
     &--error {
         --toast-bg: var(--danger);
-        --toast-text-color: var(--danger-contrasting);
+        --toast-text-color: var(--danger-contrasting-inverse);
     }
 }
 
