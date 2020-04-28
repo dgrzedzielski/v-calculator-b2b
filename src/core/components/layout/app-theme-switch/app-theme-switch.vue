@@ -3,16 +3,23 @@
         class="theme-switch"
         @click="toggleTheme"
     >
-        <v-icon
-            v-if="currentTheme === Theme.DARK"
-            name="sun"
-            title="Przełącz motyw na jasny"
-        />
-        <v-icon
-            v-else
-            name="moon"
-            title="Przełącz motyw na ciemny"
-        />
+        <transition
+            mode="out-in"
+            name="switch-transition"
+        >
+            <v-icon
+                v-if="currentTheme === Theme.DARK"
+                key="sun"
+                name="sun"
+                title="Przełącz motyw na jasny"
+            />
+            <v-icon
+                v-else
+                key="moon"
+                name="moon"
+                title="Przełącz motyw na ciemny"
+            />
+        </transition>
     </button>
 </template>
 
