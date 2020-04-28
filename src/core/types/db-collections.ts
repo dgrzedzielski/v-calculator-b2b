@@ -3,5 +3,5 @@ export enum DbCollection {
 }
 
 export enum UserDataCollection {
-    SAVED_CALCULTIONS = 'saved-calculations'
+    SAVED_CALCULATIONS = 'saved-calculations'
 }

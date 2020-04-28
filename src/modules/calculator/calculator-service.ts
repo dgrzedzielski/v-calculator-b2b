@@ -74,7 +74,7 @@ class CalculatorService {
         try {
             await ref
                 .doc(user.uid)
-                .collection(UserDataCollection.SAVED_CALCULTIONS)
+                .collection(UserDataCollection.SAVED_CALCULATIONS)
                 .doc(saveKey)
                 .set(payload);
         } catch (e) {
@@ -88,7 +88,7 @@ class CalculatorService {
         try {
             const doc = await ref
                 .doc(user.uid)
-                .collection(UserDataCollection.SAVED_CALCULTIONS)
+                .collection(UserDataCollection.SAVED_CALCULATIONS)
                 .doc(data.id)
                 .get();
 
