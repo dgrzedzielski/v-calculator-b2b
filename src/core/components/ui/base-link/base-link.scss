@@ -5,8 +5,6 @@
     font-weight: 700;
     color: var(--header-color);
     border-bottom: 4px solid var(--accent);
-    transition: 0.25s;
-    transition-delay: 0.15s;
     z-index: 1;
 
     &::before, &::after {
@@ -24,6 +22,13 @@
     &::after {
         transform-origin: 50% 100%;
         opacity: 1;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow:
+            0 0 0 6px var(--panel-bg),
+            0 0 0 10px var(--accent);
     }
 
     &:hover {
