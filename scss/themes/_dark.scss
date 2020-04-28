@@ -1,7 +1,9 @@
 body[data-theme="dark"] {
     --body-bg: hsl(261, 5%, 18%);
     --panel-bg: hsl(255, 5%, 21%);
-    --border-color: hsl(253, 5%, 28%);
+
+    --border-color: hsl(253, 5%, 27%);
+    --element-border: none;
 
     --text-color: hsl(250, 5%, 85%);
     --inverted-text-color: hsl(250, 90%, 5%);
@@ -11,16 +13,24 @@ body[data-theme="dark"] {
     --green: hsl(100, 70%, 64%);
     --red: hsl(0, 100%, 68%);
 
-    --primary: hsl(195, 100%, 60%);
-    --accent: hsl(290, 100%, 55%);
+    --primary: hsl(205, 100%, 60%);
+    --accent: hsl(260, 100%, 64%);
     --success: var(--green);
     --danger: var(--red);
-    --primary-contrasting: hsl(195, 100%, 16%); //darker in dark theme
-    --primary-contrasting-2: hsl(195, 100%, 82%); //lighter in dark theme
-    --success-contrasting: hsl(100, 100%, 14%);
-    --danger-contrasting: hsl(0, 100%, 12%);
+    --primary-contrasting-inverse: hsl(205, 100%, 16%); //darker in dark theme
+    --primary-contrasting: hsl(205, 100%, 82%); //lighter in dark theme
+    --success-contrasting-inverse: hsl(100, 100%, 14%);
+    --success-contrasting: hsl(100, 100%, 86%);
+    --danger-contrasting-inverse: hsl(0, 100%, 12%);
+    --danger-contrasting: hsl(0, 100%, 86%);
 
-    --primary-gradient: linear-gradient(128deg, var(--primary), var(--accent));
+    --primary-gradient: linear-gradient(128deg, hsl(195, 100%, 60%), hsl(290, 100%, 55%));
 
     --form-field-bg: hsl(253, 5%, 16%);
+    --form-field-border-color: transparent;
+
+    --shadow-smallest: rgba(0, 0, 0, 0.1);
+    --shadow-smaller: rgba(0, 0, 0, 0.15);
+    --shadow: rgba(0, 0, 0, 0.2);
+    --shadow-bigger: rgba(0, 0, 0, 0.25);
 }

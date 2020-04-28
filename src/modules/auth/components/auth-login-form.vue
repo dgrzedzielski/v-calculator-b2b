@@ -1,6 +1,6 @@
 <template>
     <section class="card auth-card">
-        <h2 class="section__heading">
+        <h2 class="card__heading">
             Logowanie
         </h2>
         <form @submit.prevent="onSubmit">

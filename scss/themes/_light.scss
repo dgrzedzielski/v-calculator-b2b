@@ -1,0 +1,36 @@
+body[data-theme="light"] {
+    --body-bg: hsl(216, 100%, 98%);
+    --panel-bg: hsl(255, 100%, 100%);
+
+    --border-color: hsl(218, 47%, 87%);
+    --element-border: 1px solid var(--border-color);
+
+    --text-color: hsl(222, 8%, 47%);
+    --inverted-text-color: hsl(240, 11%, 2%);
+    --header-color: hsl(222, 15%, 29%);
+    --subtext-color: hsl(250, 25%, 55%);
+
+    --green: hsl(141, 69%, 45%);
+    --red: hsl(348, 68%, 53%);
+
+    --primary: hsl(254, 85%, 55%);
+    --accent: hsl(208, 79%, 51%);
+    --success: var(--green);
+    --danger: var(--red);
+    --primary-contrasting-inverse: hsl(205, 100%, 82%); //lighter in dark theme
+    --primary-contrasting: hsl(205, 100%, 18%); //darker in dark theme
+    --success-contrasting-inverse: hsl(100, 100%, 86%);
+    --success-contrasting: hsl(100, 100%, 14%);
+    --danger-contrasting: hsl(0, 100%, 12%);
+    --danger-contrasting-inverse: hsl(0, 100%, 86%);
+
+    --primary-gradient: linear-gradient(128deg, hsl(195, 100%, 50%), hsl(290, 100%, 45%));
+
+    --form-field-bg: hsl(255, 100%, 99%);
+    --form-field-border-color: var(--border-color);
+    
+    --shadow-smallest: rgba(0, 0, 0, 0.025);
+    --shadow-smaller: rgba(0, 0, 0, 0.05);
+    --shadow: rgba(0, 0, 0, 0.1);
+    --shadow-bigger: rgba(0, 0, 0, 0.15);
+}

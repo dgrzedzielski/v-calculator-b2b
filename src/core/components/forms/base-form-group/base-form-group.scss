@@ -13,7 +13,7 @@
         min-height: 42px;
         background: var(--form-field-bg);
         color: var(--text-color);
-        border: 1px solid transparent;
+        border: 1px solid var(--form-field-border-color);
         border-radius: 6px;
         transition: 0.25s border-color;
 

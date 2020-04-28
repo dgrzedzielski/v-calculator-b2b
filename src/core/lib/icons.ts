@@ -14,5 +14,7 @@ import 'vue-awesome/icons/save';
 import 'vue-awesome/icons/arrow-right';
 import 'vue-awesome/icons/calculator';
 import 'vue-awesome/icons/sliders-h';
+import 'vue-awesome/icons/sun';
+import 'vue-awesome/icons/moon';
 
 Vue.component('v-icon', Icon);

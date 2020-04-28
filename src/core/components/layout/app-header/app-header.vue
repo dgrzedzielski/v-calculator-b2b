@@ -35,6 +35,7 @@
             >
                 Zaloguj
             </base-button>
+            <app-theme-switch />
         </div>
     </header>
 </template>
@@ -45,11 +46,12 @@
     import { ToPropType, NavItem } from '@/core/types/nav';
     import { useStore } from '@/core/composition-functions/use-store';
     import AuthService from '@/modules/auth/auth-service';
-    import AppNav from '../app-nav';
-    import AppNavMobile from '../app-nav-mobile';
+    import AppNav from '../nav/app-nav';
+    import AppNavMobile from '../nav/app-nav-mobile';
+    import AppThemeSwitch from '../app-theme-switch';
 
     const AppHeader = defineComponent({
-        components: { AppNavMobile, AppNav },
+        components: { AppNavMobile, AppNav, AppThemeSwitch },
         setup() {
             const { isMobile } = useMobileCheck();
             const navItems: NavItem[] = [
@@ -59,7 +61,7 @@
                     icon: 'chart-line'
                 },
                 {
-                    to: '/',
+                    to: '/calculator',
                     title: 'Kalkulator',
                     icon: 'calculator'
                 },

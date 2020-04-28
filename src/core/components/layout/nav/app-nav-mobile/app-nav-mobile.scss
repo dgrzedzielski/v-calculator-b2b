@@ -1,0 +1,30 @@
+.app-nav-mobile {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: var(--panel-bg);
+    box-shadow: -4px 0 8px var(--shadow-smaller);
+    border-top: var(--element-border);
+
+    &__list {
+        justify-content: space-evenly;
+    }
+
+    &__link {
+        flex-direction: column;
+        padding: 12px 0;
+        min-width: 75px;
+        font-size: 1.2rem;
+
+        &::after {
+            @include absolute(0, 0);
+        }
+    }
+
+    &__icon {
+        margin-bottom: 8px;
+        width: 20px;
+    }
+}

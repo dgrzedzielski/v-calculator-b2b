@@ -13,6 +13,69 @@
         continue.</strong>
 </noscript>
 <div id="app"></div>
+<script>
+    //THEME INITIALIZATION
+    (function () {
+        const EARLY_MORNING = 'EARLY_MORNING';
+        const MORNING = 'MORNING';
+        const AFTERNOON = 'AFTERNOON';
+        const EVENING = 'EVENING';
+        const THEME = {
+            DARK: 'dark',
+            LIGHT: 'light'
+        };
+
+        const getDayTime = () => {
+            const hourNow = Date.now().getHours();
+
+            switch (true) {
+                case (hourNow >= 5 && hourNow < 7):
+                    return EARLY_MORNING;
+
+                case (hourNow >= 12 && hourNow < 17):
+                    return AFTERNOON;
+
+                case (hourNow >= 17 || hourNow < 5):
+                    return EVENING;
+
+                default:
+                    return MORNING;
+            }
+        };
+
+        const setCurrentTheme = (theme) => {
+            document.body.setAttribute('data-theme', theme);
+        };
+
+        const setPreferredTheme = (theme) => {
+            localStorage.setItem('theme', theme);
+            setCurrentTheme(theme);
+        };
+
+        const initTheme = () => {
+            let preferredTheme = localStorage.getItem('theme');
+
+            if (preferredTheme) {
+                setCurrentTheme(preferredTheme);
+                return;
+            }
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                preferredTheme = THEME.DARK;
+            } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+                preferredTheme = THEME.LIGHT;
+            } else {
+                const themeFromTime = getDayTime() === EVENING ? THEME.DARK : THEME.LIGHT;
+                setCurrentTheme(themeFromTime);
+                return;
+            }
+
+            setPreferredTheme(preferredTheme);
+        };
+
+        initTheme();
+    })();
+</script>
 <!-- built files will be auto injected -->
 </body>
 </html>
