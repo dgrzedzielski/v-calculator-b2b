@@ -1,4 +1,4 @@
-# vue-ts
+# VCalculatorB2B
 
 ## Project setup
 ```
