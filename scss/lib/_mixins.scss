@@ -116,3 +116,9 @@
     box-shadow: 0 0 20px var(--shadow-smaller);
     border: var(--element-border);
 }
+
+@mixin focus {
+    &[data-focus-visible-added]:focus {
+        @content;
+    }
+}

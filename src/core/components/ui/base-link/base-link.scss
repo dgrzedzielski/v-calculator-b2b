@@ -24,7 +24,7 @@
         opacity: 1;
     }
 
-    &:focus {
+    @include focus {
         outline: none;
         box-shadow:
             0 0 0 6px var(--panel-bg),

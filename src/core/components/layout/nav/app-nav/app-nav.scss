@@ -27,8 +27,28 @@
             @include absolute(-23px, 0);
         }
 
+        &::before {
+            content: '';
+            @include absolute-full();
+            box-shadow:
+                0 0 0 8px var(--panel-bg),
+                0 0 0 10px var(--primary);
+            opacity: 0;
+            transition: 0.25s opacity;
+        }
+
         &:hover {
             --link-color: var(--primary);
+        }
+
+        &:focus {
+            outline: none;
+        }
+
+        @include focus {
+            &::before {
+                opacity: 1;
+            }
         }
     }
 

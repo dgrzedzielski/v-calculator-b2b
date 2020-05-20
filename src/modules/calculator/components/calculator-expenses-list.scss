@@ -68,7 +68,7 @@
             }
         }
 
-        &[data-focus-visible-added]:focus {
+        @include focus {
             outline: none;
 
             &::after {
