@@ -38,6 +38,11 @@
         z-index: -1;
         transition: 0.35s ease;
         opacity: var(--modal-overlay-opacity);
+
+        @supports (backdrop-filter: blur(1px)) {
+            backdrop-filter: blur(15px);
+            background: rgba(#000, 0.5);
+        }
     }
 
     &__close {
