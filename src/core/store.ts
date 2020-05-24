@@ -10,6 +10,6 @@ export interface StoreState {
 
 export default new Vuex.Store<StoreState>({
     modules: {
-        auth: AuthModule
-    }
+        auth: AuthModule,
+    },
 });

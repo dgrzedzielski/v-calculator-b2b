@@ -11,7 +11,7 @@ Vue.use(VueCompositionApi);
 // @ts-ignore
 Vue.use(Toast, {
     draggablePercent: 0.45,
-    maxToasts: 10
+    maxToasts: 10,
 });
 
 Vue.component('base-button', BaseButton);

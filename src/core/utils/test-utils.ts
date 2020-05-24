@@ -5,7 +5,7 @@ import {
     Wrapper,
     createLocalVue,
     shallowMount as defaultShallowMount,
-    mount as defaultMount
+    mount as defaultMount,
 } from '@vue/test-utils';
 
 const localVue = createLocalVue();

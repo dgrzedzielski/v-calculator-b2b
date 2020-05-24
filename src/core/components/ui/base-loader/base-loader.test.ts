@@ -18,7 +18,7 @@ describe('BaseLoader component', () => {
     });
 
     it('should has proper classes and default should be primary themed', () => {
-        ['loader', 'loader--primary'].forEach(loaderClass => {
+        ['loader', 'loader--primary'].forEach((loaderClass) => {
             expect(wrapper.classes()).toContain(loaderClass);
         });
     });

@@ -11,10 +11,11 @@ export const useMonths = () => {
         { value: '09', label: 'Wrzesień' },
         { value: '10', label: 'Październik' },
         { value: '11', label: 'Listopad' },
-        { value: '12', label: 'Grudzień' }
+        { value: '12', label: 'Grudzień' },
     ];
 
-    const getMonthName = (month: string) => months.find(({ value }) => value === month)?.label;
+    const getMonthName = (month: string) =>
+        months.find(({ value }) => value === month)?.label;
 
     return { months, getMonthName };
 };

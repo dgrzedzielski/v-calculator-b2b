@@ -10,12 +10,12 @@ describe('CashResult component', () => {
             propsData: {
                 theme: 'primary',
                 value: 5000,
-                label: 'label'
+                label: 'label',
             },
             filters: {
-                currency: (val: any) => val
+                currency: (val: any) => val,
             },
-            stubs: ['v-icon']
+            stubs: ['v-icon'],
         });
     });
 
@@ -24,16 +24,20 @@ describe('CashResult component', () => {
     });
 
     it('should has proper classes', async () => {
-        ['cash-result', 'cash-result--primary'].forEach(wrapperClass => {
+        ['cash-result', 'cash-result--primary'].forEach((wrapperClass) => {
             expect(wrapper.classes()).toContain(wrapperClass);
         });
 
         await setProps(wrapper, {
             icon: 'test',
-            theme: 'success'
+            theme: 'success',
         });
 
-        ['cash-result', 'cash-result--success', 'cash-result--with-icon'].forEach(wrapperClass => {
+        [
+            'cash-result',
+            'cash-result--success',
+            'cash-result--with-icon',
+        ].forEach((wrapperClass) => {
             expect(wrapper.classes()).toContain(wrapperClass);
         });
     });

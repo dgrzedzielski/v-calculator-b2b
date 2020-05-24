@@ -9,8 +9,8 @@ describe('BaseFormGroup component', () => {
         wrapper = shallowMount(BaseFormGroup, {
             propsData: {
                 name: 'name',
-                label: 'label'
-            }
+                label: 'label',
+            },
         });
     });
 

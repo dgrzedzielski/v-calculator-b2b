@@ -40,6 +40,6 @@ export const useExpenses = (data: CalculatorData) => {
         expenseToEdit,
         isAddExpenseModalVisible,
         openExpenseEdit,
-        removeExpense
+        removeExpense,
     };
 };

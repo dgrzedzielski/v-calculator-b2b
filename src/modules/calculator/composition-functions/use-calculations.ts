@@ -6,19 +6,21 @@ import CalculatorData from '../calculator-data';
 type ReductionType = {
     costReduction: number;
     vatReduction: number;
-}
+};
 
 export const useCalculations = (data: CalculatorData) => {
     const { insuranceOptions, taxFormOptions } = useTaxOptions();
 
     const selectedInsuranceOption = computed(() => {
-        return insuranceOptions
-            .find(option => option.id === data.form.insuranceVariant)!;
+        return insuranceOptions.find(
+            (option) => option.id === data.form.insuranceVariant
+        )!;
     });
 
     const selectedTaxForm = computed(() => {
-        return taxFormOptions
-            .find(option => option.id === data.form.taxForm)!;
+        return taxFormOptions.find(
+            (option) => option.id === data.form.taxForm
+        )!;
     });
 
     const socialContributionCost = computed(() => {
@@ -29,22 +31,27 @@ export const useCalculations = (data: CalculatorData) => {
         }
 
         if (data.form.optionalSicknessInsurance) {
-            result += selectedInsuranceOption.value.value.optionalSicknessInsurance;
+            result +=
+                selectedInsuranceOption.value.value.optionalSicknessInsurance;
         }
 
         return result;
     });
 
     const insuranceTotalCost = computed(() => {
-        return socialContributionCost.value +
-            selectedInsuranceOption.value.value.healthInsurance;
+        return (
+            socialContributionCost.value +
+            selectedInsuranceOption.value.value.healthInsurance
+        );
     });
 
     const reductions = computed<ReductionType>(() => {
         const result = { vatReduction: 0, costReduction: 0 };
         data.expenses.forEach(({ grossValue, isCarExpense }) => {
-            const { costReduction, vatReduction } =
-                CalculationsService.getReduction(grossValue, isCarExpense);
+            const {
+                costReduction,
+                vatReduction,
+            } = CalculationsService.getReduction(grossValue, isCarExpense);
             result.vatReduction += vatReduction;
             result.costReduction += costReduction;
         });
@@ -53,13 +60,18 @@ export const useCalculations = (data: CalculatorData) => {
     });
 
     const revenue = computed(() => {
-        return data.form.netIncome -
+        return (
+            data.form.netIncome -
             reductions.value.costReduction -
-            socialContributionCost.value;
+            socialContributionCost.value
+        );
     });
 
     const revenueTax = computed(() => {
-        return CalculationsService.getRevenueTax(revenue.value, selectedTaxForm.value);
+        return CalculationsService.getRevenueTax(
+            revenue.value,
+            selectedTaxForm.value
+        );
     });
 
     const grossIncome = computed(() => {
@@ -69,7 +81,9 @@ export const useCalculations = (data: CalculatorData) => {
     const vatCost = computed(() => {
         return Math.max(
             0,
-            grossIncome.value - data.form.netIncome - reductions.value.vatReduction
+            grossIncome.value -
+                data.form.netIncome -
+                reductions.value.vatReduction
         );
     });
 
@@ -89,9 +103,14 @@ export const useCalculations = (data: CalculatorData) => {
     const taxSavings = computed(() => {
         const baseRevenue = data.form.netIncome - socialContributionCost.value;
 
-        return (CalculationsService.getRevenueTax(baseRevenue, selectedTaxForm.value) -
-            revenueTax.value) +
-            reductions.value.vatReduction;
+        return (
+            CalculationsService.getRevenueTax(
+                baseRevenue,
+                selectedTaxForm.value
+            ) -
+            revenueTax.value +
+            reductions.value.vatReduction
+        );
     });
 
     const profit = computed(() => {
@@ -106,6 +125,6 @@ export const useCalculations = (data: CalculatorData) => {
         result,
         expensesTotal,
         taxSavings,
-        profit
+        profit,
     };
 };

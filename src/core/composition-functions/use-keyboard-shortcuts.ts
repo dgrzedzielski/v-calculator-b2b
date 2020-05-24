@@ -3,15 +3,17 @@ import { onMounted, onBeforeUnmount } from '@vue/composition-api';
 type KeyboardShortcut = {
     shortcut: string;
     callback: () => void;
-}
+};
 
 export enum KeyboardModifier {
     CTRL = 'Ctrl',
-    ALT = 'Alt'
+    ALT = 'Alt',
 }
 
-export const createKeyboardShortcut = (modifier: KeyboardModifier, key: string) =>
-    `${modifier}+${key}`;
+export const createKeyboardShortcut = (
+    modifier: KeyboardModifier,
+    key: string
+) => `${modifier}+${key}`;
 
 export const useKeyboardShortcuts = (shortcuts: KeyboardShortcut[]) => {
     const handleKeyboardShortcuts = (event: KeyboardEvent) => {

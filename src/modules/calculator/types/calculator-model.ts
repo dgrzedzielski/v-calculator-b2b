@@ -18,4 +18,4 @@ export interface CalculatorModel extends BaseCalculatorFormModel {
 export type BillingPeriod = {
     month: string;
     year: string;
-}
+};

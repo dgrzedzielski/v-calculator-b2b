@@ -8,7 +8,7 @@ describe('FormRadioGroup component', () => {
         { label: 'A', value: 0 },
         { label: 'B', value: 1 },
         { label: 'C', value: 2 },
-        { label: 'D', value: 3 }
+        { label: 'D', value: 3 },
     ];
 
     beforeEach(() => {
@@ -18,8 +18,8 @@ describe('FormRadioGroup component', () => {
                 name: 'name',
                 value: 1,
                 optionValueKey: 'value',
-                options
-            }
+                options,
+            },
         });
     });
 
@@ -32,22 +32,26 @@ describe('FormRadioGroup component', () => {
     });
 
     it('should has checked proper option', async () => {
-        expect(wrapper.find('.form-radio-group__option--checked').text())
-            .toBe('B');
+        expect(wrapper.find('.form-radio-group__option--checked').text()).toBe(
+            'B'
+        );
 
         const newOptionIndex = 3;
         await setProps(wrapper, {
-            value: options[newOptionIndex].value
+            value: options[newOptionIndex].value,
         });
 
-        expect(wrapper.find('.form-radio-group__option--checked').text())
-            .toBe(options[newOptionIndex].label);
+        expect(wrapper.find('.form-radio-group__option--checked').text()).toBe(
+            options[newOptionIndex].label
+        );
     });
 
     it('should emit input event on click on option', () => {
         const optionIndex = 0;
         const firstOptionLabel = wrapper.findAll('label').at(optionIndex);
         firstOptionLabel.trigger('click');
-        expect(wrapper.emitted('input')![0][0]).toBe(options[optionIndex].value);
+        expect(wrapper.emitted('input')![0][0]).toBe(
+            options[optionIndex].value
+        );
     });
 });

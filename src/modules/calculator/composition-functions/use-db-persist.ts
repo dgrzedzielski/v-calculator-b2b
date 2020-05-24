@@ -8,7 +8,9 @@ import { PersistStatus } from './use-persist';
 import CalculatorData from '../calculator-data';
 
 export const useDbPersist = (status: Ref<PersistStatus>) => {
-    const savedData = ref<CalculatorModel | BaseCalculatorFormModel | null>(null);
+    const savedData = ref<CalculatorModel | BaseCalculatorFormModel | null>(
+        null
+    );
 
     const saveData = async (data: CalculatorModel, id: string, user: User) => {
         status.value = PersistStatus.SAVING;
@@ -25,6 +27,6 @@ export const useDbPersist = (status: Ref<PersistStatus>) => {
         loadData,
         saveData,
         savedData,
-        status
+        status,
     };
 };

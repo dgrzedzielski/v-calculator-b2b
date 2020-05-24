@@ -9,14 +9,11 @@ module.exports = {
             navigateFallback: '/index.html',
         },
     },
-    transpileDependencies: [
-        /\bvue-awesome\b/,
-        'vuex-module-decorators'
-    ],
+    transpileDependencies: [/\bvue-awesome\b/, 'vuex-module-decorators'],
     pluginOptions: {
         'style-resources-loader': {
             preProcessor: 'scss',
-            patterns: [path.resolve(__dirname, 'scss/lib.scss')]
-        }
-    }
+            patterns: [path.resolve(__dirname, 'scss/lib.scss')],
+        },
+    },
 };

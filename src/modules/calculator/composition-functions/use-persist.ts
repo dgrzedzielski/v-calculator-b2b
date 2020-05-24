@@ -6,7 +6,7 @@ import {
     ref,
     watch,
     computed,
-    onBeforeUnmount
+    onBeforeUnmount,
 } from '@vue/composition-api';
 import { User } from '@/modules/auth/types/user';
 import { BaseCalculatorFormModel } from './../types/calculator-model';
@@ -22,16 +22,19 @@ export enum PersistStatus {
     SAVED = 'saved',
     WILL_SAVE = 'will-save',
     ERROR = 'error',
-    NOTHING_TO_LOAD = 'nothing-to-load'
+    NOTHING_TO_LOAD = 'nothing-to-load',
 }
 
-export const usePersist = (data: CalculatorData, loggedUser: Ref<Readonly<User | null>>) => {
+export const usePersist = (
+    data: CalculatorData,
+    loggedUser: Ref<Readonly<User | null>>
+) => {
     const status = ref<PersistStatus>(PersistStatus.LOADING);
 
     const {
         loadData: loadLocalData,
         saveData: saveDataLocally,
-        savedData: localSavedData
+        savedData: localSavedData,
     } = useLocalPersist(status);
 
     const {
@@ -40,15 +43,18 @@ export const usePersist = (data: CalculatorData, loggedUser: Ref<Readonly<User |
         savedData: dbSavedData,
     } = useDbPersist(status);
 
-    const savedData = computed<CalculatorModel | BaseCalculatorFormModel | null>({
-        get: () => loggedUser.value ? dbSavedData.value : localSavedData.value,
+    const savedData = computed<
+        CalculatorModel | BaseCalculatorFormModel | null
+    >({
+        get: () =>
+            loggedUser.value ? dbSavedData.value : localSavedData.value,
         set: (newValue: CalculatorModel | BaseCalculatorFormModel | null) => {
             if (loggedUser.value) {
                 dbSavedData.value = newValue;
             } else {
                 localSavedData.value = newValue as CalculatorModel | null;
             }
-        }
+        },
     });
 
     const loadData = async () => {
@@ -78,7 +84,8 @@ export const usePersist = (data: CalculatorData, loggedUser: Ref<Readonly<User |
 
     const handleDataChange = () => {
         if (isEqual(data.value, savedData.value)) {
-            if (status.value === PersistStatus.WILL_SAVE) status.value = PersistStatus.SAVED;
+            if (status.value === PersistStatus.WILL_SAVE)
+                status.value = PersistStatus.SAVED;
             debouncedSave.clear();
         } else {
             status.value = PersistStatus.WILL_SAVE;
@@ -90,7 +97,9 @@ export const usePersist = (data: CalculatorData, loggedUser: Ref<Readonly<User |
 
     onMounted(async () => {
         await loadData();
-        stopHandle = watch([data.formRef, data.expensesRef], handleDataChange, { lazy: true });
+        stopHandle = watch([data.formRef, data.expensesRef], handleDataChange, {
+            lazy: true,
+        });
     });
 
     onBeforeUnmount(() => void stopHandle());
@@ -100,6 +109,6 @@ export const usePersist = (data: CalculatorData, loggedUser: Ref<Readonly<User |
         savedData,
         loadData,
         saveData,
-        debouncedSave
+        debouncedSave,
     };
 };

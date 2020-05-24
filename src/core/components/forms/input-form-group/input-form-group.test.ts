@@ -10,9 +10,9 @@ describe('InputFormGroup component', () => {
             propsData: {
                 label: 'label',
                 value: 'test-value',
-                name: 'test-input'
+                name: 'test-input',
             },
-            stubs: ['base-form-group']
+            stubs: ['base-form-group'],
         });
     });
 

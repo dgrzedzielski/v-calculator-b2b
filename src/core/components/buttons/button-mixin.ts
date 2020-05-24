@@ -1,26 +1,29 @@
 import { defineComponent } from '@vue/composition-api';
 import { ThemeVariant } from '@/core/components/ui/ui-theme';
-import { BaseButtonProps, ButtonSize } from '@/core/components/buttons/button-types';
+import {
+    BaseButtonProps,
+    ButtonSize,
+} from '@/core/components/buttons/button-types';
 
 const ButtonMixin = defineComponent<BaseButtonProps>({
     props: {
         outline: {
             type: Boolean,
-            default: false
+            default: false,
         },
         disabled: {
             type: Boolean,
-            default: false
+            default: false,
         },
         theme: {
             type: String,
-            required: true
+            required: true,
         },
         size: {
             type: String,
-            default: null
-        }
-    }
+            default: null,
+        },
+    },
 });
 
 export default ButtonMixin;

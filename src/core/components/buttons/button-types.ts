@@ -4,6 +4,6 @@ export type ButtonSize = 'small' | 'large';
 
 export interface BaseButtonProps extends Themable {
     disabled: boolean;
-    outline: boolean,
+    outline: boolean;
     size?: ButtonSize;
 }

@@ -8,7 +8,7 @@ describe('BaseModal component', () => {
     beforeEach(() => {
         wrapper = shallowMount(BaseModal, {
             propsData: {
-                name: 'name'
+                name: 'name',
             },
             attachToDocument: true,
             slots: {
@@ -18,10 +18,10 @@ describe('BaseModal component', () => {
                         <input id="modal-input" type="text">
                         <button id="modal-button">button</button>
                     </div>
-                    `
-                }
+                    `,
+                },
             },
-            stubs: ['v-icon']
+            stubs: ['v-icon'],
         });
     });
 

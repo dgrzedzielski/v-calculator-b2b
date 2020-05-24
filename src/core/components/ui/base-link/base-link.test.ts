@@ -8,9 +8,9 @@ describe('BaseLink component', () => {
     beforeEach(() => {
         wrapper = shallowMount(BaseLink, {
             propsData: {
-                to: '/'
+                to: '/',
             },
-            stubs: ['router-link']
+            stubs: ['router-link'],
         });
     });
 

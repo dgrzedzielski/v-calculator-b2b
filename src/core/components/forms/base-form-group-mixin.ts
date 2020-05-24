@@ -9,13 +9,13 @@ const BaseFormGroupMixin = defineComponent<BaseFormGroupProps>({
     props: {
         name: {
             type: String,
-            required: true
+            required: true,
         },
         label: {
             type: String,
-            required: true
-        }
-    }
+            required: true,
+        },
+    },
 });
 
 export default BaseFormGroupMixin;

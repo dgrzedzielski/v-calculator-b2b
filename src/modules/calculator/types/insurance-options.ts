@@ -4,13 +4,13 @@ import {
     OPTIONAL_SICKNESS_INSURANCE,
     OPTIONAL_SICKNESS_INSURANCE_LOWERED,
     SOCIAL_CONTRIBUTION,
-    SOCIAL_CONTRIBUTION_LOWERED
+    SOCIAL_CONTRIBUTION_LOWERED,
 } from '@/modules/calculator/tax-rates';
 
 export enum InsuranceVariant {
     START,
     LOWERED,
-    FULL
+    FULL,
 }
 
 export interface InsuranceOption {
@@ -30,18 +30,18 @@ export const INSURANCE_OPTIONS: InsuranceOption[] = [
         value: {
             healthInsurance: HEALTH_INSURANCE,
             optionalSicknessInsurance: 0,
-            socialContribution: 0
+            socialContribution: 0,
         },
-        label: 'Na start'
+        label: 'Na start',
     },
     {
         id: InsuranceVariant.LOWERED,
         value: {
             healthInsurance: HEALTH_INSURANCE,
             optionalSicknessInsurance: OPTIONAL_SICKNESS_INSURANCE_LOWERED,
-            socialContribution: SOCIAL_CONTRIBUTION_LOWERED
+            socialContribution: SOCIAL_CONTRIBUTION_LOWERED,
         },
-        label: 'Obniżona'
+        label: 'Obniżona',
     },
     {
         id: InsuranceVariant.FULL,
@@ -49,8 +49,8 @@ export const INSURANCE_OPTIONS: InsuranceOption[] = [
             healthInsurance: HEALTH_INSURANCE,
             optionalSicknessInsurance: OPTIONAL_SICKNESS_INSURANCE,
             socialContribution: SOCIAL_CONTRIBUTION,
-            additional: ADDITIONAL_INSURANCE_COST
+            additional: ADDITIONAL_INSURANCE_COST,
         },
-        label: 'Pełna'
-    }
+        label: 'Pełna',
+    },
 ];

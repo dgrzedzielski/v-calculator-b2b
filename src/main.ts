@@ -19,5 +19,5 @@ new Vue({
             store.dispatch('auth/init', user);
         });
     },
-    render: h => h(App)
+    render: (h) => h(App),
 }).$mount('#app');

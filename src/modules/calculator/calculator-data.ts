@@ -1,4 +1,8 @@
-import { BaseCalculatorFormModel, BillingPeriod, CalculatorModel } from './types/calculator-model';
+import {
+    BaseCalculatorFormModel,
+    BillingPeriod,
+    CalculatorModel,
+} from './types/calculator-model';
 import { ref } from '@vue/composition-api';
 import { Expense } from './types/expense';
 import { TaxForm } from './types/tax-form-options';
@@ -6,9 +10,9 @@ import { InsuranceVariant } from './types/insurance-options';
 import NumberUtils from '@/core/utils/number-utils';
 
 interface InitialValues {
-    form?: BaseCalculatorFormModel,
-    expenses?: Expense[],
-    billingPeriod?: BillingPeriod
+    form?: BaseCalculatorFormModel;
+    expenses?: Expense[];
+    billingPeriod?: BillingPeriod;
 }
 
 class CalculatorData {
@@ -21,7 +25,9 @@ class CalculatorData {
 
     public expensesRef = ref<Expense[]>([]);
 
-    public billingPeriodRef = ref<BillingPeriod>(CalculatorData.defaultBillingPeriod);
+    public billingPeriodRef = ref<BillingPeriod>(
+        CalculatorData.defaultBillingPeriod
+    );
 
     constructor({ form, expenses, billingPeriod }: InitialValues) {
         if (form) {
@@ -69,7 +75,7 @@ class CalculatorData {
         return {
             ...this.form,
             ...this.billingPeriod,
-            expenses: this.expenses
+            expenses: this.expenses,
         };
     }
 
@@ -85,15 +91,17 @@ class CalculatorData {
 
         return {
             month: NumberUtils.as2Digits(date.getMonth() + 1),
-            year: date.getFullYear().toString()
+            year: date.getFullYear().toString(),
         };
     }
 
-    static getValuesWithDefaults(formValue: BaseCalculatorFormModel): CalculatorModel {
+    static getValuesWithDefaults(
+        formValue: BaseCalculatorFormModel
+    ): CalculatorModel {
         return {
             ...formValue,
             expenses: [],
-            ...CalculatorData.defaultBillingPeriod
+            ...CalculatorData.defaultBillingPeriod,
         };
     }
 }

@@ -10,8 +10,8 @@ describe('FormSwitch component', () => {
             propsData: {
                 name: 'test-switch',
                 label: 'label',
-                value: false
-            }
+                value: false,
+            },
         });
     });
 

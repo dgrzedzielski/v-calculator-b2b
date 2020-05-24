@@ -25,6 +25,6 @@ export const useLocalPersist = (status: Ref<PersistStatus>) => {
     return {
         loadData,
         saveData,
-        savedData
+        savedData,
     };
 };

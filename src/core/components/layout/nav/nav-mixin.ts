@@ -10,9 +10,9 @@ const NavMixin = defineComponent<NavProps>({
     props: {
         navItems: {
             required: true,
-            type: Array
-        }
-    }
+            type: Array,
+        },
+    },
 });
 
 export default NavMixin;

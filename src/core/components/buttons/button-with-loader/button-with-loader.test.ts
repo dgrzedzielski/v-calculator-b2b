@@ -11,15 +11,15 @@ describe('ButtonWithLoader component', () => {
         wrapper = shallowMount(ButtonWithLoader, {
             propsData: {
                 loading: false,
-                theme: 'primary'
+                theme: 'primary',
             },
             slots: {
-                default: BTN_CONTENT
+                default: BTN_CONTENT,
             },
             listeners: {
-                click: () => {}
+                click: () => {},
             },
-            stubs: ['base-button', 'base-loader']
+            stubs: ['base-button', 'base-loader'],
         });
     });
 
