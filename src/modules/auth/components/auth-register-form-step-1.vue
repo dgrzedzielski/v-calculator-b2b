@@ -49,7 +49,7 @@
 <script lang="ts">
     import Vue from 'vue';
     import { defineComponent, ref, computed } from '@vue/composition-api';
-    import { useRouter } from '@/core/composition-functions/use-router';
+    import { useRouter } from '@/core/composables/use-router';
     import AuthService from '@/modules/auth/auth-service';
 
     type FeedbackMessages = { [key: string]: string }

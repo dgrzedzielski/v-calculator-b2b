@@ -2,13 +2,23 @@ import NumberUtils from '@/core/utils/number-utils';
 import {
     CalculatorModel,
     BaseCalculatorFormModel,
+    BillingPeriod,
 } from '@/modules/calculator/types/calculator-model';
 import { User } from '../auth/types/user';
 import { db } from '@/core/lib/firebase';
 import { DbCollection, UserDataCollection } from '@/core/types/db-collections';
-import CalculatorData from './calculator-data';
+import { useCalculatorStore } from '@/modules/calculator/calculator-store';
 
 class CalculatorService {
+    static get defaultBillingPeriod(): BillingPeriod {
+        const date = new Date();
+
+        return {
+            month: NumberUtils.as2Digits(date.getMonth() + 1),
+            year: date.getFullYear().toString(),
+        };
+    }
+
     static getSaveKey(month: string, year: number): string {
         return `${month}.${year}`;
     }
@@ -90,21 +100,21 @@ class CalculatorService {
     }
 
     static async loadData(
-        data: CalculatorData,
         user: User
     ): Promise<CalculatorModel | BaseCalculatorFormModel | undefined> {
         const ref = db.collection(DbCollection.USER_DATA);
+        const { setData, id, setForm } = useCalculatorStore();
 
         try {
             const doc = await ref
                 .doc(user.uid)
                 .collection(UserDataCollection.SAVED_CALCULATIONS)
-                .doc(data.id)
+                .doc(id.value)
                 .get();
 
             if (doc.exists) {
                 const result = doc.data() as CalculatorModel;
-                data.value = result;
+                setData(result);
                 return result;
             } else {
                 const defaultData = await CalculatorService.loadDefaultData(
@@ -112,7 +122,7 @@ class CalculatorService {
                 );
 
                 if (defaultData) {
-                    data.form = defaultData;
+                    setForm(defaultData);
                     return defaultData;
                 }
             }

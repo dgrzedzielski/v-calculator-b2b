@@ -13,20 +13,18 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, computed } from '@vue/composition-api';
-    import { provideStore } from '@/core/composition-functions/use-store';
-    import { provideRouter } from '@/core/composition-functions/use-router';
-    import store from '@/core/store';
+    import { defineComponent } from '@vue/composition-api';
+    import { provideRouter } from '@/core/composables/use-router';
     import router from '@/core/lib/router';
     import AppLayout from '@/core/components/layout/app-layout';
     import AppTransition from '@/core/components/layout/app-transition';
+    import { useAuthStore } from '@/modules/auth/auth-store';
 
     const App = defineComponent({
         components: { AppLayout, AppTransition },
         setup() {
-            provideStore(store);
             provideRouter(router);
-            const isAuthReady = computed<boolean>(() => store.state.auth.isReady);
+            const { isReady: isAuthReady } = useAuthStore();
 
             return {
                 isAuthReady
