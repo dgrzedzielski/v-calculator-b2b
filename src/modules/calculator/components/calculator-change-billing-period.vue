@@ -36,7 +36,7 @@
     import BaseModal from '@/core/components/ui/base-modal';
     import FormSelect from '@/core/components/forms/form-select';
     import { BillingPeriod } from '../types/calculator-model';
-    import { useMonths } from '../../../core/composition-functions/use-months';
+    import { useMonths } from '../../../core/composables/use-months';
 
     interface CalculatorChangeBillingPeriodProps {
         currentBillingPeriod: BillingPeriod;

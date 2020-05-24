@@ -1,19 +1,18 @@
 import isEqual from 'lodash.isequal';
 import debounce from 'debounce';
 import {
-    Ref,
     onMounted,
     ref,
     watch,
     computed,
     onBeforeUnmount,
 } from '@vue/composition-api';
-import { User } from '@/modules/auth/types/user';
 import { BaseCalculatorFormModel } from './../types/calculator-model';
 import { useLocalPersist } from './use-local-persist';
 import { useDbPersist } from './use-db-persist';
 import { CalculatorModel } from '../types/calculator-model';
-import CalculatorData from '../calculator-data';
+import { useCalculatorStore } from '@/modules/calculator/use-calculator-store';
+import { useAuthStore } from '@/modules/auth/auth-store';
 
 export enum PersistStatus {
     LOADING = 'loading',
@@ -25,10 +24,9 @@ export enum PersistStatus {
     NOTHING_TO_LOAD = 'nothing-to-load',
 }
 
-export const usePersist = (
-    data: CalculatorData,
-    loggedUser: Ref<Readonly<User | null>>
-) => {
+export const usePersist = () => {
+    const { user } = useAuthStore();
+    const { data, form, expenses } = useCalculatorStore();
     const status = ref<PersistStatus>(PersistStatus.LOADING);
 
     const {
@@ -46,10 +44,9 @@ export const usePersist = (
     const savedData = computed<
         CalculatorModel | BaseCalculatorFormModel | null
     >({
-        get: () =>
-            loggedUser.value ? dbSavedData.value : localSavedData.value,
+        get: () => (user.value ? dbSavedData.value : localSavedData.value),
         set: (newValue: CalculatorModel | BaseCalculatorFormModel | null) => {
-            if (loggedUser.value) {
+            if (user.value) {
                 dbSavedData.value = newValue;
             } else {
                 localSavedData.value = newValue as CalculatorModel | null;
@@ -60,9 +57,9 @@ export const usePersist = (
     const loadData = async () => {
         status.value = PersistStatus.LOADING;
 
-        const loadedResult = loggedUser.value
-            ? await loadDbData(data, loggedUser.value)
-            : loadLocalData(data);
+        const loadedResult = user.value
+            ? await loadDbData(user.value)
+            : loadLocalData();
 
         if (loadedResult) {
             savedData.value = loadedResult;
@@ -73,10 +70,10 @@ export const usePersist = (
     };
 
     const saveData = () => {
-        if (loggedUser.value) {
-            saveDataToDb(data.value, data.id, loggedUser.value);
+        if (user.value) {
+            saveDataToDb(user.value);
         } else {
-            saveDataLocally(data.value);
+            saveDataLocally();
         }
     };
 
@@ -97,7 +94,7 @@ export const usePersist = (
 
     onMounted(async () => {
         await loadData();
-        stopHandle = watch([data.formRef, data.expensesRef], handleDataChange, {
+        stopHandle = watch([form, expenses], handleDataChange, {
             lazy: true,
         });
     });

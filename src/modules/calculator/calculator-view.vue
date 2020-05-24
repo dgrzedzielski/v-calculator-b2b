@@ -6,7 +6,6 @@
 
 <script lang="ts">
     import { defineComponent, computed } from '@vue/composition-api';
-    import { useStore } from '@/core/composition-functions/use-store';
     import BaseCalculator from './components/base-calculator.vue';
 
     const CalculatorView = defineComponent({

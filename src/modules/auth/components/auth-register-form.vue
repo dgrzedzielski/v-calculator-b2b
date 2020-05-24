@@ -17,7 +17,7 @@
     import AuthRegisterFormStep1 from '@/modules/auth/components/auth-register-form-step-1.vue';
     import AuthRegisterFormStep2 from '@/modules/auth/components/auth-register-form-step-2.vue';
     import { computed, defineComponent } from '@vue/composition-api';
-    import { useRouter } from '@/core/composition-functions/use-router';
+    import { useRouter } from '@/core/composables/use-router';
 
     const AuthRegisterForm = defineComponent({
         components: { AuthRegisterFormStep2, AuthRegisterFormStep1 },

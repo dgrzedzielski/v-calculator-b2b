@@ -1,35 +1,35 @@
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
+import Vue from 'vue';
 import { User } from '@/modules/auth/types/user';
+import { computed } from '@vue/composition-api';
 
 export interface AuthState {
     user: User | null;
     isReady: boolean;
 }
 
-@Module({ namespaced: true })
-class AuthModule extends VuexModule implements AuthState {
-    user: User | null = null;
-    isReady: boolean = false;
+const state = Vue.observable<AuthState>({
+    user: null,
+    isReady: false,
+});
 
-    get isUserLogged(): boolean {
-        return this.user !== null;
-    }
+export const useAuthStore = () => {
+    const user = computed(() => state.user);
+    const isReady = computed(() => state.isReady);
+    const isUserLogged = computed(() => state.user !== null);
 
-    @Mutation
-    setUser(user: User | null) {
-        this.user = user;
-    }
+    const setUser = (user: User | null) => {
+        state.user = user;
+    };
 
-    @Mutation
-    setAuthAsReady() {
-        this.isReady = true;
-    }
+    const setAsReady = () => {
+        state.isReady = true;
+    };
 
-    @Action
-    init(user: User | null) {
-        this.context.commit('setUser', user);
-        this.context.commit('setAuthAsReady');
-    }
-}
-
-export default AuthModule;
+    return {
+        user,
+        isReady,
+        isUserLogged,
+        setUser,
+        setAsReady,
+    };
+};

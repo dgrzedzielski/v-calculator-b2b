@@ -41,11 +41,11 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, ref, onMounted, onBeforeUnmount, computed } from '@vue/composition-api';
-    import { useMobileCheck } from '@/core/composition-functions/use-mobile-check';
-    import { ToPropType, NavItem } from '@/core/types/nav';
-    import { useStore } from '@/core/composition-functions/use-store';
+    import { defineComponent } from '@vue/composition-api';
+    import { useMobileCheck } from '@/core/composables/use-mobile-check';
+    import { NavItem } from '@/core/types/nav';
     import AuthService from '@/modules/auth/auth-service';
+    import { useAuthStore } from '@/modules/auth/auth-store';
     import AppNav from '../nav/app-nav';
     import AppNavMobile from '../nav/app-nav-mobile';
     import AppThemeSwitch from '../app-theme-switch';
@@ -71,9 +71,8 @@
                     icon: 'sliders-h'
                 }
             ];
-            const $store = useStore();
 
-            const isUserLogged = computed(() => $store.getters['auth/isUserLogged']);
+            const { isUserLogged } = useAuthStore();
 
             const logout = () => {
                 AuthService.logout();

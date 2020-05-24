@@ -1,25 +1,26 @@
 import { computed } from '@vue/composition-api';
 import CalculationsService from '@/modules/calculator/calculations-service';
-import { useTaxOptions } from '@/modules/calculator/composition-functions/use-tax-options';
-import CalculatorData from '../calculator-data';
+import { useTaxOptions } from '@/modules/calculator/composables/use-tax-options';
+import { useCalculatorStore } from '@/modules/calculator/use-calculator-store';
 
 type ReductionType = {
     costReduction: number;
     vatReduction: number;
 };
 
-export const useCalculations = (data: CalculatorData) => {
+export const useCalculations = () => {
+    const { form, expenses } = useCalculatorStore();
     const { insuranceOptions, taxFormOptions } = useTaxOptions();
 
     const selectedInsuranceOption = computed(() => {
         return insuranceOptions.find(
-            (option) => option.id === data.form.insuranceVariant
+            (option) => option.id === form.value.insuranceVariant
         )!;
     });
 
     const selectedTaxForm = computed(() => {
         return taxFormOptions.find(
-            (option) => option.id === data.form.taxForm
+            (option) => option.id === form.value.taxForm
         )!;
     });
 
@@ -30,7 +31,7 @@ export const useCalculations = (data: CalculatorData) => {
             result += selectedInsuranceOption.value.value.additional;
         }
 
-        if (data.form.optionalSicknessInsurance) {
+        if (form.value.optionalSicknessInsurance) {
             result +=
                 selectedInsuranceOption.value.value.optionalSicknessInsurance;
         }
@@ -47,7 +48,7 @@ export const useCalculations = (data: CalculatorData) => {
 
     const reductions = computed<ReductionType>(() => {
         const result = { vatReduction: 0, costReduction: 0 };
-        data.expenses.forEach(({ grossValue, isCarExpense }) => {
+        expenses.value.forEach(({ grossValue, isCarExpense }) => {
             const {
                 costReduction,
                 vatReduction,
@@ -61,7 +62,7 @@ export const useCalculations = (data: CalculatorData) => {
 
     const revenue = computed(() => {
         return (
-            data.form.netIncome -
+            form.value.netIncome -
             reductions.value.costReduction -
             socialContributionCost.value
         );
@@ -75,14 +76,14 @@ export const useCalculations = (data: CalculatorData) => {
     });
 
     const grossIncome = computed(() => {
-        return CalculationsService.getGrossFromNet(data.form.netIncome);
+        return CalculationsService.getGrossFromNet(form.value.netIncome);
     });
 
     const vatCost = computed(() => {
         return Math.max(
             0,
             grossIncome.value -
-                data.form.netIncome -
+                form.value.netIncome -
                 reductions.value.vatReduction
         );
     });
@@ -101,7 +102,7 @@ export const useCalculations = (data: CalculatorData) => {
     });
 
     const taxSavings = computed(() => {
-        const baseRevenue = data.form.netIncome - socialContributionCost.value;
+        const baseRevenue = form.value.netIncome - socialContributionCost.value;
 
         return (
             CalculationsService.getRevenueTax(
@@ -119,6 +120,7 @@ export const useCalculations = (data: CalculatorData) => {
 
     return {
         insuranceTotalCost,
+        revenue,
         revenueTax,
         grossIncome,
         vatCost,

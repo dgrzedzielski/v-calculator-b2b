@@ -11,7 +11,7 @@
                         <strong>{{ monthName }} {{ billingPeriod.year }}</strong>
                     </p>
                     <base-button
-                        v-if="loggedUser"
+                        v-if="isUserLogged"
                         theme="primary"
                         size="small"
                         outline
@@ -44,7 +44,10 @@
             </div>
         </header>
         <div class="base-calculator__form">
-            <calculator-form v-model="form">
+            <calculator-form
+                :value="form"
+                @input="setForm"
+            >
                 <base-button
                     outline
                     theme="success"
@@ -91,6 +94,11 @@
                 label="ZUS"
             />
             <cash-result
+                :value="revenue"
+                theme="success"
+                label="Dochód"
+            />
+            <cash-result
                 :value="revenueTax"
                 theme="danger"
                 label="Podatek dochodowy"
@@ -130,30 +138,25 @@
 
 <script lang="ts">
     import {
-        computed,
         defineComponent,
-        onMounted,
-        watch,
     } from '@vue/composition-api';
     import {
         createKeyboardShortcut,
         KeyboardModifier,
         useKeyboardShortcuts
-    } from '@/core/composition-functions/use-keyboard-shortcuts';
-    import { useStore } from '@/core/composition-functions/use-store';
-    import { User } from '@/modules/auth/types/user';
-    import { useRouter } from '@/core/composition-functions/use-router';
+    } from '@/core/composables/use-keyboard-shortcuts';
+    import { useRouter } from '@/core/composables/use-router';
     import CashResult from '@/core/components/ui/cash-result';
     import CalculatorForm from './calculator-form.vue';
     import CalculatorExpenseForm from './calculator-expense-form.vue';
     import CalculatorExpensesList from './calculator-expenses-list.vue';
     import CalculatorChangeBillingPeriod from './calculator-change-billing-period.vue';
-    import CalculatorData from '../calculator-data';
-    import { useCalculations } from '../composition-functions/use-calculations';
-    import { useExpenses } from '../composition-functions/use-expenses';
-    import { CalculatorModel, BillingPeriod } from '../types/calculator-model';
-    import { PersistStatus, usePersist } from '../composition-functions/use-persist';
-    import { useBillingPeriod } from '../composition-functions/use-billing-period';
+    import { useCalculations } from '../composables/use-calculations';
+    import { useExpenses } from '../composables/use-expenses';
+    import { usePersist } from '../composables/use-persist';
+    import { useBillingPeriod } from '../composables/use-billing-period';
+    import { useCalculatorStore } from '@/modules/calculator/use-calculator-store';
+    import { useAuthStore } from '@/modules/auth/auth-store';
 
     const BaseCalculator = defineComponent({
         components: {
@@ -164,19 +167,23 @@
             CashResult
         },
         setup() {
+            const { isUserLogged } = useAuthStore();
             const $router = useRouter();
-            let loadedBillingPeriod: BillingPeriod | undefined;
+            const {
+                expenses,
+                form,
+                billingPeriod,
+                setBillingPeriod,
+                setForm
+            } = useCalculatorStore();
 
             if ($router.currentRoute.params.month && $router.currentRoute.params.year) {
-                loadedBillingPeriod = {
+                const loadedBillingPeriod = {
                     month: $router.currentRoute.params.month,
                     year: $router.currentRoute.params.year
                 };
+                setBillingPeriod(loadedBillingPeriod);
             }
-
-            const data = new CalculatorData({
-                billingPeriod: loadedBillingPeriod
-            });
 
             const {
                 removeExpense,
@@ -186,7 +193,7 @@
                 closeExpenseForm,
                 addExpense,
                 isAddExpenseModalVisible
-            } = useExpenses(data);
+            } = useExpenses();
 
             const {
                 profit,
@@ -197,24 +204,20 @@
                 grossIncome,
                 vatCost,
                 expensesTotal,
-            } = useCalculations(data);
-
-            const $store = useStore();
-            const loggedUser = computed<User | null>(() => $store.state.auth.user);
+                revenue
+            } = useCalculations();
 
             const {
                 status,
-                savedData,
-                loadData,
                 saveData,
                 debouncedSave,
-            } = usePersist(data, loggedUser);
+            } = usePersist();
 
             const {
                 isChangeBillingPeriodVisible,
                 changeBillingPeriod,
                 monthName
-            } = useBillingPeriod(data, $router);
+            } = useBillingPeriod();
 
             useKeyboardShortcuts([
                 {
@@ -234,9 +237,9 @@
                 editExpense,
                 closeExpenseForm,
                 addExpense,
-                expenses: data.expensesRef,
-                form: data.formRef,
-                billingPeriod: data.billingPeriodRef,
+                expenses,
+                form,
+                billingPeriod,
                 isAddExpenseModalVisible,
                 saveData,
                 insuranceTotalCost,
@@ -248,11 +251,13 @@
                 taxSavings,
                 profit,
                 debouncedSave,
-                loggedUser,
+                isUserLogged,
                 status,
                 isChangeBillingPeriodVisible,
                 changeBillingPeriod,
-                monthName
+                monthName,
+                setForm,
+                revenue
             };
         }
     });
