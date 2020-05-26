@@ -4,10 +4,10 @@ import {
     BaseCalculatorFormModel,
     BillingPeriod,
 } from '@/modules/calculator/types/calculator-model';
-import { User } from '../auth/types/user';
 import { db } from '@/core/lib/firebase';
 import { DbCollection, UserDataCollection } from '@/core/types/db-collections';
 import { useCalculatorStore } from '@/modules/calculator/calculator-store';
+import { User } from '../auth/types/user';
 
 class CalculatorService {
     static get defaultBillingPeriod(): BillingPeriod {

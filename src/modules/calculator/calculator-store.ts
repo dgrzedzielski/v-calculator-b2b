@@ -1,8 +1,8 @@
 import Vue from 'vue';
+import { computed } from '@vue/composition-api';
 import { TaxForm } from '@/modules/calculator/types/tax-form-options';
 import { InsuranceVariant } from '@/modules/calculator/types/insurance-options';
 import CalculatorService from '@/modules/calculator/calculator-service';
-import { computed } from '@vue/composition-api';
 import {
     BaseCalculatorFormModel,
     BillingPeriod,

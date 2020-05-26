@@ -12,14 +12,12 @@ import {
     TaxFormOption,
 } from '@/modules/calculator/types/tax-form-options';
 
-class CalculationsService {
-    static getGrossFromNet = (netValue: number, grossBase = GROSS_BASE) =>
-        netValue * grossBase;
-
-    static getNetFromGross = (grossValue: number, grossBase = GROSS_BASE) =>
-        grossValue / grossBase;
-
-    static getReduction = (grossValue: number, isCarExpense: boolean) => {
+const CalculationsService = {
+    getGrossFromNet: (netValue: number, grossBase = GROSS_BASE) =>
+        netValue * grossBase,
+    getNetFromGross: (grossValue: number, grossBase = GROSS_BASE) =>
+        grossValue / grossBase,
+    getReduction: (grossValue: number, isCarExpense: boolean) => {
         const netValue = CalculationsService.getNetFromGross(grossValue);
         let costReduction = netValue;
         let vatReduction = grossValue - netValue;
@@ -33,16 +31,14 @@ class CalculationsService {
             costReduction: NumberUtils.as2Decimals(costReduction),
             vatReduction: NumberUtils.as2Decimals(vatReduction),
         };
-    };
-
-    static getTaxOverThreshold = (revenue: number) => {
+    },
+    getTaxOverThreshold: (revenue: number) => {
         return (
             Math.max(0, revenue - PROGRESSIVE_TAX_THRESHOLD) *
             PROGRESSIVE_TAX_RATE_OVER_THRESHOLD
         );
-    };
-
-    static getRevenueTax = (revenue: number, taxForm: TaxFormOption) => {
+    },
+    getRevenueTax: (revenue: number, taxForm: TaxFormOption) => {
         let baseValue = revenue * taxForm.baseRate;
 
         if (
@@ -54,7 +50,7 @@ class CalculationsService {
         }
 
         return baseValue - HEALTH_INSURANCE_TAX_DEDUCTION;
-    };
-}
+    },
+};
 
 export default CalculationsService;
