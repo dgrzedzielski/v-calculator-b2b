@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, computed } from '@vue/composition-api';
+    import { defineComponent } from '@vue/composition-api';
     import BaseCalculator from './components/base-calculator.vue';
 
     const CalculatorView = defineComponent({

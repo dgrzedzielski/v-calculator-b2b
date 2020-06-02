@@ -1,4 +1,4 @@
-import isEqual from 'lodash.isequal';
+import { equals } from 'ramda';
 import debounce from 'debounce';
 import {
     onMounted,
@@ -26,7 +26,7 @@ export enum PersistStatus {
 
 export const usePersist = () => {
     const { user } = useAuthStore();
-    const { data, form, expenses } = useCalculatorStore();
+    const { data, form, expenses, setData, id } = useCalculatorStore();
     const status = ref<PersistStatus>(PersistStatus.LOADING);
 
     const {
@@ -58,11 +58,12 @@ export const usePersist = () => {
         status.value = PersistStatus.LOADING;
 
         const loadedResult = user.value
-            ? await loadDbData(user.value)
+            ? await loadDbData(user.value, id.value)
             : loadLocalData();
 
         if (loadedResult) {
             savedData.value = loadedResult;
+            setData({ ...data.value, ...loadedResult });
             status.value = PersistStatus.LOADED;
         } else {
             status.value = PersistStatus.NOTHING_TO_LOAD;
@@ -71,16 +72,16 @@ export const usePersist = () => {
 
     const saveData = () => {
         if (user.value) {
-            saveDataToDb(user.value);
+            saveDataToDb(data.value, id.value, user.value);
         } else {
-            saveDataLocally();
+            saveDataLocally(data.value);
         }
     };
 
     const debouncedSave = debounce(saveData, 2000);
 
     const handleDataChange = () => {
-        if (isEqual(data.value, savedData.value)) {
+        if (equals(data.value, savedData.value)) {
             if (status.value === PersistStatus.WILL_SAVE)
                 status.value = PersistStatus.SAVED;
             debouncedSave.clear();

@@ -2,25 +2,27 @@ import CalculatorService from '@/modules/calculator/calculator-service';
 import { CalculatorModel } from '@/modules/calculator/types/calculator-model';
 import { Ref, ref } from '@vue/composition-api';
 import { PersistStatus } from './use-persist';
-import { useCalculatorStore } from '@/modules/calculator/calculator-store';
 
 export const useLocalPersist = (status: Ref<PersistStatus>) => {
-    const { data, setData } = useCalculatorStore();
     const savedData = ref<CalculatorModel | null>(null);
 
-    const saveData = () => {
-        CalculatorService.saveDataLocally(data.value);
-        savedData.value = { ...data.value };
+    const saveData = (data: CalculatorModel) => {
+        localStorage.setItem(
+            CalculatorService.getCurrentMonthKey(),
+            JSON.stringify(data)
+        );
+        savedData.value = { ...data };
         status.value = PersistStatus.SAVED;
     };
 
-    const loadData = () => {
-        const result = CalculatorService.loadLocalData();
+    const loadData = (): CalculatorModel | null => {
+        const result = localStorage.getItem(
+            CalculatorService.getCurrentMonthKey()
+        );
 
-        if (result) {
-            setData(result);
-            return result;
-        }
+        if (result) return JSON.parse(result);
+
+        return null;
     };
 
     return {

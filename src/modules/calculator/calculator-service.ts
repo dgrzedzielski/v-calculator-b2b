@@ -32,23 +32,6 @@ class CalculatorService {
         );
     }
 
-    static saveDataLocally(data: CalculatorModel) {
-        localStorage.setItem(
-            CalculatorService.getCurrentMonthKey(),
-            JSON.stringify(data)
-        );
-    }
-
-    static loadLocalData(): CalculatorModel | undefined {
-        const result = localStorage.getItem(
-            CalculatorService.getCurrentMonthKey()
-        );
-
-        if (result) {
-            return JSON.parse(result);
-        }
-    }
-
     static async saveDefaultData(
         payload: BaseCalculatorFormModel,
         user: User | null
@@ -81,18 +64,14 @@ class CalculatorService {
         }
     }
 
-    static async saveData(
-        payload: CalculatorModel,
-        saveKey: string,
-        user: User
-    ) {
+    static async saveData(payload: CalculatorModel, id: string, user: User) {
         const ref = db.collection(DbCollection.USER_DATA);
 
         try {
             await ref
                 .doc(user.uid)
                 .collection(UserDataCollection.SAVED_CALCULATIONS)
-                .doc(saveKey)
+                .doc(id)
                 .set(payload);
         } catch (e) {
             return e;
@@ -100,32 +79,23 @@ class CalculatorService {
     }
 
     static async loadData(
-        user: User
+        user: User,
+        id: string
     ): Promise<CalculatorModel | BaseCalculatorFormModel | undefined> {
         const ref = db.collection(DbCollection.USER_DATA);
-        const { setData, id, setForm } = useCalculatorStore();
 
         try {
             const doc = await ref
                 .doc(user.uid)
                 .collection(UserDataCollection.SAVED_CALCULATIONS)
-                .doc(id.value)
+                .doc(id)
                 .get();
 
             if (doc.exists) {
-                const result = doc.data() as CalculatorModel;
-                setData(result);
-                return result;
-            } else {
-                const defaultData = await CalculatorService.loadDefaultData(
-                    user
-                );
-
-                if (defaultData) {
-                    setForm(defaultData);
-                    return defaultData;
-                }
+                return doc.data() as CalculatorModel;
             }
+
+            return await CalculatorService.loadDefaultData(user);
         } catch (e) {
             console.log(e);
         }

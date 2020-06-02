@@ -222,7 +222,10 @@
             useKeyboardShortcuts([
                 {
                     shortcut: createKeyboardShortcut(KeyboardModifier.CTRL, 's'),
-                    callback: saveData
+                    callback: () => {
+                        debouncedSave.clear();
+                        saveData();
+                    }
                 },
                 {
                     shortcut: createKeyboardShortcut(KeyboardModifier.CTRL, 'i'),
