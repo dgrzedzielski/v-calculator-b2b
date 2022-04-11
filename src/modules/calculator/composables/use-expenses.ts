@@ -1,9 +1,9 @@
-import Vue from 'vue';
 import { ref } from '@vue/composition-api';
 import { Expense } from '@/modules/calculator/types/expense';
-import CalculatorData from '../calculator-data';
+import { useCalculatorStore } from '@/modules/calculator/calculator-store';
 
-export const useExpenses = (data: CalculatorData) => {
+export const useExpenses = () => {
+    const { setExpenses, expenses } = useCalculatorStore();
     const expenseToEdit = ref<Expense | null>(null);
     const isAddExpenseModalVisible = ref<boolean>(false);
 
@@ -17,20 +17,26 @@ export const useExpenses = (data: CalculatorData) => {
         expenseToEdit.value = null;
     };
 
-    const addExpense = (expense: Expense) => {
-        data.expenses.push(expense);
+    const updateExpenses = (expenses: Expense[]) => {
+        setExpenses(expenses);
         closeExpenseForm();
+    };
+
+    const addExpense = (expense: Expense) => {
+        updateExpenses([...expenses.value, expense]);
     };
 
     const editExpense = (expense: Expense) => {
-        const index = data.expenses.findIndex(({ id }) => id === expense.id);
-        Vue.set(data.expenses, index, expense);
-        closeExpenseForm();
+        const index = expenses.value.findIndex(({ id }) => id === expense.id);
+        const updatedExpenses = [...expenses.value];
+        updatedExpenses[index] = expense;
+        updateExpenses(updatedExpenses);
     };
 
     const removeExpense = (expenseId: string) => {
-        data.expenses = data.expenses.filter(({ id }) => id !== expenseId);
-        closeExpenseForm();
+        updateExpenses(
+            expenses.value.filter((expense) => expense.id !== expenseId)
+        );
     };
 
     return {

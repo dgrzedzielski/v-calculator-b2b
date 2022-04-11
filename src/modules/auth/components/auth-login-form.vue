@@ -38,7 +38,7 @@
     import Vue from 'vue';
     import AuthService from '@/modules/auth/auth-service';
     import { defineComponent, ref } from '@vue/composition-api';
-    import { useRouter } from '@/core/composition-functions/use-router';
+    import { useRouter } from '@/core/composables/use-router';
 
     const AuthLoginForm = defineComponent({
         setup() {

@@ -2,13 +2,23 @@ import NumberUtils from '@/core/utils/number-utils';
 import {
     CalculatorModel,
     BaseCalculatorFormModel,
+    BillingPeriod,
 } from '@/modules/calculator/types/calculator-model';
-import { User } from '../auth/types/user';
 import { db } from '@/core/lib/firebase';
 import { DbCollection, UserDataCollection } from '@/core/types/db-collections';
-import CalculatorData from './calculator-data';
+import { useCalculatorStore } from '@/modules/calculator/calculator-store';
+import { User } from '../auth/types/user';
 
 class CalculatorService {
+    static get defaultBillingPeriod(): BillingPeriod {
+        const date = new Date();
+
+        return {
+            month: NumberUtils.as2Digits(date.getMonth() + 1),
+            year: date.getFullYear().toString(),
+        };
+    }
+
     static getSaveKey(month: string, year: number): string {
         return `${month}.${year}`;
     }
@@ -20,23 +30,6 @@ class CalculatorService {
             NumberUtils.as2Digits(date.getMonth() + 1),
             date.getFullYear()
         );
-    }
-
-    static saveDataLocally(data: CalculatorModel) {
-        localStorage.setItem(
-            CalculatorService.getCurrentMonthKey(),
-            JSON.stringify(data)
-        );
-    }
-
-    static loadLocalData(): CalculatorModel | undefined {
-        const result = localStorage.getItem(
-            CalculatorService.getCurrentMonthKey()
-        );
-
-        if (result) {
-            return JSON.parse(result);
-        }
     }
 
     static async saveDefaultData(
@@ -71,18 +64,14 @@ class CalculatorService {
         }
     }
 
-    static async saveData(
-        payload: CalculatorModel,
-        saveKey: string,
-        user: User
-    ) {
+    static async saveData(payload: CalculatorModel, id: string, user: User) {
         const ref = db.collection(DbCollection.USER_DATA);
 
         try {
             await ref
                 .doc(user.uid)
                 .collection(UserDataCollection.SAVED_CALCULATIONS)
-                .doc(saveKey)
+                .doc(id)
                 .set(payload);
         } catch (e) {
             return e;
@@ -90,8 +79,8 @@ class CalculatorService {
     }
 
     static async loadData(
-        data: CalculatorData,
-        user: User
+        user: User,
+        id: string
     ): Promise<CalculatorModel | BaseCalculatorFormModel | undefined> {
         const ref = db.collection(DbCollection.USER_DATA);
 
@@ -99,23 +88,14 @@ class CalculatorService {
             const doc = await ref
                 .doc(user.uid)
                 .collection(UserDataCollection.SAVED_CALCULATIONS)
-                .doc(data.id)
+                .doc(id)
                 .get();
 
             if (doc.exists) {
-                const result = doc.data() as CalculatorModel;
-                data.value = result;
-                return result;
-            } else {
-                const defaultData = await CalculatorService.loadDefaultData(
-                    user
-                );
-
-                if (defaultData) {
-                    data.form = defaultData;
-                    return defaultData;
-                }
+                return doc.data() as CalculatorModel;
             }
+
+            return await CalculatorService.loadDefaultData(user);
         } catch (e) {
             console.log(e);
         }

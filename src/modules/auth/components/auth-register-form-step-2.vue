@@ -36,14 +36,13 @@
 <script lang="ts">
     import Vue from 'vue';
     import CalculatorForm from '@/modules/calculator/components/calculator-form.vue';
-    import AuthService from '@/modules/auth/auth-service';
     import { TaxForm } from '@/modules/calculator/types/tax-form-options';
     import { InsuranceVariant } from '@/modules/calculator/types/insurance-options';
     import { BaseCalculatorFormModel } from '@/modules/calculator/types/calculator-model';
     import { defineComponent, ref } from '@vue/composition-api';
-    import { useStore } from '@/core/composition-functions/use-store';
-    import { useRouter } from '@/core/composition-functions/use-router';
+    import { useRouter } from '@/core/composables/use-router';
     import CalculatorService from '@/modules/calculator/calculator-service';
+    import { useAuthStore } from '@/modules/auth/auth-store';
 
     const AuthRegisterFormStep2 = defineComponent({
         components: {
@@ -58,13 +57,13 @@
             });
             const loading = ref<boolean>(false);
 
-            const $store = useStore();
             const $router = useRouter();
+            const { user } = useAuthStore();
 
             const onSubmit = async () => {
                 loading.value = true;
 
-                const error = await CalculatorService.saveDefaultData(form.value, $store.state.auth.user);
+                const error = await CalculatorService.saveDefaultData(form.value, user.value);
                 if (error) {
                     console.log(error);
                     Vue.$toast.error(error.message);

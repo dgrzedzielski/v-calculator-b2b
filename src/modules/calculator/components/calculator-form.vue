@@ -43,7 +43,7 @@
     import FormSwitch from '@/core/components/forms/form-switch/form-switch.vue';
     import FormRadioGroup from '@/core/components/forms/form-radio-group';
     import { BaseCalculatorFormModel } from '../types/calculator-model';
-    import { useTaxOptions } from '../composition-functions/use-tax-options';
+    import { useTaxOptions } from '../composables/use-tax-options';
 
     interface CalculatorFormProps {
         value: BaseCalculatorFormModel;
