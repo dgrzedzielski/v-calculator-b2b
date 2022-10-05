@@ -24,7 +24,7 @@
                 theme="primary"
                 @click="logout"
             >
-                Wyloguj
+                Sair
             </base-button>
             <base-button
                 v-else
@@ -33,7 +33,7 @@
                 theme="primary"
                 :to="{ name: 'auth.login' }"
             >
-                Zaloguj
+                Logar
             </base-button>
             <app-theme-switch />
         </div>
