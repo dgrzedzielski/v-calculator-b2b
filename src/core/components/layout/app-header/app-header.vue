@@ -5,7 +5,7 @@
                 to="/"
                 class="app-header__link"
             >
-                VCalcB2B
+                IRobo
             </router-link>
         </h1>
         <div class="app-header__nav-container">
@@ -57,18 +57,18 @@
             const navItems: NavItem[] = [
                 {
                     to: '/dashboard',
-                    title: 'Dashboard',
+                    title: 'Estatística',
                     icon: 'chart-line'
                 },
                 {
                     to: '/calculator',
-                    title: 'Kalkulator',
-                    icon: 'calculator'
+                    title: 'Disparo',
+                    icon: 'message'
                 },
                 {
                     to: '/settings',
-                    title: 'Ustawienia',
-                    icon: 'sliders-h'
+                    title: 'Robôs',
+                    icon: 'robot'
                 }
             ];
             const $store = useStore();
