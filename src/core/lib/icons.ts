@@ -12,7 +12,7 @@ import 'vue-awesome/icons/edit';
 import 'vue-awesome/icons/trash-alt';
 import 'vue-awesome/icons/save';
 import 'vue-awesome/icons/arrow-right';
-import 'vue-awesome/icons/message';
+import 'vue-awesome/icons/commenting-o';
 import 'vue-awesome/icons/robot';
 import 'vue-awesome/icons/sun';
 import 'vue-awesome/icons/moon';
