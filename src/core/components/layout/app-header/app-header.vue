@@ -5,7 +5,7 @@
                 to="/"
                 class="app-header__link"
             >
-                IRobo
+                RoboMSG
             </router-link>
         </h1>
         <div class="app-header__nav-container">
