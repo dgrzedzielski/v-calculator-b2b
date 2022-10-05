@@ -11,13 +11,13 @@
                 v-if="currentTheme === Theme.DARK"
                 key="sun"
                 name="sun"
-                title="Przełącz motyw na jasny"
+                title="Mudar para tema claro"
             />
             <v-icon
                 v-else
                 key="moon"
                 name="moon"
-                title="Przełącz motyw na ciemny"
+                title="Mudar para tema escuro"
             />
         </transition>
     </button>
